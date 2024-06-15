@@ -10,23 +10,8 @@ body {
 }
 
 body.dark-theme {
-    background-color: #121212;
+    background-color: #272626;
     color: #ffffff;
-}
-
-body::-webkit-scrollbar {
-    width: 10px;
-}
-
-body::-webkit-scrollbar-track {
-    background: #ebffeb;
-    border: 1px solid #237a23;
-}
-
-body::-webkit-scrollbar-thumb {
-    background-color: #184018;
-    border: 1px solid #184018;
-    border-radius: 13px;
 }
 
 .center-image-container {
@@ -49,7 +34,7 @@ h1 {
     font-weight: 800;
     font-size: 3rem;
     line-height: 1.2;
-    color: #4aa57f;
+    color: #16db6b;
 }
 
 h1.dark-theme {
@@ -58,13 +43,13 @@ h1.dark-theme {
 
 h5 {
     font-size: 2.6rem;
-    color: #4aa57f;
+    color: #16db6b;
     font-weight: 600;
     margin-top: 40px;
 }
 
 h5.dark-theme {
-    color: #9ffbd4;
+    color: #16db6b;
 }
 
 p {

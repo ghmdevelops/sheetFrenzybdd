@@ -146,6 +146,8 @@ function getNextInput(currentInput) {
 
 var linhasSublinhadas = [];
 function criarTabela() {
+    mostrarInformacoes();
+
     var tabelaExistente = document.getElementById("tabela");
     if (tabelaExistente) {
         tabelaExistente.remove();
@@ -237,6 +239,23 @@ function criarTabela() {
         row.cells[10].querySelector("input").value = "nok";
     }
     document.body.appendChild(tabela);
+}
+
+function mostrarInformacoes() {
+    Swal.fire({
+        title: 'Informações Importantes',
+        html: `
+           <ul class="const-import">
+                <li><strong>1. Foco em cenário:</strong> Identifique claramente o cenário específico a ser testado. O cenário deve ser descrito em termos de comportamento observável e deve ser compreensível para todos os stakeholders.</li>
+                <li><strong>2. Escreva a especificação para o cenário:</strong> Defina o comportamento esperado do sistema usando a linguagem Gherkin. A especificação deve incluir as seções "Dado", "Quando" e "Então" para descrever o contexto, a ação e o resultado esperado.</li>
+                <li><strong>3. Escreva a especificação das unidades:</strong> Quebre o cenário em unidades menores de teste. Cada unidade deve testar um aspecto específico do comportamento e ser pequena o suficiente para ser implementada rapidamente.</li>
+                <li><strong>4. Faça a especificação da unidade passar:</strong> Implemente o código necessário para fazer com que cada unidade de teste passe. Refatore o código conforme necessário para manter a clareza e a manutenibilidade.</li>
+            </ul>
+        `,
+        icon: 'info',
+        confirmButtonText: 'OK',
+        confirmButtonColor: "#3085d6",
+    });
 }
 
 function atualizarEstiloLinhasSublinhadas() {
@@ -1512,7 +1531,7 @@ function toggleButtons(clickedBtnId) {
 
 const btnDoc = document.getElementById('doc-book');
 btnDoc.addEventListener('click', e => {
-    location.href = './src/html/documentacaobddtestgenerator.html';
+    location.href = './src/html/sheetFrenzybddDocumentacao.html';
 });
 
 function hideButtons() {
@@ -1549,7 +1568,7 @@ function takeScreenshotAndDownload() {
 
 const btnquesti = document.getElementById('doc-quest');
 btnquesti.addEventListener('click', e => {
-    location.href = './src/html/mod/gherkinconceitos.html';
+    location.href = './src/html/mod/sheetFrenzybddGherkinConceitos.html';
 })
 
 const btnBlog = document.getElementById('blog');
@@ -1559,12 +1578,12 @@ btnBlog.addEventListener('click', e => {
 
 const convertTable = document.getElementById('convertTableButton');
 convertTable.addEventListener('click', e => {
-    location.href = './src/swiftleft/swiftShiftConverter.html';
+    location.href = './src/swiftleft/sheetFrenzybddSwiftShiftConverter.html';
 })
 
 const btnGherkin = document.getElementById('editor-gherkin');
 btnGherkin.addEventListener('click', e => {
-    location.href = './src/html/editorGherkin.html';
+    location.href = './src/html/sheetFrenzybddEditorGherkin.html';
 })
 
 var recordingButton = document.getElementById('recordingButton');
@@ -1688,6 +1707,25 @@ function exportarParaPDF() {
         }
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('contact').addEventListener('click', function () {
+        Swal.fire({
+            title: 'Contato',
+            html: `
+            <div style="text-align: left;">
+            <p><i class="fa-solid fa-phone"></i> Telefone: (11) 95166-8436</p>
+            <p><i class="fa-solid fa-envelope"></i> Email: tellervtechnology@outlook.com</p>
+            </div>`,
+            icon: 'info',
+            confirmButtonText: 'Fechar',
+            confirmButtonColor: "#15c56d",
+            customClass: {
+                popup: 'animated fadeIn'
+            }
+        });
+    });
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("exportarPDFBtn").addEventListener("click", exportarParaPDF);

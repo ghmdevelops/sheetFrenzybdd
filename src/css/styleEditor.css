@@ -34,7 +34,7 @@ button.action-button {
     font-size: 16px;
     border: none;
     border-radius: 4px;
-    background-color: #28a745;
+    background-color: #138946;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -79,6 +79,10 @@ h1 {
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: vertical;
+}
+
+body.dark-theme .autocomplete-suggestions {
+    color: #000000;
 }
 
 .autocomplete-suggestions {

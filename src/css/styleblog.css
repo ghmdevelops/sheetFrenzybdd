@@ -29,6 +29,10 @@ body.dark-theme .user-entry {
     border-color: #444444;
 }
 
+body.dark-theme h3 {
+    color: #16db6b;
+}
+
 #blogsheet {
     cursor: pointer;
 }

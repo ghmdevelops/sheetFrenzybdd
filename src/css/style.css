@@ -23,6 +23,15 @@ h1:hover {
     transform: scale(1.05);
 }
 
+.const-import li {
+    background-color: transparent;
+    text-align: left;
+}
+
+.const-import li:hover {
+    background-color: #d7eabd;
+}
+
 body.light-theme {
     background-color: #ffffff;
     color: #000000;
