@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="pt-br" class="h-100">
+
+<head>
+  <title>BDD Test Generator | Gherkin Editor</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="@gehm" />
+  <meta name="”creator”" content="@Gehm" />
+  <meta name="description" content="Gerando BDD pre prontos e com escrita gherkin." />
+  <meta name="keywords" content="coeTech, bdd, gherkin, excel, tabela, selenium, projetos, javaBDD" />
+  <meta name="copyright" content="©2022 coeTech" />
+  <meta name="application-name" content="CoeTech BDD" />
+  <meta name="ROBOT" content="All" />
+  <meta name="RATING" content="general" />
+  <meta name="DISTRIBUTION" content="IU" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+  <script src="https://kit.fontawesome.com/7db78e5ecc.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
+    integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/table-dragger/dist/table-dragger.min.css">
+  <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="shortcut icon" href="./src/img/cb1-PhotoRoom.png-PhotoRoom.png" type="image/x-icon">
+  <link rel="stylesheet" href="./src/css/style.css">
+</head>
+
+<body class="d-flex flex-column h-100">
+
+  <!-- <script>
+    window.onbeforeunload = function () {
+      return "e possível que as alterações feitas não sejam salvas.";
+    };
+
+    document.addEventListener('contextmenu', function (event) {
+      event.preventDefault();
+    });
+  </script>-->
+
+  <button class="btn btn-primary" id="scrollToTopBtn"><img width="30" src="./src/img/rocket-unscreen.gif"
+      alt="rockt"></button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+      window.addEventListener('scroll', function () {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          scrollToTopBtn.style.display = 'block';
+        } else {
+          scrollToTopBtn.style.display = 'none';
+        }
+      });
+
+      if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', function () {
+          scrollToTop();
+        });
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-black">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"> <img style="width: 330px; height: 46px;"
+          src="./src/img/cb2-PhotoRoom.png-PhotoRoom.png" alt="cucumber" id="u89" /><b id="jd">
+          <label style="display: inline-block; vertical-align: middle;">
+            <button cl type="button" class="btn btn-primary" id="darkSwitch" onclick="myFunction32()"><i
+                class="fa-solid fa-circle-half-stroke"></i></button>
+          </label>
+        </b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+            <li class="nav-item active">
+              <a style="font-weight: 600;" class="nav-link" aria-current="page" href="./src/html/coeTechIA.html"></a>
+            </li>
+            <li class="nav-item">
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      myFunction32();
+    });
+
+    function myFunction32() {
+      var element = document.body;
+      element.classList.toggle("dark-mode");
+    }
+
+    document.getElementById('tbl_exporttable_to_xls').addEventListener('submit', function (event) {
+      event.preventDefault();
+      console.log('Dados do formulário enviados: ', new FormData(event.target));
+    });
+  </script>
+
+  <main class="flex-shrink-0 mt-5">
+    <div class="container">
+      <form class="py-3" id="tbl_exporttable_to_xls" border="1">
+          <button title="Adicionar linha" class=" btn btn-success" type="button" onclick="myFunction('tblSample')">↓ Add
+            Linha</button>
+          <button title="Apagar linha" class="btn btn-success" type="button" onclick="deleterow('tblSample')">↑ Apagar
+            Linha</button>
+          <button title="Adicionar coluna" class="btn btn-success" id="colum-pagdd" type="button"
+            onclick="addColumn('tblSample'), alertColumAdd()">→ Add Coluna</button>
+          <button title="Apagar coluna" class="btn btn-success" type="button" onclick="deleteColumn('tblSample')">←
+            Apagar Coluna</button>
+          <button class="btn btn-success" id="toggleButton" onclick="toggleInput()"><i
+              class="fa-solid fa-magnifying-glass"></i></button>
+          <input placeholder="digite o numero do cenario" autocomplete="on" type="text" id="myInput"
+            onkeyup="myFunctions()">
+          <span id="clearButton" onclick="clearInput()" style="cursor: pointer;">&times;</span>
+          <script>
+            function toggleInput() {
+              var button = document.getElementById('toggleButton');
+              var input = document.getElementById('myInput');
+              var clearButton = document.getElementById('clearButton');
+
+              button.style.display = 'none';
+              input.style.display = 'inline-block';
+              clearButton.style.display = 'inline-block';
+              input.focus();
+              event.preventDefault();
+            }
+
+            function clearInput() {
+              var button = document.getElementById('toggleButton');
+              var input = document.getElementById('myInput');
+              var clearButton = document.getElementById('clearButton');
+
+              input.value = ''; // Limpar o conteúdo do campo de entrada
+              input.style.display = 'none';
+              button.style.display = 'inline-block';
+              clearButton.style.display = 'none';
+            }
+
+            function handleInputChange() {
+              var clearButton = document.getElementById('clearButton');
+              clearButton.style.display = inputField.value ? 'inline-block' : 'none';
+            }
+          </script>
+
+        <div class="mt-1 py-4">
+          <label class="btn-up btn-primary" for="fileupload">Selecionar arquivo <i
+              class="fa-solid fa-file-export"></i></label>
+          <input accept=".xls, .xlsx" type="file" id="fileupload" name="files[]" title="Escolha um Excel" multiple
+            hidden />
+          <script src="./src/js/charts.js" defer></script>
+        </div>
+
+        <table id="tblSample" class="table table-active table-striped table-hover" contenteditable>
+          <thead>
+            <tr>
+              <td class="drag-handle" title="Adicione o numero do cenario">Nº Cenário</td>
+              <td class="drag-handle" title="Cenario">Cenário</td>
+              <td class="drag-handle" title="Adicione um contexto">Contexto</td>
+              <td class="drag-handle" title="Adicione a funcionalidade">Funcionalidade</td>
+              <td class="drag-handle" title="Adicione uma continuidade">Dado</td>
+              <td class="drag-handle" title="Adicione uma continuidade">E</td>
+              <td class="drag-handle" title="Adicione uma continuidade">E</td>
+              <td class="drag-handle" title="Adicione uma continuidade">Quando</td>
+              <td class="drag-handle" title="Adicione uma continuidade">Então</td>
+              <td class="drag-handle" title="Adicione a aplicação Ex: Web, Mobile">Aplicação</td>
+              <td class="drag-handle" title="Adicione uma historia EMPC">História</td>
+              <td class="drag-handle" title="Adicione o tipo de teste Ex: positivo/negativo">Tipo de teste</td>
+              <td class="drag-handle" title="Status Ex: ok, nok, Em andamento">Status</td>
+              <td>Feature <i class="fa-solid fa-download"></i></td>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              makeTableEditable();
+              makeColumnsDraggable();
+            });
+
+            function makeTableEditable() {
+              var table = document.getElementById("tblSample");
+              var cells = table.getElementsByTagName("td");
+
+              for (var i = 0; i < cells.length; i++) {
+                cells[i].setAttribute("contenteditable", "true");
+              }
+            }
+
+            function makeColumnsDraggable() {
+              const dragHandles = document.querySelectorAll('.drag-handle');
+
+              dragHandles.forEach(handle => {
+                handle.draggable = true;
+                handle.addEventListener('dragstart', (e) => {
+                  e.dataTransfer.effectAllowed = 'move';
+                  e.dataTransfer.setData('text/plain', null);
+                  dragSrcEl = e.target;
+                  e.dataTransfer.setDragImage(dragSrcEl, 0, 0);
+                });
+
+                handle.addEventListener('dragover', (e) => {
+                  e.preventDefault();
+                });
+
+                handle.addEventListener('drop', (e) => {
+                  e.preventDefault();
+                  const dropTarget = e.target;
+                  const parentNode = dropTarget.parentNode;
+                  parentNode.insertBefore(dragSrcEl, dropTarget.nextSibling);
+                });
+              });
+            }
+          </script>
+        </table>
+      </form>
+    </div>
+  </main>
+
+  <div class="col-md-6 mx-auto text-center">
+    <button class="btn btn-primary" type="button" onclick="processFile()">DashBoard <i
+        class="fa-solid fa-magnifying-glass-chart"></i></button>
+  </div>
+
+  <a target="_blank" id="genr-excel">
+    <button title="Gerar Excel" id="btn-exe"><img width="58" src="./src/img/sheet.png" alt="excelico" /></button>
+  </a>
+
+  <section class="mt-5">
+    <footer class="bg-body-tertiary text-center text-md-start bg-black bg-dark text-white">
+      <div class=" p-4">
+        <div class="row">
+          <div style="margin: auto; text-align: center;" class="col-lg-5">
+            <h6 class="text-uppercase"><img width="40" src="./src/img/cb1-PhotoRoom.png-PhotoRoom.png" alt="wthe"> BDD
+              TEST GENERATOR</h6>
+            <p class="text-center">
+              Nosso site e dedicado a fornecer uma valiosa ferramenta para equipes que buscam uma maneira
+              eficaz de criar, organizar e editar documentação de testes, promovendo uma colaboração mais eficiente e
+              ágil no ciclo de desenvolvimento de software. Uma característica notável do site é a flexibilidade
+              oferecida aos usuários, permitindo a edição ilimitada dos documentos gerados. Isso possibilita ajustes
+              contínuos conforme as necessidades evoluem ou novos requisitos surgem. Com essa abordagem iterativa, o
+              processo de desenvolvimento e teste se torna mais dinâmico e adaptável.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center p-3">
+        © 2022 Copyright:
+        <b class="text-white">BDD TEST GENERATOR</b>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="./src/js/app.js" async=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

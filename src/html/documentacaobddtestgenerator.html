@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheetFrenzy BDD | Documentação</title>
+
+    <meta name="author" content="@gehaim" />
+    <meta name="creator" content="@Gehaim" />
+
+    <meta name="description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação." />
+    <meta name="keywords"
+        content="Geração Automática de Cenários, Linguagem Gherkin, Padrões Claros com Gherkin, Aceleração de Testes, Personalização de Cenários, Integração Contínua, Colaboração Eficiente, Clareza nos Requisitos, Engajamento das Partes Interessadas, Redução de Erros na Implementação, Entrega Contínua, BDD, Automação" />
+
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta property="og:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta property="og:image" content="https://ghmdevelops.github.io/bddTestGenerator/src/img/200.png">
+    <meta property="og:url" content="https://ghmdevelops.github.io/bddTestGenerator/index.html">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta name="twitter:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta name="twitter:image" content="https://ghmdevelops.github.io/bddTestGenerator/src/img/200.png">
+
+    <link rel="canonical" href="https://ghmdevelops.github.io/bddTestGenerator/">
+
+    <link rel="shortcut icon" href="../img/logoPage.png" type="image/x-icon">
+
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+
+    <meta name="geo.region" content="BR-SP">
+    <meta name="geo.placename" content="Avenida Paulista, São Paulo, Brazil">
+    <meta name="geo.position" content="-23.5637;-46.6549">
+    <meta name="ICBM" content="-23.5637, -46.6549">
+
+    <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
+    <link rel="stylesheet" href="../css/styled.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="display-6 font-weight-bold text-center">
+            <img src="../img/cb1-PhotoRoom.png-PhotoRoom.png" alt="cb" class="img-fluid mx-auto"> SheetFrenzy BDD -
+            Documentação
+            <button id="themeToggle" class="btn btn-secondary" title="Toggle Theme">
+                <i class="fa-solid fa-sun" id="themeIcon"></i>
+            </button>
+            <button title="Home" class="btn btn-danger float-right" id="btnSair"><i
+                    class="fa-solid fa-power-off"></i></button>
+        </h1>
+
+        <div class="doc-section">
+            <h2><i class="fas fa-search"></i> Botão "Buscar"</h2>
+            <p><strong>Ação:</strong> Ativa a função `Buscar` quando
+                clicado.</p>
+            <p><strong>Função:</strong> Essa função alternará a visibilidade de algum elemento
+                na página, como um campo de pesquisa ou resultados.</p>
+        </div>
+
+        <div class="doc-section">
+            <h2><i class="fas fa-adjust"></i> Seletor de Tema (themeSelector)</h2>
+            <p><strong>Ação:</strong> Ativa uma ação relacionada à mudança de tema e permite selecionar o tema desejado
+                a partir de uma lista suspensa.</p>
+            <p><strong>Função:</strong> Pode alternar entre temas de luz, escuro ou outros temas personalizados
+                com base na implementação do código, proporcionando uma experiência visual personalizável para o
+                usuário.</p>
+            <p><strong>Opções de Tema:</strong></p>
+            <ul>
+                <li><strong>Tema Claro:</strong> Define um tema claro para a página, ideal para ambientes com boa
+                    iluminação.</li>
+                <li><strong>Tema Escuro:</strong> Estabelece um tema escuro, adequado para ambientes de baixa
+                    luminosidade ou preferência do usuário.</li>
+                <li><strong>Tema Azul Oceano:</strong> Aplica um tema com tonalidades azuis inspiradas no oceano,
+                    proporcionando uma estética única.</li>
+                <li><strong>Tema Azul Escuro:</strong> Utiliza um esquema de cores azul escuro, ideal para uma aparência
+                    elegante e moderna.</li>
+                <li><strong>Tema Noite:</strong> Adota um tema noturno, suave para os olhos durante a noite.</li>
+                <li><strong>Tema Dia:</strong> Aplica um tema claro e vibrante, ideal para ambientes diurnos.</li>
+            </ul>
+        </div>
+
+        <div class="doc-section">
+            <h2><i class="fas fa-table"></i> Botões para Manipulação de Tabela</h2>
+            <p><strong>Incrementar/Decrementar Linhas e Colunas:</strong> Modificam o número de linhas e colunas da
+                tabela, permitindo uma personalização flexível da estrutura da tabela.</p>
+            <p><strong>Criar Tabela:</strong> Inicia a criação da tabela com base nos valores especificados para linhas
+                e colunas, facilitando a geração rápida de tabelas personalizadas.</p>
+            <p><strong>Manipulação de Linhas e Colunas:</strong> Adiciona, remove linhas e adiciona colunas à tabela,
+                oferecendo controle granular sobre a estrutura da tabela.</p>
+        </div>
+
+        <div class="doc-section">
+            <h2><i class="fas fa-file-excel"></i> Botão "Exportar Excel" (Baixar Excel)</h2>
+            <p><strong>Ação:</strong> Inicia o processo de exportação da tabela para um arquivo Excel.</p>
+            <p><strong>Função Esperada:</strong> Exportar os dados da tabela para um arquivo Excel, proporcionando
+                uma maneira conveniente de compartilhar ou salvar os dados em um formato amplamente utilizado.</p>
+        </div>
+
+        <div class="doc-section">
+            <h2><i class="fas fa-folder-open"></i> Botão "Selecionar Arquivo"</h2>
+            <p><strong>Ação:</strong> Ativa a seleção de um arquivo para importação.</p>
+            <p><strong>Função:</strong> Permitir que o usuário selecione um arquivo para ser importado
+                para a página, facilitando a incorporação de dados externos.</p>
+        </div>
+
+        <div class="doc-section">
+            <h2><i class="fas fa-copy"></i> Botão "Copiar para Todos"</h2>
+            <p><strong>Ação:</strong> Copia o conteúdo para todas as células da tabela.</p>
+            <p><strong>Função:</strong> Deve copiar o conteúdo da célula atual e aplicá-lo a todas as células
+                da tabela, oferecendo uma maneira eficiente de replicar dados.</p>
+        </div>
+
+        <div class="doc-section">
+            <h2><i class="fas fa-chart-column"></i> Botão "Dashboard"</h2>
+            <p><strong>Ação:</strong> Abre um modal para exibir um dashboard com gráficos e informações.</p>
+            <p><strong>Função:</strong> Apresentar visualizações gráficas e estatísticas em um modal
+                interativo, proporcionando uma visão rápida e compreensível dos dados da tabela.</p>
+        </div>
+
+        <div class="doc-section">
+            <h2><i class="fas fa-file-lines"></i> Botão "Projetos BDD"</h2>
+            <p><strong>Ação:</strong> Abre um pop-up para visualização de projetos BDD.</p>
+            <p><strong>Função:</strong> Exibi informações sobre projetos BDD de forma clara e acessível
+                dentro de um pop-up, facilitando o acesso a detalhes importantes.</p>
+        </div>
+    </div>
+
+    <section class="mt-5">
+        <footer class="bg-body-tertiary text-center text-md-start bg-black bg-dark text-white">
+            <div class=" p-4">
+                <div class="row">
+                    <div style="margin: auto; text-align: center;" class="col-lg-5">
+                        <h6 class="text-uppercase"><img width="40" src="../img/logoPage.png" alt="wthe"> SHEETFRENZY BDD
+                        </h6>
+                        <p class="text-center">
+                            Nosso site e dedicado a fornecer uma valiosa ferramenta para equipes que buscam uma maneira
+                            eficaz de criar, organizar e editar documentação de testes, promovendo uma colaboração mais
+                            eficiente e
+                            ágil no ciclo de desenvolvimento de software. Uma característica notável do site é a
+                            flexibilidade
+                            oferecida aos usuários, permitindo a edição ilimitada dos documentos gerados. Isso
+                            possibilita ajustes
+                            contínuos conforme as necessidades evoluem ou novos requisitos surgem. Com essa abordagem
+                            iterativa, o
+                            processo de desenvolvimento e teste se torna mais dinâmico e adaptável.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center p-3">
+                © 2023 Copyright:
+                <b class="text-white">SHEETFRENZY BDD</b>
+            </div>
+        </footer>
+    </section>
+
+    <button class="btn btn-primary" id="scrollToTopBtn"><i class="fa-solid fa-up-long"></i></button>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="../js/scriptd.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+
+                if (document.body.classList.contains('dark-theme')) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                } else {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

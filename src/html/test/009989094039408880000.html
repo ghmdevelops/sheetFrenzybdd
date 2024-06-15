@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela Dinâmica</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        input {
+            width: 100%;
+            max-width: 150px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            max-width: 80px;
+        }
+
+        .coluna-selecionada {
+            background-color: #ffff99;
+        }
+
+        .filtrado {
+            background-color: #aaffaa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="py-2 table-responsive text-center">
+        <label for="rows">Número de Linhas:</label>
+        <input type="number" id="rows" min="1" value="1">
+
+        <label for="cols">Número de Colunas:</label>
+        <input type="number" id="cols" min="1" value="12">
+        <button onclick="criarTabela()">Criar Tabela</button>
+    </div>
+
+    <div class="py-2 table-responsive text-center">
+        <button onclick="adicionarLinha()">Adicionar Linha</button>
+        <button onclick="adicionarColuna()">Adicionar Coluna</button>
+        <button onclick="baixarExcel()">Exportar para Excel</button>
+        <input type="file" id="importExcel" accept=".xlsx">
+        <button onclick="importExcel()">Importar Excel</button>
+        <button onclick="adicionarColunaFeature()">Finalizar</button>
+        <button onclick="copiarParaTodos()">Copiar para Todos</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Abrir Modal
+        </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalExcel">
+            Open Excel
+        </button>    </div>
+  
+    <div class="modal" id="exampleModalExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h1>Firebase</h1>
+                    <input name="" type="file" />
+
+                    <div id="imageContainer">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="py-2 table-responsive text-center">
+        <label for="filtroCT">Filtrar por CT:</label>
+        <input type="text" id="filtroCT" placeholder="Número do CT">
+        <button onclick="filtrarPorCT()">Filtrar</button>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Título do Modal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="graficoModal" width="400" height="200"></canvas>
+                    <div id="porcentagemOK" class="mt-3"></div>
+                    <span id="numeroLinhas"></span>
+                    <div id="progressBarContainer" class="mt-3">
+                        <div class="progress">
+                            <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;"
+                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="gerarDashboard()">Gerar Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('click', function (event) {
+                var target = event.target;
+
+                if (target.tagName === 'INPUT' && target.type === 'text') {
+                    var clickCount = target.getAttribute('data-click-count') || 0;
+                    clickCount++;
+
+                    target.setAttribute('data-click-count', clickCount);
+
+                    if (clickCount === 3) {
+                        alert('Input Text: ' + target.value);
+                        target.setAttribute('data-click-count', 0);
+                    }
+                }
+            });
+        });
+
+        function importExcel() {
+            var input = document.getElementById("importExcel");
+            var file = input.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, { type: 'binary' });
+                    var sheetName = workbook.SheetNames[0];
+                    var worksheet = workbook.Sheets[sheetName];
+                    var importedData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    updateTable(importedData);
+                };
+
+                reader.readAsBinaryString(file);
+            } else {
+                alert("Por favor, selecione um arquivo Excel para importar.");
+            }
+        }
+
+        function updateTable(importedData) {
+            var headerRow = importedData[0];
+            var existingTable = document.getElementById("tabela");
+
+            if (existingTable) {
+                existingTable.remove();
+            }
+
+            var newTable = document.createElement("table");
+            newTable.id = "tabela";
+
+            var headerRowElement = newTable.createTHead().insertRow(0);
+            for (var i = 0; i < headerRow.length; i++) {
+                var th = headerRowElement.insertCell(i);
+                th.textContent = headerRow[i];
+            }
+
+            for (var j = 1; j < importedData.length; j++) {
+                var row = newTable.insertRow(j);
+                for (var k = 0; k < importedData[j].length; k++) {
+                    var cell = row.insertCell(k);
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.value = importedData[j][k];
+                    cell.appendChild(input);
+                }
+            }
+            document.body.appendChild(newTable);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+
+            recognition.onresult = function (event) {
+                var last = event.results.length - 1;
+                var spokenText = event.results[last][0].transcript;
+
+                if (document.activeElement.tagName === 'INPUT' && document.activeElement.type === 'text') {
+                    document.activeElement.value = spokenText;
+                }
+            };
+
+            document.addEventListener('click', function (event) {
+                var target = event.target;
+
+                if (target.tagName === 'INPUT' && target.type === 'text') {
+                    recognition.start();
+                }
+            });
+        });
+
+        function criarTabela() {
+            var tabelaExistente = document.getElementById("tabela");
+            if (tabelaExistente) {
+                tabelaExistente.remove();
+            }
+
+            var rows = document.getElementById("rows").value;
+            var cols = document.getElementById("cols").value;
+            var tabela = document.createElement("table");
+            tabela.id = "tabela";
+
+            var cabecalho = tabela.createTHead().insertRow(0);
+            var titulos = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "E", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Status"];
+            for (var j = 0; j < cols; j++) {
+                var th = cabecalho.insertCell(j);
+                th.textContent = titulos[j];
+                th.setAttribute("onclick", "ordenarColuna(" + j + ")");
+                th.setAttribute("oncontextmenu", "excluirColuna(event, " + j + "); return false;");
+                th.setAttribute("ondblclick", "inserirColuna(" + j + ")");
+            }
+
+            for (var i = 0; i < rows; i++) {
+                var row = tabela.insertRow(i + 1);
+                var ctValue = "CT" + (i + 1).toString().padStart(4, '0');
+                var cellCT = row.insertCell(0);
+                cellCT.textContent = ctValue;
+
+                for (var j = 1; j < cols; j++) {
+                    var cell = row.insertCell(j);
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.value = "";
+                    cell.appendChild(input);
+                }
+            }
+            document.body.appendChild(tabela);
+
+        }
+
+        function adicionarLinha() {
+            var tabela = document.getElementById("tabela");
+            var newRow = tabela.insertRow(tabela.rows.length);
+            var ctValue = "CT" + tabela.rows.length.toString().padStart(4, '0');
+            var cellCT = newRow.insertCell(0);
+            cellCT.textContent = ctValue;
+
+            for (var j = 1; j < tabela.rows[0].cells.length; j++) {
+                var cell = newRow.insertCell(j);
+                var input = document.createElement("input");
+                input.type = "text";
+                input.value = "";
+                cell.appendChild(input);
+            }
+        }
+
+        function adicionarColuna() {
+            var tabela = document.getElementById("tabela");
+            var novoIndice = prompt("Digite o índice da nova coluna (começando de 0):");
+            if (novoIndice === null) {
+                return;
+            }
+
+            novoIndice = parseInt(novoIndice);
+
+            if (isNaN(novoIndice) || novoIndice < 0 || novoIndice > tabela.rows[0].cells.length) {
+                alert("Índice inválido. A nova coluna será adicionada no final.");
+                novoIndice = tabela.rows[0].cells.length;
+            }
+
+            var novoTitulo = prompt("Digite o título da nova coluna:");
+            if (novoTitulo === null) {
+                return;
+            }
+
+            var th = document.createElement("th");
+            th.textContent = novoTitulo;
+            tabela.rows[0].insertBefore(th, tabela.rows[0].cells[novoIndice]);
+
+            th.setAttribute("onclick", "ordenarColuna(" + novoIndice + ")");
+            th.setAttribute("oncontextmenu", "excluirColuna(event, " + novoIndice + "); return false;");
+            th.setAttribute("ondblclick", "inserirColuna(" + novoIndice + ")");
+
+            for (var i = 1; i < tabela.rows.length; i++) {
+                var cell = tabela.rows[i].insertCell(novoIndice);
+                var input = document.createElement("input");
+                input.type = "text";
+                input.value = "";
+                cell.appendChild(input);
+            }
+        }
+
+        function adicionarColunaFeature() {
+            var tabela = document.getElementById("tabela");
+            var headerRow = tabela.rows[0];
+            var th = document.createElement("th");
+            th.textContent = "Feature";
+            headerRow.appendChild(th);
+
+            for (var i = 1; i < tabela.rows.length; i++) {
+                var cell = tabela.rows[i].insertCell(tabela.rows[i].cells.length);
+                var radioInput = document.createElement("input");
+                radioInput.type = "radio";
+                radioInput.name = "featureRadio" + i;
+                radioInput.addEventListener("click", function (event) {
+                    gerarArquivoFeature(event.target);
+                });
+                cell.appendChild(radioInput);
+            }
+        }
+
+        function gerarArquivoFeature(radio) {
+            var tabela = document.getElementById("tabela");
+            var rowIndex = radio.parentElement.parentElement.rowIndex;
+            var row = tabela.rows[rowIndex];
+            var headerRow = tabela.rows[0];
+            var featureContent = "";
+
+            featureContent += "Feature: " + headerRow.cells[1].textContent + "\n\n";
+            featureContent += "Scenario: " + headerRow.cells[2].textContent + "\n";
+
+            for (var j = 3; j < row.cells.length; j++) {
+                featureContent += headerRow.cells[j].textContent + " " + row.cells[j].querySelector("input").value + "\n";
+            }
+
+            var blob = new Blob([featureContent], { type: "text/plain;charset=utf-8" });
+            var fileName = "feature_scenario_" + rowIndex + ".feature";
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+        }
+
+        function ordenarColuna(colIndex) {
+            var tabela = document.getElementById("tabela");
+            var switching = true;
+            var shouldSwitch;
+            var dragStartIndex;
+
+            for (var i = 0; i < tabela.rows[0].cells.length; i++) {
+                tabela.rows[0].cells[i].draggable = true;
+                tabela.rows[0].cells[i].addEventListener("dragstart", function (e) {
+                    dragStartIndex = Array.from(tabela.rows[0].cells).indexOf(e.target);
+                });
+                tabela.rows[0].cells[i].addEventListener("dragover", function (e) {
+                    e.preventDefault();
+                });
+                tabela.rows[0].cells[i].addEventListener("drop", function (e) {
+                    var dropIndex = Array.from(tabela.rows[0].cells).indexOf(e.target);
+
+                    if (dragStartIndex !== dropIndex) {
+                        moverColuna(dragStartIndex, dropIndex);
+                    }
+                });
+            }
+
+            while (switching) {
+                switching = false;
+                var rows = tabela.rows;
+
+                for (var i = 1; i < rows.length - 1; i++) {
+                    shouldSwitch = false;
+                    var x = rows[i].cells[colIndex].textContent.toLowerCase();
+                    var y = rows[i + 1].cells[colIndex].textContent.toLowerCase();
+
+                    if (x > y) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+
+        function moverColuna(startIndex, dropIndex) {
+            var tabela = document.getElementById("tabela");
+            var rows = tabela.rows;
+
+            for (var i = 0; i < rows.length; i++) {
+                var tempCell = rows[i].cells[startIndex].cloneNode(true);
+                var targetCell = rows[i].cells[dropIndex];
+
+                rows[i].deleteCell(startIndex);
+
+                if (startIndex < dropIndex) {
+                    targetCell.parentNode.insertBefore(tempCell, targetCell.nextSibling);
+                } else {
+                    targetCell.parentNode.insertBefore(tempCell, targetCell);
+                }
+            }
+        }
+
+        function excluirColuna(event, colIndex) {
+            event.preventDefault();
+            var tabela = document.getElementById("tabela");
+            var rows = tabela.rows;
+
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].deleteCell(colIndex);
+            }
+        }
+
+        function inserirColuna(colIndex) {
+            var tabela = document.getElementById("tabela");
+            var novoTitulo = prompt("Digite o título da nova coluna:");
+
+            if (novoTitulo !== null) {
+                var th = tabela.rows[0].insertCell(colIndex + 1);
+                th.textContent = novoTitulo;
+                th.setAttribute("onclick", "ordenarColuna(" + (colIndex + 1) + ")");
+                th.setAttribute("oncontextmenu", "excluirColuna(event, " + (colIndex + 1) + "); return false;");
+                th.setAttribute("ondblclick", "inserirColuna(" + (colIndex + 1) + ")");
+
+                for (var i = 1; i < tabela.rows.length; i++) {
+                    var cell = tabela.rows[i].insertCell(colIndex + 1);
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.value = "";
+                    cell.appendChild(input);
+                }
+            }
+        }
+
+        function baixarExcel() {
+            var tabela = document.getElementById("tabela");
+
+            var data = [];
+            for (var i = 0; i < tabela.rows.length; i++) {
+                var rowData = [];
+                for (var j = 0; j < tabela.rows[i].cells.length; j++) {
+                    var input = tabela.rows[i].cells[j].querySelector("input");
+                    rowData.push(input ? input.value : tabela.rows[i].cells[j].innerHTML);
+                }
+                data.push(rowData);
+            }
+
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.aoa_to_sheet(data);
+
+            XLSX.utils.book_append_sheet(wb, ws, "Tabela");
+            XLSX.writeFile(wb, "tabela_excel.xlsx");
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var suggestionList = ["ok", "nok", "desplanejado", "progredindo"];
+
+            document.addEventListener('click', function (event) {
+                var target = event.target;
+
+                if (target.tagName === 'INPUT' && target.type === 'text') {
+                    removeDropdowns();
+
+                    var dropdown = createDropdown(target, suggestionList);
+                    document.body.appendChild(dropdown);
+                    positionDropdown(target, dropdown);
+
+                    dropdown.addEventListener('click', function (e) {
+                        if (e.target.tagName === 'LI') {
+                            target.value = e.target.textContent;
+                            removeDropdowns();
+                        }
+                    });
+                }
+            });
+
+            function removeDropdowns() {
+                var dropdowns = document.querySelectorAll('.suggestion-dropdown');
+                dropdowns.forEach(function (dropdown) {
+                    document.body.removeChild(dropdown);
+                });
+            }
+
+            function createDropdown(input, suggestions) {
+                var dropdown = document.createElement('ul');
+                dropdown.className = 'suggestion-dropdown';
+
+                suggestions.forEach(function (suggestion) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = suggestion;
+                    dropdown.appendChild(listItem);
+                });
+                return dropdown;
+            }
+
+            function positionDropdown(input, dropdown) {
+                var inputRect = input.getBoundingClientRect();
+                dropdown.style.position = 'absolute';
+                dropdown.style.top = inputRect.bottom + 'px';
+                dropdown.style.left = inputRect.left + 'px';
+            }
+
+            document.addEventListener('click', function (event) {
+                var target = event.target;
+                if (!target.closest('.suggestion-dropdown') && !target.closest('input[type="text"]')) {
+                    removeDropdowns();
+                }
+            });
+        });
+
+        function copiarParaTodos() {
+            var tabela = document.getElementById("tabela");
+            var colIndex = prompt("Digite o índice da coluna que deseja copiar:");
+
+            if (colIndex !== null) {
+                colIndex = parseInt(colIndex);
+
+                if (isNaN(colIndex) || colIndex < 0 || colIndex >= tabela.rows[0].cells.length) {
+                    alert("Índice inválido.");
+                    return;
+                }
+
+                for (var i = 0; i < tabela.rows.length; i++) {
+                    tabela.rows[i].cells[colIndex].classList.remove("coluna-selecionada");
+                }
+
+                tabela.rows[0].cells[colIndex].classList.add("coluna-selecionada");
+                var textoColuna = tabela.rows[1].cells[colIndex].querySelector("input").value;
+                for (var i = 1; i < tabela.rows.length; i++) {
+                    tabela.rows[i].cells[colIndex].querySelector("input").value = textoColuna;
+                    tabela.rows[i].cells[colIndex].classList.add("coluna-selecionada");
+                }
+
+                setTimeout(function () {
+                    for (var i = 0; i < tabela.rows.length; i++) {
+                        tabela.rows[i].cells[colIndex].classList.remove("coluna-selecionada");
+                    }
+                }, 1000);
+            }
+        }
+
+        function filtrarPorCT() {
+            var tabela = document.getElementById("tabela");
+            var filtroInput = document.getElementById("filtroCT");
+            var filtroValor = filtroInput.value.trim().toLowerCase();
+
+            for (var i = 1; i < tabela.rows.length; i++) {
+                var ctCelula = tabela.rows[i].cells[0];
+                var ctNumero = ctCelula.textContent.toLowerCase();
+
+                if (ctNumero.includes(filtroValor)) {
+                    tabela.rows[i].classList.add("filtrado");
+                } else {
+                    tabela.rows[i].classList.remove("filtrado");
+                }
+            }
+
+            var primeiraLinhaFiltrada = tabela.querySelector(".filtrado");
+            if (primeiraLinhaFiltrada) {
+                primeiraLinhaFiltrada.scrollIntoView({ behavior: "smooth" });
+
+                setTimeout(function () {
+                    primeiraLinhaFiltrada.classList.remove("filtrado");
+                }, 3000);
+            }
+        }
+
+        function contarOcorrencias(data, palavraChave) {
+            var count = 0;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].toLowerCase() === palavraChave.toLowerCase()) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        function contarNumeroLinhasEOK() {
+            var tabela = document.getElementById("tabela");
+            var numeroLinhas = tabela.rows.length - 1;
+            var numeroOK = 0;
+
+            var colunaIndex = 11;
+            for (var i = 1; i < tabela.rows.length; i++) {
+                var input = tabela.rows[i].cells[colunaIndex].querySelector("input");
+                if (input && input.value.toLowerCase() === "ok") {
+                    numeroOK++;
+                }
+            }
+            return { numeroLinhas, numeroOK };
+        }
+
+        function gerarDashboard() {
+            var tabela = document.getElementById("tabela");
+            var data = [];
+            var colunaIndex = 11;
+
+            for (var i = 1; i < tabela.rows.length; i++) {
+                var input = tabela.rows[i].cells[colunaIndex].querySelector("input");
+                if (input) {
+                    data.push(input.value.toLowerCase());
+                }
+            }
+
+            criarDashboard(data);
+
+            var { numeroLinhas, numeroOK } = contarNumeroLinhasEOK();
+            var porcentagemOK = (numeroOK / numeroLinhas) * 100;
+
+            document.getElementById("porcentagemOK").textContent =
+                "Número de Linhas na Tabela: " + numeroLinhas +
+                "\nNúmero de 'OK': " + numeroOK +
+                "\nPorcentagem: " + porcentagemOK.toFixed(2) + "%";
+
+            var progressBar = document.getElementById("progressBar");
+            progressBar.style.width = porcentagemOK + "%";
+            progressBar.setAttribute("aria-valuenow", porcentagemOK);
+
+            var modalInstance = new bootstrap.Modal(document.getElementById("myModal"));
+            modalInstance.show();
+        }
+
+        function criarDashboard(data) {
+            var ctx = document.getElementById("graficoModal").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["OK", "NOK", "Desplanejado", "Progredindo"],
+                    datasets: [{
+                        label: "Quantidade",
+                        data: [
+                            contarOcorrencias(data, "ok"),
+                            contarOcorrencias(data, "nok"),
+                            contarOcorrencias(data, "desplanejado"),
+                            contarOcorrencias(data, "progredindo")
+                        ],
+                        backgroundColor: [
+                            "rgba(75, 192, 192, 0.2)",
+                            "rgba(255, 99, 132, 0.2)",
+                            "rgba(255, 205, 86, 0.2)",
+                            "rgba(54, 162, 235, 0.2)"
+                        ],
+                        borderColor: [
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(255, 205, 86, 1)",
+                            "rgba(54, 162, 235, 1)"
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

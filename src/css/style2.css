@@ -1,0 +1,501 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+body {
+    background: url("../img/yu.jpg");
+    background-attachment: fixed;
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.dark-mode {
+    background: url('../img/uuui.jpg');
+    color: #ffffff;
+}
+
+.dark-mode td {
+    color: #ffffff;
+}
+
+.dark-mode td:empty:after {
+    content: "* campo obrigadório";
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+body::-webkit-scrollbar {
+    width: 14px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #eef5ff;
+    border: 1px solid #eef5ff;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #02337d;
+    border: 3px solid #00183c;
+    border-radius: 20rem;
+}
+
+table,
+td {
+    text-align: center;
+    border: 1px solid #ffffff;
+    border-collapse: collapse;
+    color: #ffffff;
+    font-size: 13px;
+}
+
+td {
+    cursor: text;
+    padding: 10px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+td:empty:after {
+    content: "* campo obrigatório";
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+td:focus:empty:after {
+    content: "";
+}
+
+main>.container {
+    padding: 50px 15px 0;
+    margin-bottom: 2rem;
+}
+
+a#genr-excel {
+    text-align: center;
+}
+
+button#btn-exe {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 10rem;
+    cursor: pointer;
+    border: 2px solid #2aa563;
+    background-color: #2aa563;
+    color: #ffffff;
+}
+
+button#btn-exe:hover,
+a#genr-excel:hover {
+    border: 2px solid #2aa563;
+    background-color: #0b8946;
+}
+
+button#btn-exe:active,
+a#genr-excel:active {
+    border: 2px solid #2aa563;
+    background-color: #d8ffea;
+}
+
+a#genr-excel {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    border: 3px solid #037e3d;
+    border-radius: 10rem;
+}
+
+i.fa-facebook-f:hover,
+i.fa-twitter:hover,
+i.fa-google:hover,
+i.fa-instagram:hover,
+i.fa-linkedin:hover,
+i.fa-github:hover {
+    color: #30fea1;
+}
+
+.auth_sec {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 25px 0;
+}
+
+.auth_img {
+    margin-right: 15px;
+}
+
+.auth_text h6 {
+    font-size: 13px;
+    font-weight: 500;
+    font-family: Inter, sans-serif;
+    color: #495057;
+    margin-bottom: 0;
+}
+
+.auth_text span {
+    display: block;
+    font-weight: 300;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #616060;
+    font-family: Inter, sans-serif;
+}
+
+.dark-mode .recomm_content {
+    position: relative;
+    border: 1.8px solid #c5f7dc;
+    background-color: #0c1621;
+    padding: 30px 70px;
+    border-radius: 10px;
+    width: 40%;
+    margin: auto;
+}
+
+.recomm_content {
+    position: relative;
+    border: 1.8px solid #3fab71;
+    background-color: #e4ede8;
+    padding: 30px 70px;
+    border-radius: 10px;
+    width: 40%;
+    margin: auto;
+}
+
+.recomm_content {
+    font-size: 16px;
+    color: #b300ff;
+    font-family: Inter, sans-serif;
+    font-weight: 300;
+}
+
+.slick-dots {
+    list-style: none;
+    margin: 0 auto;
+    text-align: center;
+}
+
+li {
+    display: inline-block;
+}
+
+b#jd {
+    font-size: 1.6rem;
+}
+
+.dark-mode div.recomm_content input {
+    background-color: transparent;
+    border: 2px solid transparent;
+    color: #30fea1;
+    outline: 0;
+}
+
+div.recomm_content input {
+    background-color: transparent;
+    border: 2px solid transparent;
+    color: #579579;
+    outline: 0;
+}
+
+.dark-mode div.recomm_content h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #c5f7dc;
+    margin: auto;
+    text-align: center;
+}
+
+div.recomm_content h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #419769;
+    margin: auto;
+    text-align: center;
+}
+
+.dark-mode div.recomm_content input[type='button'] {
+    border: 2px solid #198754;
+    height: 38.6px;
+    width: 7rem;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 2px;
+}
+
+div.recomm_content input[type='button'] {
+    border: 2px solid #198754;
+    height: 38.6px;
+    width: 7rem;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: #198754;
+}
+
+div.recomm_content input[type='button']:hover {
+    background-color: #186f47;
+    color: #ffffff;
+}
+
+div.recomm_content input[type='button']:active {
+    background-color: #3d8c62;
+}
+
+form[action='hotelaction'] b {
+    display: block;
+
+}
+
+.dark-mode form[action='hotelaction'] label {
+    color: #30fea1;
+}
+
+form[action='hotelaction'] label {
+    color: #579579;
+}
+
+input#myInput {
+    display: none;
+    height: 2.3rem;
+    width: 16rem;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    border: none;
+}
+
+#toggleButton {
+    cursor: pointer;
+}
+
+#clearButton {
+    display: none;
+    cursor: pointer;
+    border-radius: 10rem;
+    border: 1px solid #0a0170;
+    background-color: #0a0170;
+    width: 25px;
+    line-height: 25px;
+    text-align: center;
+}
+
+#clearButton:hover {
+    border: 1px solid #00ff77;
+}
+
+button#btn-gherk {
+    background-color: #00ff77;
+    border-radius: 10rem;
+    background-image: url('../img/cucumber.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 14px;
+    border: none;
+}
+
+i#u,
+i#s,
+i#p {
+    color: #0077ff;
+}
+
+table,
+tr {
+    border: 3px solid #0077ff;
+    border-radius: 9px;
+    outline: 0;
+}
+
+table,
+td {
+    border: 3px solid #0077ff;
+    border-radius: 9px;
+}
+
+[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+[data-title]:after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: -1.6em;
+    border: 2px solid #00ff77;
+    left: 100%;
+    padding: 4px 4px 4px 8px;
+    color: #ffffff;
+    white-space: nowrap;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 0px 4px #222;
+    -webkit-box-shadow: 0px 0px 4px #222;
+    box-shadow: 0px 0px 4px #222;
+    background-image: -moz-linear-gradient(top, #122136, #122136);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f8f8f8), color-stop(1, #cccccc));
+    background-image: -webkit-linear-gradient(top, #122136, #122136);
+    background-image: -moz-linear-gradient(top, #122136, #122136);
+    background-image: -ms-linear-gradient(top, #122136, #122136);
+    background-image: -o-linear-gradient(top, #122136, #122136);
+    opacity: 0;
+    z-index: 99999;
+    visibility: hidden;
+}
+
+[data-title] {
+    position: relative;
+}
+
+img#u89,
+b#jd {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.container-fluid,
+label.switch {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+tr,
+td {
+    color: #F8F6F0;
+    background-color: transparent;
+}
+
+.dark-mode input#fileupload {
+    background-color: transparent;
+    border: 3px solid transparent;
+    color: #ffffff;
+}
+
+input#fileupload {
+    background-color: transparent;
+    border: 3px solid transparent;
+    color: #ffffff;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+input::file-selector-button {
+    background-color: #007bff;
+    background-position-x: 0%;
+    background-size: 200%;
+    border: 0;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    color: #ffffff;
+    padding: 5px 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+input::file-selector-button:hover {
+    background-color: #1c6fc7;
+    border: 2px solid #1c6fc7;
+}
+
+label#imk {
+    color: #b300ff;
+    text-transform: capitalize;
+}
+
+b#title-pl {
+    -webkit-text-stroke-width: 0.1px;
+    -webkit-text-stroke-color: #b7fbd7;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+button#btn-gneExpo {
+    font-weight: 700;
+    width: 12rem;
+    margin: auto;
+}
+
+button#btn-gneExpo {
+    float: right;
+}
+
+
+#suggestion-container {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#suggestion-container div {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#suggestion-container div:hover {
+    background-color: #f2f2f2;
+}
+
+button#scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 7px;
+    background-color: rgb(2, 44, 72);
+    color: #fff;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+button#scrollToTopBtn:hover {
+    background-color: #2980b9;
+}
+
+#darkSwitch {
+    position: fixed;
+    right: 10px;
+    top: 15px;
+}
+
+#btn-arq div label {
+    cursor: pointer;
+}
+
+#btn-arq:active {
+    cursor: pointer;
+}
+
+label[for='fileupload'] {
+    padding: 7px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 1px 2px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+table#chart-dash tr td {
+    color: #fff;
+}
+
+table#chart-dash td {
+    border: 3px solid #fff;
+    border-radius: 2px;
+    background-color: #00183c;
+}

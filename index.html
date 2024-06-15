@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheetFrenzy BDD | Gherkin BDD</title>
+
+    <meta name="author" content="@gehaim" />
+    <meta name="creator" content="@Gehaim" />
+
+    <meta name="description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação." />
+    <meta name="keywords"
+        content="Geração Automática de Cenários, Linguagem Gherkin, Padrões Claros com Gherkin, Aceleração de Testes, Personalização de Cenários, Integração Contínua, Colaboração Eficiente, Clareza nos Requisitos, Engajamento das Partes Interessadas, Redução de Erros na Implementação, Entrega Contínua, BDD, Automação" />
+
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta property="og:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta property="og:image" content="https://ghmdevelops.github.io/bddTestGenerator/src/img/200.png">
+    <meta property="og:url" content="https://ghmdevelops.github.io/bddTestGenerator/index.html">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta name="twitter:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta name="twitter:image" content="https://ghmdevelops.github.io/bddTestGenerator/src/img/200.png">
+
+    <link rel="canonical" href="https://ghmdevelops.github.io/bddTestGenerator/">
+
+    <link rel="shortcut icon" href="./src/img/logoPage.png" type="image/x-icon">
+
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+
+    <meta name="geo.region" content="BR-SP">
+    <meta name="geo.placename" content="Avenida Paulista, São Paulo, Brazil">
+    <meta name="geo.position" content="-23.5637;-46.6549">
+    <meta name="ICBM" content="-23.5637, -46.6549">
+
+    <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/dc28592b31.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/MediaStreamRecorder.js"></script>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <!--<script src="./src/js/cotact.js"></script>-->
+</head>
+
+<body>
+
+    <script>
+        /* window.onbeforeunload = function () {
+             return "e possível que as alterações feitas não sejam salvas.";
+         };
+ 
+         document.addEventListener('contextmenu', function (event) {
+             event.preventDefault();
+         });
+ 
+         window.onload = function () {
+             Swal.fire({
+                 title: '<strong><img src="./src/img/logoPage.png" alt="Icon" style="width: 100px; margin-bottom: 10px;"><br>Bem-vindo ao SheetFrenzy BDD!</strong>',
+                 html: `
+                         <div style="text-align: center;">
+                             <p>Otimize seu ciclo de desenvolvimento com nosso <strong>SheetFrenzy BDD</strong>. Simplifique a criação de testes comportamentais usando a linguagem Gherkin.</p>
+                             <ul id="progm-init">
+                                 <li><strong>Geração Automática de Cenários:</strong> Facilite a criação de cenários BDD com um clique.</li>
+                                 <li><strong>Personalização de Cenários:</strong> Ajuste os cenários de acordo com suas necessidades específicas.</li>
+                                 <li><strong>Integração Contínua:</strong> Integre facilmente em pipelines de CI/CD para testes automatizados.</li>
+                                 <li><strong>Colaboração Eficiente:</strong> Promova a colaboração entre desenvolvedores, testadores e stakeholders.</li>
+                                 <li><strong>Redução de Erros:</strong> Minimize erros de implementação com requisitos claros e precisos.</li>
+                                 <li><strong>Aceleração de Testes:</strong> Acelere seu ciclo de testes para entregas contínuas.</li>
+                             </ul>
+                             <p>Experimente agora e transforme sua prática de desenvolvimento!</p>
+                         </div>`,
+                 confirmButtonText: 'Começar',
+                 customClass: {
+                     confirmButton: 'btn btn-success'
+                 },
+                 buttonsStyling: false
+             });
+         }*/
+    </script>
+
+    <div class="container mt-1">
+        <div class="row align-items-center">
+            <div class="col-md-6 col-sm-12">
+                <h1 id="titulo"><img class="img-fluid" src="./src/img/sslogo1.png"> </h1>
+            </div>
+            <div class="col-md-5 col-sm-12 text-right">
+                <button title="Fazer uma busca" id="btn-sear" type="button" class="btn btn-success mt-3"
+                    onclick="alternarVisibilidade()">
+                    <i class="fa-solid fa-magnifying-glass-arrow-right"></i> Buscar
+                </button>
+                <button title="Temas" id="themeButton" class="btn btn-success mt-3"><i
+                        class="fa-solid fa-circle-half-stroke"></i></button>
+                <button title="Documentação" id="doc-book" type="button" class="btn btn-success mt-3"><i
+                        class="fa-solid fa-book"></i></button>
+                <button title="Conceitos" id="doc-quest" type="button" class="btn btn-success mt-3"><i
+                        class="fa-solid fa-question"></i></button>
+                <button title="Editor Gherkin" id="editor-gherkin" type="button" class="btn btn-success mt-3"><i
+                        class="fa-solid fa-file-pen"></i></button>
+                <button title="Gravar uma página" id="recordingButton" type="button" class="btn btn-success mt-3"><i
+                        class="fa-solid fa-video"></i></button>
+                <select class="form-control theme-selector mt-3" id="themeSelector">
+                    <option value="light">Tema claro</option>
+                    <option value="dark">Tema escuro</option>
+                    <option value="custom">Tema azul oceano</option>
+                    <option value="newColor">Tema azul escuro</option>
+                    <option value="image">Tema noite</option>
+                    <option value="anotherImage">Tema dia</option>
+                </select>
+                <button title="Exportar para PDF" id="exportarPDFBtn" class="btn btn-success mt-3"><i
+                        class="fa-solid fa-file-pdf"></i></button>
+                <button title="Entrar em contato" id="contact" class="btn btn-success mt-3"><i
+                        class="fa-solid fa-phone"></i></button>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var contactButton = document.getElementById('contact');
+
+                        contactButton.addEventListener('click', function () {
+                            Swal.fire({
+                                title: '<strong>Informações de Contato</strong>',
+                                html: `
+                <div style="text-align: left;">
+                    <p><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> tellervtechnology@outllok.com</p>
+                    <p><i class="fa-solid fa-phone"></i> <strong>Telefone:</strong> (11) 95166-8436</p>
+                </div>
+            `,
+                                icon: 'info',
+                                confirmButtonText: '<i class="fa-solid fa-check"></i> Fechar',
+                                confirmButtonColor: '#28a745'
+                            });
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <video class="d-none" id="recordedVideo" controls></video>
+
+    <div class="container col-md-6">
+        <div class="container py-3">
+            <div class="row">
+                <div class="col-md-5 col-sm-12 mx-auto mb-3">
+                    <label for="rows"><i class="fa-solid fa-grip-lines"></i> Número de Linhas</label>
+                    <div class="d-flex">
+                        <button title="Diminuir número de linhas" id="btn-more1" class="btn btn-secondary"
+                            onmousedown="startDecrement1()" onmouseup="stopDecrement1()">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <input type="text" id="rows" value="1" class="form-control text-center font-weight-bold">
+                        <button title="Adicionar número de linhas" id="btn-less1" class="btn btn-secondary"
+                            onmousedown="startIncrement1()" onmouseup="stopIncrement1()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-12 mb-3 d-none">
+                    <label for="cols"><i class="fa-solid fa-grip-lines-vertical"></i> Número de Colunas</label>
+                    <div class="d-flex">
+                        <button title="Diminuir número de linhas" id="btn-more2" class="btn btn-secondary"
+                            onmousedown="startDecrement2()" onmouseup="stopDecrement2()">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <input type="text" id="cols" min="1" value="12"
+                            class="form-control text-center font-weight-bold">
+                        <button title="Adicionar número de linhas" id="btn-less2" class="btn btn-secondary"
+                            onmousedown="startIncrement2()" onmouseup="stopIncrement2()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 mt-md-4">
+                    <button title="Adicionar Tabela" class="btn btn-success" onclick="criarTabela()">
+                        <i class="fa-solid fa-table-cells-large"></i> Criar Tabela
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-2 table-responsive text-center">
+            <div class="botoes-container">
+                <button title="Apagar Linha" id="lsmns" class="btn btn-success" onclick="apagarLinha()">
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+                <label>Linha</label>
+                <button title="Adicionar Linha" id="lsdty" class="btn btn-success" onclick="adicionarLinha()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+            <button title="Adicionar Coluna" class="btn btn-success" onclick="adicionarColuna()">
+                <i class="fa-solid fa-plus"></i> Coluna
+            </button>
+            <button title="Baixar Excel" class="btn btn-success" onclick="baixarExcel()">
+                <i class="fa-solid fa-file-excel"></i> Exportar excel
+            </button>
+
+            <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
+                onchange="importExcel()" style="display: none;">
+            <label title="Selecionar Excel" for="importExcel" class="btn btn-success" id="customButtonEx">
+                <i class="fa-regular fa-folder-open"></i> Selecionar arquivo
+            </label><br>
+
+            <div class="btn-group" role="group" aria-label="Opções">
+                <button title="Gerar Features" id="featuresBtn" class="btn btn-success mt-2"
+                    onclick="adicionarColunaFeature(); toggleButtons('featuresBtn');">
+                    <img style="width: 18px;" src="./src/img/cucumber.png" alt="cm"> Features
+                </button>
+                <button title="Baixar Features" id="baixarBtn" class="btn btn-success mt-2 hide"
+                    onclick="baixarSelecionados(); toggleButtons('baixarBtn');">
+                    <img style="width: 18px;" src="./src/img/cucumber.png" alt="cm"> Baixar
+                </button>
+                <button title="Voltar para baixar" id="voltarBtn" class="btn btn-success mt-2 hide"
+                    onclick="toggleButtons('featuresBtn');">
+                    <i class="fa-solid fa-angle-left"></i>
+                </button>
+            </div>
+            <button id="selectAllRadios" class="btn btn-success mt-2" style="display: none;">Selecionar
+                Todos</button>
+            <script>
+                document.getElementById('featuresBtn').addEventListener('click', function () {
+                    document.getElementById('selectAllRadios').style.display = 'inline-block';
+                });
+
+                document.getElementById('selectAllRadios').addEventListener('click', function () {
+                    var radios = document.querySelectorAll('input[type="radio"]');
+                    radios.forEach(function (radio) {
+                        radio.checked = true;
+                    });
+                });
+            </script>
+
+            <button title="Copiar para outras linhas" class="btn btn-success mt-2" onclick="copiarParaTodos()">
+                <i class="fa-solid fa-copy"></i> Copiar para todos
+            </button>
+            <button title="Gerar dashboard" type="button" class="btn btn-success mt-2" data-toggle="modal"
+                data-target="#myModal">
+                <i class="fa-solid fa-chart-simple"></i> Dashboard
+            </button>
+            <button id="convertTableButton" title="Gerar excel octane" type="button" class="btn btn-success mt-2">
+                <i class="fa-solid fa-cube"></i>
+            </button>
+        </div>
+
+        <div class="table-responsive text-center py-3">
+            <div class="col-sm-6 mx-auto d-flex justify-content-between">
+                <input style="display: none;" class="form-control" type="search" id="filtroCT" name="filtroCT"
+                    placeholder="filtrar por cenário ex: CT0001">
+                <button style="display: none;" type="button" class="btn btn-success" id="segundoBotao"
+                    onclick="filtrarPorCT()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <div style="color: #000000;" class="modal fade text-black" id="myModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><img width="40"
+                                src="./src/img/cb1-PhotoRoom.png-PhotoRoom.png" alt="cm"> Dashboard</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <canvas id="graficoModal" width="400" height="200"></canvas>
+                        <div id="porcentagemOK" class="mt-3"></div>
+                        <span id="numeroLinhas"></span>
+                        <div id="progressBarContainer" class="mt-3">
+                            <div class="progress">
+                                <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;"
+                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div style="color: #000000;" id="modalBody"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="showBugScenariosBtn"><i
+                                class="fa-solid fa-bug"></i></button>
+                        <button type="button" class="btn btn-primary" onclick="takeScreenshotAndDownload()"><i
+                                class="fa-solid fa-camera-retro"></i></button>
+                        <button type="button" class="btn btn-primary" id="toggleButton"
+                            onclick="toggleIcon(), gerarDashboard()"><i class="fa-solid fa-chart-line"></i></button>
+                        <script>
+                            function toggleIcon() {
+                                var button = document.getElementById('toggleButton');
+                                var icon = button.querySelector('i');
+
+                                if (icon.classList.contains('fa-magnifying-glass-chart')) {
+                                    icon.classList.remove('fa-magnifying-glass-chart');
+                                    icon.classList.add('fa-sync-alt');
+                                } else {
+                                    icon.classList.remove('fa-sync-alt');
+                                    icon.classList.add('fa-sync-alt');
+                                }
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" id="scrollToTopBtn"><i class="fa-solid fa-up-long"></i></button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            if (scrollToTopBtn) {
+                scrollToTopBtn.addEventListener('click', function () {
+                    scrollToTop();
+                });
+            }
+        });
+
+        function scrollToTop() {
+            var scrollDuration = 3000;
+            var scrollStep = -window.scrollY / (scrollDuration / 15);
+            var scrollInterval = setInterval(function () {
+                if (window.scrollY != 0) {
+                    window.scrollBy(0, scrollStep);
+                } else {
+                    clearInterval(scrollInterval);
+                }
+            }, 15);
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script src="./src/js/scriptI.js" defer> </script>
+</body>
+
+</html>

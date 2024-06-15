@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheetFrenzy BDD | Swift Shift Converter</title>
+
+    <meta name="author" content="@gehaim" />
+    <meta name="creator" content="@Gehaim" />
+
+    <meta name="description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação." />
+    <meta name="keywords"
+        content="Geração Automática de Cenários, Linguagem Gherkin, Padrões Claros com Gherkin, Aceleração de Testes, Personalização de Cenários, Integração Contínua, Colaboração Eficiente, Clareza nos Requisitos, Engajamento das Partes Interessadas, Redução de Erros na Implementação, Entrega Contínua, BDD, Automação" />
+
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta property="og:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta property="og:image" content="https://ghmdevelops.github.io/bddTestGenerator/src/img/200.png">
+    <meta property="og:url" content="https://ghmdevelops.github.io/bddTestGenerator/index.html">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta name="twitter:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta name="twitter:image" content="https://ghmdevelops.github.io/bddTestGenerator/src/img/200.png">
+
+    <link rel="canonical" href="https://ghmdevelops.github.io/bddTestGenerator/">
+
+    <link rel="shortcut icon" href="../img/logoPage.png" type="image/x-icon">
+
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+
+    <meta name="geo.region" content="BR-SP">
+    <meta name="geo.placename" content="Avenida Paulista, São Paulo, Brazil">
+    <meta name="geo.position" content="-23.5637;-46.6549">
+    <meta name="ICBM" content="-23.5637, -46.6549">
+
+    <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../img/logoPage.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../css/styleSwift.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">
+            <img id="logoInit" width="60" src="../img/logoPage.png" alt="swiftl"> Swift Shift Converter
+            <script>
+                document.getElementById('logoInit').addEventListener('click', function () {
+                    window.location.href = 'https://ghmdevelops.github.io/bddTestGenerator/index.html';
+                });
+            </script>
+        </div>
+        <form id="converterForm">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name1"><i class="fas fa-vial"></i> Nome do teste:</label>
+                    <input type="text" class="form-control" id="name1" name="name1">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="name2"><i class="fas fa-filter"></i> Tipo de teste:</label>
+                    <select class="form-control" id="name2" name="name2">
+                        <option value="Positivo">Positivo</option>
+                        <option value="Negativo">Negativo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name3"><i class="fas fa-laptop-code"></i> Aplicação:</label>
+                    <input type="text" class="form-control" id="name3" name="name3">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="name4"><i class="fas fa-server"></i> Serviço:</label>
+                    <input type="text" class="form-control" id="name4" name="name4" value="bd-transform-test-90-batch">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name5"><i class="fas fa-id-badge"></i> ID Octane:</label>
+                    <input type="text" class="form-control" id="name5" name="name5">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="name6"><i class="fas fa-key"></i> Sigla:</label>
+                    <input type="text" class="form-control" id="name6" name="name6">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name7"><i class="fas fa-file-alt"></i> Descrição:</label>
+                    <input type="text" class="form-control" id="name7" name="name7">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="name8"><i class="fas fa-tasks"></i> Jira Sprint:</label>
+                    <input type="text" class="form-control" id="name8" name="name8">
+                </div>
+            </div>
+            <div class="form-group" id="excel-file">
+                <label for="excelFile"><i class="fas fa-file-excel"></i> Escolher arquivo Excel:</label>
+                <input type="file" class="form-control-file" id="excelFile" name="excelFile" accept=".xlsx, .xls">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-exchange-alt"></i>
+                    Converter</button>
+            </div>
+        </form>
+        <div id="progressContainer" class="progress-bar" style="display: none;">
+            <div id="progressBar" class="progress-bar-inner"></div>
+        </div>
+    </div>
+
+    <section class="mt-5">
+        <footer class="bg-body-tertiary text-center text-md-start bg-black bg-dark text-white">
+            <div class=" p-4">
+                <div class="row">
+                    <div style="margin: auto; text-align: center;" class="col-lg-5">
+                        <h6 class="text-uppercase"><img width="40" src="../img/logoPage.png" alt="wthe"> SHEETFRENZY BDD
+                        </h6>
+                        <p class="text-center">
+                            Nosso site e dedicado a fornecer uma valiosa ferramenta para equipes que buscam uma maneira
+                            eficaz de criar, organizar e editar documentação de testes, promovendo uma colaboração mais
+                            eficiente e
+                            ágil no ciclo de desenvolvimento de software. Uma característica notável do site é a
+                            flexibilidade
+                            oferecida aos usuários, permitindo a edição ilimitada dos documentos gerados. Isso
+                            possibilita ajustes
+                            contínuos conforme as necessidades evoluem ou novos requisitos surgem. Com essa abordagem
+                            iterativa, o
+                            processo de desenvolvimento e teste se torna mais dinâmico e adaptável.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center p-3">
+                © 2023 Copyright:
+                <b class="text-white">SHEETFRENZY BDD</b>
+            </div>
+        </footer>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="../js/scriptSwift.js"></script>
+</body>
+
+</html>

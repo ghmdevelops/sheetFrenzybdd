@@ -1,0 +1,95 @@
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #ebffeb;
+    border: 1px solid #237a23;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #184018;
+    border: 1px solid #184018;
+    border-radius: 13px;
+}
+
+div#imageContainer {
+    width: 10rem;
+    text-align: center;
+    cursor: pointer;
+    color: #000;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: 'Arial';
+    font-size: 14px;
+    margin: auto;
+}
+
+.fa-file-excel {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #0c7d14;
+}
+
+.modal-body {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #eef5ff;
+    border: 1px solid #15253d;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background-color: #0c7d14;
+    border: 1px solid #12ca1e;
+    border-radius: 13rem;
+}
+
+input[type='file'] {
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.custom-button-ad {
+    margin-right: 10px;
+}
+
+.custom-button-ad:active,
+.custom-button-ad:focus {
+    background-color: #05a980;
+    border: 2px solid #05a980;
+    outline: 0;
+}
+
+button#scrollToTopBtn {
+    position: fixed;
+    display: none;
+    border-radius: 10rem;
+    bottom: 7px;
+    right: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}

@@ -1,0 +1,126 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.5s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #ebffeb;
+    border: 1px solid #237a23;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #184018;
+    border: 1px solid #184018;
+    border-radius: 13px;
+}
+
+body.dark-theme {
+    background-color: #232222;
+    color: #ffffff;
+}
+
+body.dark-theme .container,
+body.dark-theme .doc-section {
+    background-color: #313030;
+    color: #ffffff;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .doc-section h2,
+body.dark-theme .doc-section i {
+    color: #bb86fc;
+}
+
+body.dark-theme .btn-success {
+    background-color: #3700b3;
+    color: #ffffff;
+}
+
+body.dark-theme .btn-success:hover {
+    background-color: #6200ee;
+    box-shadow: 0 0 15px rgba(186, 104, 200, 0.4);
+}
+
+#themeToggle .fa-sun,
+#themeToggle .fa-moon {
+    font-size: 20px;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    transition: box-shadow 0.5s ease;
+}
+
+.doc-section {
+    background: linear-gradient(180deg, #f0f0f0 0%, #ffffff 100%);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.5s ease;
+}
+
+.doc-section h2 {
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.doc-section i {
+    margin-right: 15px;
+    font-size: 28px;
+    color: #007bff;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.doc-section p {
+    color: #555555;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.doc-section:hover,
+.container:hover,
+.modal-content:hover {
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.2);
+}
+
+.doc-section:hover h2 i {
+    color: #0056b3;
+    transform: translateX(5px);
+}
+
+.btn-success {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    border-radius: 8px;
+}
+
+.btn-success:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+button#scrollToTopBtn {
+    position: fixed;
+    display: none;
+    border-radius: 5px;
+    bottom: 7px;
+    right: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}

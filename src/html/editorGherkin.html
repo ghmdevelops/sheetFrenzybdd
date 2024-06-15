@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheetFrenzy BDD | Gherkin Editor</title>
+
+    <meta name="author" content="@gehaim" />
+    <meta name="creator" content="@Gehaim" />
+
+    <meta name="description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação." />
+    <meta name="keywords"
+        content="Geração Automática de Cenários, Linguagem Gherkin, Padrões Claros com Gherkin, Aceleração de Testes, Personalização de Cenários, Integração Contínua, Colaboração Eficiente, Clareza nos Requisitos, Engajamento das Partes Interessadas, Redução de Erros na Implementação, Entrega Contínua, BDD, Automação" />
+
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta property="og:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta property="og:image" content="https://ghmdevelops.github.io/bddTestGenerator/src/img/200.png">
+    <meta property="og:url" content="https://ghmdevelops.github.io/bddTestGenerator/index.html">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta name="twitter:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta name="twitter:image" content="https://ghmdevelops.github.io/bddTestGenerator/src/img/200.png">
+
+    <link rel="canonical" href="https://ghmdevelops.github.io/bddTestGenerator/">
+
+    <link rel="shortcut icon" href="../img/logoPage.png" type="image/x-icon">
+
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+
+    <meta name="geo.region" content="BR-SP">
+    <meta name="geo.placename" content="Avenida Paulista, São Paulo, Brazil">
+    <meta name="geo.position" content="-23.5637;-46.6549">
+    <meta name="ICBM" content="-23.5637, -46.6549">
+
+    <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/dc28592b31.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../css/styleEditor.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="container">
+            <h1><img src="../img/cb1-PhotoRoom.png-PhotoRoom.png" alt="GEditor"> Editor de Cenários Gherkin</h1>
+            <div class="button-group">
+                <button class="action-button" id="logout-button"><i class="fas fa-sign-out-alt"></i> Sair</button>
+                <button class="action-button" id="theme-button">
+                    <i class="fas fa-sun"></i> Tema
+                </button>
+            </div>
+            <select id="style-selector">
+                <option value="default">Selecione um estilo de esqueleto</option>
+                <option value="funcionalidade">Funcionalidade</option>
+                <option value="cenário">Cenário</option>
+                <option value="cenário com background">Cenário com Background</option>
+                <option value="esquema de cenário">Esquema de Cenário</option>
+                <option value="cenário de regras de negócio">Cenário de Regras de Negócio</option>
+                <option value="cenário de login">Cenário de Login</option>
+                <option value="cenário de erro">Cenário de Erro</option>
+                <option value="cenário de busca">Cenário de Busca</option>
+                <option value="cenário de adicionar ao carrinho">Cenário de Adicionar ao Carrinho</option>
+                <option value="cenário de checkout">Cenário de Checkout</option>
+                <option value="cenário de registro">Cenário de Registro</option>
+                <option value="cenário de logout">Cenário de Logout</option>
+            </select>
+            <div class="autocomplete-container">
+                <textarea id="gherkin-editor" placeholder="Escreva seus cenários Gherkin aqui..."></textarea>
+                <div id="autocomplete-list" class="autocomplete-suggestions"></div>
+            </div>
+            <div class="button-group">
+                <button class="action-button" id="format-button">
+                    <i class="fas fa-align-left"></i> Formatar Gherkin
+                </button>
+                <button class="action-button" id="validate-button">
+                    <i class="fas fa-check"></i> Validar Gherkin
+                </button>
+                <button class="action-button" id="export-button">
+                    <i class="fas fa-file-export"></i> Exportar
+                </button>
+                <input type="file" id="import-file" style="display:none;">
+                <button class="action-button" id="import-button">
+                    <i class="fas fa-file-import"></i> Importar
+                </button>
+            </div>
+            <pre id="output"></pre>
+        </div>
+    </div>
+
+    <footer class="bg-body-tertiary text-center text-md-start bg-black bg-dark text-white">
+        <div class="p-4">
+            <div class="row">
+                <div style="margin: auto; text-align: center;" class="col-lg-5">
+                    <h6 class="text-uppercase"><img width="40" src="../img/logoPage.png" alt="logo"> SHEETFRENZY BDD
+                    </h6>
+                    <p class="text-center">
+                        Nosso site é dedicado a fornecer uma valiosa ferramenta para equipes que buscam uma maneira
+                        eficaz de criar, organizar e editar documentação de testes, promovendo uma colaboração mais
+                        eficiente e ágil no ciclo de desenvolvimento de software. Uma característica notável do site é a
+                        flexibilidade oferecida aos usuários, permitindo a edição ilimitada dos documentos gerados. Isso
+                        possibilita ajustes contínuos conforme as necessidades evoluem ou novos requisitos surgem. Com
+                        essa abordagem iterativa, o processo de desenvolvimento e teste se torna mais dinâmico e
+                        adaptável.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3">
+            © 2023 Copyright:
+            <b class="text-white">SHEETFRENZY BDD</b>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/gherkin/gherkin.js"></script>
+    <script src="./js/appEditor.js"></script>
+    <script>
+        document.getElementById('theme-button').addEventListener('click', function () {
+            document.body.classList.toggle('dark-theme');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-theme')) {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
+    </script>
+</body>
+
+</html>
