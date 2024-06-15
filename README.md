@@ -1,6 +1,6 @@
 # BDD Test Generator
 
-![Logo](./src/img/logoPage.png)
+![Logo](./src/img/logoPage200.png)
 
 ## Bem-vindo ao SheetFrenzy BDD!
 
