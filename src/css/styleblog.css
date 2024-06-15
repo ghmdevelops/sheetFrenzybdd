@@ -1,0 +1,82 @@
+body {
+    background-color: #f0f2f5;
+    padding-top: 20px;
+}
+
+body.dark-theme {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-theme .main-container {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-theme .form-control {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+body.dark-theme .btn-submit {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+body.dark-theme .user-entry {
+    background-color: #333333;
+    color: #ffffff;
+    border-color: #444444;
+}
+
+#blogsheet {
+    cursor: pointer;
+}
+
+.main-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.user-entry {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f8f8f8;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.user-entry h3 {
+    margin-top: 0;
+}
+
+.user-entry p {
+    margin: 5px 0;
+}
+
+.user-entry .author-email {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-submit {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.btn-submit:hover {
+    background-color: #4cae4c;
+}
+
+.header-text {
+    text-align: center;
+    margin-bottom: 30px;
+}

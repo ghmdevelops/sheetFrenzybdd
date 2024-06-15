@@ -5,35 +5,28 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SheetFrenzy BDD | Swift Shift Converter</title>
+    <title>SheetFrenzy BDD | Blog Compartilhado</title>
 
     <meta name="author" content="@gehaim" />
     <meta name="creator" content="@Gehaim" />
-
     <meta name="description"
         content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação." />
     <meta name="keywords"
         content="Geração Automática de Cenários, Linguagem Gherkin, Padrões Claros com Gherkin, Aceleração de Testes, Personalização de Cenários, Integração Contínua, Colaboração Eficiente, Clareza nos Requisitos, Engajamento das Partes Interessadas, Redução de Erros na Implementação, Entrega Contínua, BDD, Automação" />
-
     <meta name="robots" content="index, follow" />
-
     <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
     <meta property="og:description"
         content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
     <meta property="og:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage200.png">
     <meta property="og:url" content="https://ghmdevelops.github.io/sheetFrenzybdd/index.html">
     <meta property="og:type" content="website">
-
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
     <meta name="twitter:description"
         content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
     <meta name="twitter:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage200.png">
-
     <link rel="canonical" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
-
     <link rel="shortcut icon" href="../img/logoPage.png" type="image/x-icon">
-
     <meta name="csrf-token" content="<%= csrfToken %>">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -41,86 +34,77 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
     <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
-
     <meta name="geo.region" content="BR-SP">
     <meta name="geo.placename" content="Avenida Paulista, São Paulo, Brazil">
     <meta name="geo.position" content="-23.5637;-46.6549">
     <meta name="ICBM" content="-23.5637, -46.6549">
-
     <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="../img/logoPage.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="../css/styleSwift.css">
+    <link rel="stylesheet" href="../css/styleblog.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="title">
-            <img id="logoInit" width="60" src="../img/logoPage.png" alt="swiftl"> Swift Shift Converter
-            <script>
-                document.getElementById('logoInit').addEventListener('click', function () {
-                    window.location.href = 'https://ghmdevelops.github.io/bddTestGenerator/index.html';
-                });
-            </script>
+    <div class="container main-container">
+        <button id="themeToggleBtn" class="btn btn-secondary" onclick="toggleTheme()">
+            <i id="themeIcon" class="fas fa-sun"></i>
+        </button>
+        <h2 class="header-text"><img id="blogsheet" width="70" src="../img/logoPage200.png" alt="sheetBlog">
+            SheetFrenzy BDD Blog
+            Compartilhado</h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Adicionar um novo tópico</h3>
+                <form>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="name"><i class="fas fa-user"></i> Nome:</label>
+                                <input type="text" class="form-control" id="name" placeholder="Digite o nome"
+                                    name="name">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope"></i> Email:</label>
+                                <input type="email" class="form-control" id="email" placeholder="Digite o email"
+                                    name="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="title"><i class="fas fa-heading"></i> Título:</label>
+                                <input type="text" class="form-control" id="title" placeholder="Digite o título"
+                                    name="title">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="subject"><i class="fas fa-align-left"></i> Assunto:</label>
+                                <input type="text" class="form-control" id="subject" placeholder="Digite o assunto"
+                                    name="subject">
+                                <button type="button" class="btn btn-secondary" onclick="editSubject()"><i
+                                        class="fas fa-edit"></i> Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="validateAndCreateData()" id="save_btn" class="btn btn-submit"><i
+                            class="fas fa-paper-plane"></i> Publicar</button>
+                </form>
+            </div>
         </div>
-        <form id="converterForm">
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name1"><i class="fas fa-vial"></i> Nome do teste:</label>
-                    <input type="text" class="form-control" id="name1" name="name1">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="name2"><i class="fas fa-filter"></i> Tipo de teste:</label>
-                    <select class="form-control" id="name2" name="name2">
-                        <option value="Positivo">Positivo</option>
-                        <option value="Negativo">Negativo</option>
-                    </select>
-                </div>
+        <div class="row" style="margin-top: 40px;">
+            <div class="col-sm-12">
+                <h3 style="text-align: center;"><i class="fas fa-list"></i> Publicações</h3>
+                <div id="showUsers"></div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name3"><i class="fas fa-laptop-code"></i> Aplicação:</label>
-                    <input type="text" class="form-control" id="name3" name="name3">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="name4"><i class="fas fa-server"></i> Serviço:</label>
-                    <input type="text" class="form-control" id="name4" name="name4" value="bd-transform-test-90-batch">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name5"><i class="fas fa-id-badge"></i> ID Octane:</label>
-                    <input type="text" class="form-control" id="name5" name="name5">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="name6"><i class="fas fa-key"></i> Sigla:</label>
-                    <input type="text" class="form-control" id="name6" name="name6">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name7"><i class="fas fa-file-alt"></i> Descrição:</label>
-                    <input type="text" class="form-control" id="name7" name="name7">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="name8"><i class="fas fa-tasks"></i> Jira Sprint:</label>
-                    <input type="text" class="form-control" id="name8" name="name8">
-                </div>
-            </div>
-            <div class="form-group" id="excel-file">
-                <label for="excelFile"><i class="fas fa-file-excel"></i> Escolher arquivo Excel:</label>
-                <input type="file" class="form-control-file" id="excelFile" name="excelFile" accept=".xlsx, .xls">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-exchange-alt"></i>
-                    Converter</button>
-            </div>
-        </form>
-        <div id="progressContainer" class="progress-bar" style="display: none;">
-            <div id="progressBar" class="progress-bar-inner"></div>
         </div>
     </div>
 
@@ -153,11 +137,9 @@
         </footer>
     </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="../js/scriptSwift.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
+    <script src="../js/scriptBlog.js"></script>
 </body>
 
 </html>

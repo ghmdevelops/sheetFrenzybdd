@@ -1552,6 +1552,11 @@ btnquesti.addEventListener('click', e => {
     location.href = './src/html/mod/gherkinconceitos.html';
 })
 
+const btnBlog = document.getElementById('blog');
+btnBlog.addEventListener('click', e => {
+    location.href = './src/blog/sheetFrenzybddBlog.html';
+})
+
 const convertTable = document.getElementById('convertTableButton');
 convertTable.addEventListener('click', e => {
     location.href = './src/swiftleft/swiftShiftConverter.html';
