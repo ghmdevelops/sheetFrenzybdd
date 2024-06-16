@@ -140,10 +140,58 @@ button#scrollToTopBtn {
     cursor: pointer;
 }
 
-/* Botões animados */
 .btn-function:hover {
     background-color: #16db6b;
     color: #ffffff;
     transform: scale(1.05);
     transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 110;
+    background-color: #16db6b;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .sidebar {
+        display: none;
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar.open {
+        display: block;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-function {
+        margin-top: 1rem;
+    }
+
+    .nav-link {
+        display: block;
+        text-align: center;
+        padding: 10px;
+    }
 }

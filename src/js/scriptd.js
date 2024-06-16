@@ -78,5 +78,20 @@ function scrollToTop() {
     }, 15);
 }
 
+document.getElementById('menuToggle').addEventListener('click', function () {
+    var sidebar = document.querySelector('.sidebar');
+    var icon = this.querySelector('i');
+
+    sidebar.classList.toggle('open');
+
+    if (sidebar.classList.contains('open')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+    } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+    }
+});
+
 console.log("\n%cAtenção Espere! %c\n\n\nEste é um recurso de navegador voltado para desenvolvedores. Se alguém disse para você copiar e colar algo aqui para ativar um recurso ou 'invadir' a maquina de outra pessoa, isso é uma fraude e você dará a ele acesso à sua maquina.\n\nConsulte ataques https://en.wikipedia.org/wiki/Self-XSS para obter mais informações.", "color: red; font-size: 46px;", "font-size: 16px;");
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
