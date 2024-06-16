@@ -1,0 +1,85 @@
+body {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container-custom {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+h1 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+h1 img {
+    margin-right: 10px;
+}
+
+.input-group label i {
+    margin-right: 8px;
+    color: #007bff;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-theme .container-custom {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+.dark-theme .input-group-text {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.dark-theme .form-control {
+    background-color: #333;
+    border-color: #555;
+    color: #e0e0e0;
+}
+
+.dark-theme .form-control:focus {
+    border-color: #f1c40f;
+    box-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+}
+
+.dark-theme .btn {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.dark-theme .btn:hover {
+    background-color: #555;
+}
+
+.dark-theme .btn:focus {
+    box-shadow: none;
+}
+
+.dark-theme .output-group textarea {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.dark-theme .linesIn i,
+h2 {
+    color: #16db6b;
+}
+
+#logoPage {
+    cursor: pointer;
+}

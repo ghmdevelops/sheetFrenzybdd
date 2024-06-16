@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheetFrenzy BDD | Gerador de Historias</title>
+
+    <meta name="author" content="@gehaim" />
+    <meta name="creator" content="@Gehaim" />
+    <meta name="description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação." />
+    <meta name="keywords"
+        content="Geração Automática de Cenários, Linguagem Gherkin, Padrões Claros com Gherkin, Aceleração de Testes, Personalização de Cenários, Integração Contínua, Colaboração Eficiente, Clareza nos Requisitos, Engajamento das Partes Interessadas, Redução de Erros na Implementação, Entrega Contínua, BDD, Automação" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta property="og:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta property="og:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage200.png">
+    <meta property="og:url" content="https://ghmdevelops.github.io/sheetFrenzybdd/index.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta name="twitter:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta name="twitter:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage200.png">
+    <link rel="canonical" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
+    <link rel="shortcut icon" href="../img/logoPage200.png" type="image/x-icon">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+    <meta name="geo.region" content="BR-SP">
+    <meta name="geo.placename" content="Avenida Paulista, São Paulo, Brazil">
+    <meta name="geo.position" content="-23.5637;-46.6549">
+    <meta name="ICBM" content="-23.5637, -46.6549">
+    <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/styleGerador.css">
+</head>
+
+<body>
+    <div class="container container-custom">
+        <button class="btn btn-light mb-3" onclick="toggleTheme()">
+            <i id="theme-icon" class="fas fa-sun"></i>
+        </button>
+        <h1 style="display: flex; align-items: center; justify-content: center;">
+            <img id="logoPage" width="50" src="../img/logoPage200.png" alt="sheet" style="margin-right: 10px;">
+            Gerador de Histórias de Usuário
+        </h1>
+        <div class="form-row linesIn">
+            <div class="form-group col-md-6">
+                <label for="keywords"><i class="fas fa-key"></i> Palavras-chave:</label>
+                <input type="text" class="form-control" id="keywords" placeholder="Digite palavras-chave...">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="userType"><i class="fas fa-user"></i> Tipo de Usuário:</label>
+                <input type="text" class="form-control" id="userType"
+                    placeholder="Ex: administrador, cliente, desenvolvedor...">
+            </div>
+        </div>
+        <div class="form-row linesIn">
+            <div class="form-group col-md-6">
+                <label for="goal"><i class="fas fa-bullseye"></i> Objetivo:</label>
+                <input type="text" class="form-control" id="goal"
+                    placeholder="Ex: acompanhar meu desempenho, receber notificações...">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="reason"><i class="fas fa-lightbulb"></i> Motivo:</label>
+                <input type="text" class="form-control" id="reason"
+                    placeholder="Ex: melhorar a usabilidade, aumentar a eficiência...">
+            </div>
+        </div>
+        <div class="form-group linesIn">
+            <label for="details"><i class="fas fa-info-circle"></i> Detalhes Adicionais:</label>
+            <textarea class="form-control" id="details" rows="5"
+                placeholder="Digite detalhes adicionais que gostaria de incluir na história..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="generateStory()">
+            <i class="fas fa-file-alt"></i> Gerar História
+        </button>
+        <div class="form-group mt-4">
+            <h2>História de Usuário</h2>
+            <textarea class="form-control" id="userStory" rows="10"
+                placeholder="Sua história de usuário aparecerá aqui..."></textarea>
+        </div>
+        <button class="btn btn-danger" onclick="clearStory()">
+            <i class="fas fa-trash-alt"></i> Limpar História
+        </button>
+        <div class="suggestion mt-3" id="suggestion"></div>
+    </div>
+    <script src="../js/scriptGerador.js" defer async></script>
+</body>
+
+</html>

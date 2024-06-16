@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Sprint Planning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .task input {
+            width: 70%;
+        }
+
+        .task button {
+            width: 25%;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Simulador de Sprint Planning</h1>
+        <div>
+            <h3>Adicionar Tarefa</h3>
+            <div class="task">
+                <input type="text" id="taskName" placeholder="Nome da Tarefa">
+                <input type="number" id="taskDuration" placeholder="Duração (horas)">
+                <button onclick="addTask()">Adicionar</button>
+            </div>
+        </div>
+        <div>
+            <h3>Configurar Capacidade da Equipe</h3>
+            <input type="number" id="teamCapacity" placeholder="Capacidade da Equipe (horas)">
+            <button onclick="simulate()">Simular Sprint</button>
+        </div>
+        <div id="taskList">
+            <h3>Tarefas</h3>
+            <ul id="tasks"></ul>
+        </div>
+        <div id="results">
+            <h3>Resultados da Simulação</h3>
+            <div id="allocation"></div>
+        </div>
+    </div>
+    <script>
+        let tasks = [];
+
+        function addTask() {
+            const taskName = document.getElementById('taskName').value;
+            const taskDuration = document.getElementById('taskDuration').value;
+
+            if (taskName && taskDuration) {
+                tasks.push({ name: taskName, duration: parseInt(taskDuration) });
+                document.getElementById('taskName').value = '';
+                document.getElementById('taskDuration').value = '';
+                updateTaskList();
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        }
+
+        function updateTaskList() {
+            const taskList = document.getElementById('tasks');
+            taskList.innerHTML = '';
+
+            tasks.forEach((task, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${task.name} - ${task.duration} horas`;
+                taskList.appendChild(listItem);
+            });
+        }
+
+        function simulate() {
+            const teamCapacity = document.getElementById('teamCapacity').value;
+            if (!teamCapacity) {
+                alert('Por favor, insira a capacidade da equipe.');
+                return;
+            }
+
+            let remainingCapacity = parseInt(teamCapacity);
+            const allocation = [];
+            let totalDuration = 0;
+
+            tasks.forEach(task => {
+                totalDuration += task.duration;
+                if (remainingCapacity >= task.duration) {
+                    allocation.push({ task: task.name, status: 'Alocado' });
+                    remainingCapacity -= task.duration;
+                } else {
+                    allocation.push({ task: task.name, status: 'Não Alocado' });
+                }
+            });
+
+            if (totalDuration <= teamCapacity) {
+                allocation.push({ task: 'Sprint', status: 'Capacidade Suficiente' });
+            } else {
+                allocation.push({ task: 'Sprint', status: 'Capacidade Insuficiente' });
+            }
+
+            displayResults(allocation);
+        }
+
+        function displayResults(allocation) {
+            const resultsDiv = document.getElementById('allocation');
+            resultsDiv.innerHTML = '';
+
+            allocation.forEach(item => {
+                const resultItem = document.createElement('div');
+                resultItem.textContent = `${item.task}: ${item.status}`;
+                resultsDiv.appendChild(resultItem);
+            });
+        }
+    </script>
+</body>
+
+</html>

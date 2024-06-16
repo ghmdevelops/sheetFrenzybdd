@@ -298,3 +298,7 @@ recordingButton.addEventListener('click', function () {
 document.getElementById('editor-gherkin').addEventListener('click', function () {
     location.href = './src/html/sheetFrenzybddEditorGherkin.html';
 })
+
+document.getElementById('storyGenerator').addEventListener('click', function () {
+    location.href = './src/storyGenerator/sheetFrenzybddgeradordeHistorias.html';
+})
