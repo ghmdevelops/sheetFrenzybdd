@@ -144,6 +144,10 @@ footer .text-center {
     margin: 0;
 }
 
+#logout-button {
+    cursor: pointer;
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
     .container {

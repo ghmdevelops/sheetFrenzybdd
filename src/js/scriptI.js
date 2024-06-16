@@ -369,6 +369,16 @@ function gerarCorAleatoria() {
 
 function adicionarLinha() {
     var tabela = document.getElementById("tabela");
+    if (!tabela) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Nenhuma tabela encontrada',
+            text: 'Por favor, adicione uma tabela antes de adicionar linhas.',
+            confirmButtonColor: "#3085d6",
+        });
+        return;
+    }
+
     var newRow = tabela.insertRow(tabela.rows.length);
 
     if (newRow) {
@@ -378,18 +388,27 @@ function adicionarLinha() {
 
         for (var j = 1; j < tabela.rows[0].cells.length; j++) {
             var cell = newRow.insertCell(j);
-            var input = document.createElement("input");
-            input.type = "text";
-            input.value = "";
 
-            if (j === 4) {
+            // Verifica se a coluna é "Feature"
+            if (tabela.rows[0].cells[j].textContent.trim().toLowerCase() === "feature") {
+                var radioInput = document.createElement("input");
+                radioInput.type = "radio";
+                radioInput.name = "featureRadio" + tabela.rows.length;
+                cell.appendChild(radioInput);
+            } else {
+                var input = document.createElement("input");
+                input.type = "text";
                 input.value = "";
-            }
 
-            cell.appendChild(input);
+                if (j === 4) {
+                    input.value = "";
+                }
 
-            if (j === 10) {
-                input.value = "nok";
+                if (j === 10) {
+                    input.value = "nok";
+                }
+
+                cell.appendChild(input);
             }
         }
     }
@@ -489,7 +508,33 @@ function adicionarColuna() {
 
 function adicionarColunaFeature() {
     var tabela = document.getElementById("tabela");
+
+    // Verifique se a tabela existe
+    if (!tabela) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Nenhuma tabela encontrada',
+            text: 'Por favor, adicione uma tabela antes de adicionar uma coluna de features.',
+            confirmButtonColor: "#3085d6",
+        });
+        return; // Impede a continuação da função
+    }
+
+    // Verifique se a coluna "Feature" já existe
     var headerRow = tabela.rows[0];
+    for (var i = 0; i < headerRow.cells.length; i++) {
+        if (headerRow.cells[i].textContent.trim().toLowerCase() === "feature") {
+            Swal.fire({
+                icon: 'info',
+                title: 'Coluna já existente',
+                text: 'A coluna "Feature" já foi adicionada.',
+                confirmButtonColor: "#3085d6",
+            });
+            return; // Impede a continuação da função
+        }
+    }
+
+    // Adicionar a nova coluna "Feature"
     var th = document.createElement("th");
     th.textContent = "Feature";
     headerRow.appendChild(th);
@@ -1176,6 +1221,15 @@ function positionDropdown(target, dropdown) {
 function copiarParaTodos() {
     var tabela = document.getElementById("tabela");
 
+    if (!tabela) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Nenhuma tabela encontrada',
+            text: 'Por favor, adicione uma tabela antes de copiar valores.',
+            confirmButtonColor: "#3085d6",
+        });
+    }
+
     Swal.fire({
         html: '<b>Escolha a coluna e o intervalo de linhas</b><br>' +
             '<p><label for="colIndex"><i class="fa-solid fa-list-ul"></i> Índice da Coluna</label>' +
@@ -1194,7 +1248,6 @@ function copiarParaTodos() {
             var rowRange = document.getElementById('rowRange').value.trim();
             var textToInsert = document.getElementById('textToInsert').value.trim();
 
-            // Validate inputs
             if (isNaN(colIndex) || colIndex < 0 || colIndex >= tabela.rows[0].cells.length) {
                 Swal.showValidationMessage('Índice da coluna inválido.');
                 return false;
@@ -1701,13 +1754,13 @@ document.querySelector('#themeButton').addEventListener('click', function () {
 });
 
 function toggleButtons(clickedBtnId) {
-    document.getElementById('featuresBtn').classList.remove('selected');
-    document.getElementById('baixarBtn').classList.remove('selected');
-    document.getElementById(clickedBtnId).classList.add('selected');
-
     var featuresBtn = document.getElementById('featuresBtn');
     var baixarBtn = document.getElementById('baixarBtn');
     var voltarBtn = document.getElementById('voltarBtn');
+
+    featuresBtn.classList.remove('selected');
+    baixarBtn.classList.remove('selected');
+    document.getElementById(clickedBtnId).classList.add('selected');
 
     featuresBtn.classList.toggle('hide', featuresBtn.classList.contains('selected'));
     baixarBtn.classList.toggle('hide', baixarBtn.classList.contains('selected'));
@@ -1766,176 +1819,8 @@ convertTable.addEventListener('click', e => {
     location.href = './src/swiftleft/sheetFrenzybddSwiftShiftConverter.html';
 })
 
-const btnGherkin = document.getElementById('editor-gherkin');
-btnGherkin.addEventListener('click', e => {
-    location.href = './src/html/sheetFrenzybddEditorGherkin.html';
-})
-
-var recordingButton = document.getElementById('recordingButton');
-var recordedVideo = document.getElementById('recordedVideo');
-
-var mediaRecorder;
-var isRecording = false;
-var recordedBlob;
-
-recordingButton.addEventListener('click', function () {
-    if (!isRecording) {
-        navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
-            .then(function (stream) {
-                mediaRecorder = new MediaStreamRecorder(stream);
-                mediaRecorder.mimeType = 'video/webm';
-
-                mediaRecorder.ondataavailable = function (blob) {
-                    recordedBlob = blob;
-                    recordedVideo.src = URL.createObjectURL(blob);
-                    recordedVideo.play();
-                };
-
-                mediaRecorder.onstop = function () {
-                    isRecording = false;
-                    updateButtonText();
-                };
-
-                mediaRecorder.start();
-                isRecording = true;
-                updateButtonText();
-            })
-            .catch(function (error) {
-                console.error('Error accessing media devices:', error);
-            });
-    } else {
-        mediaRecorder.stop();
-    }
-});
-
 document.getElementById("titulo").addEventListener("click", function () {
     location.reload();
-});
-
-function updateButtonText() {
-    if (isRecording) {
-        recordingButton.innerHTML = '<i class="fa-solid fa-pause"></i>';
-    } else if (recordedBlob) {
-        recordingButton.innerHTML = '<i class="fa-solid fa-download"></i>';
-    } else {
-        recordingButton.innerHTML = '<i class="fa-solid fa-video"></i>';
-    }
-}
-
-recordingButton.addEventListener('click', function () {
-    if (!isRecording && recordedBlob) {
-        var blobUrl = URL.createObjectURL(recordedBlob);
-        var a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = 'gravacao.webm';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        recordedBlob = null;
-        updateButtonText();
-    }
-});
-
-function selecionarTodosRadios() {
-    var radios = document.querySelectorAll('input[type="radio"]');
-    radios.forEach(function (radio) {
-        radio.checked = true;
-    });
-}
-// Função para exportar a tabela para PDF
-function exportarParaPDF() {
-    Swal.fire({
-        title: 'Digite o nome do arquivo',
-        input: 'text',
-        inputPlaceholder: 'nome do arquivo...',
-        showCancelButton: true,
-        confirmButtonText: 'Baixar <i class="fa-solid fa-file-arrow-down"></i>',
-        confirmButtonColor: "#1589FF",
-        cancelButtonText: 'Cancelar',
-        inputValidator: (value) => {
-            if (!value) {
-                return 'Por favor, preencha o nome do arquivo!';
-            }
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const fileName = result.value;
-
-            // Referência ao objeto jsPDF
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            // Obter a tabela
-            var tabela = document.getElementById("tabela");
-
-            // Coletar os dados da tabela
-            var data = [];
-            for (var i = 0; i < tabela.rows.length; i++) {
-                var rowData = [];
-                for (var j = 0; j < tabela.rows[i].cells.length; j++) {
-                    var cellValue = tabela.rows[i].cells[j].querySelector("input")
-                        ? tabela.rows[i].cells[j].querySelector("input").value
-                        : tabela.rows[i].cells[j].textContent;
-                    rowData.push(cellValue);
-                }
-                data.push(rowData);
-            }
-
-            // Adicionar os dados ao PDF
-            doc.autoTable({
-                head: [data[0]],
-                body: data.slice(1),
-            });
-
-            // Salvar o PDF
-            doc.save(`${fileName}.pdf`);
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('contact').addEventListener('click', function () {
-        Swal.fire({
-            title: 'Contato',
-            html: `
-            <div style="text-align: left;">
-            <p><i class="fa-solid fa-phone"></i> Telefone: (11) 95166-8436</p>
-            <p><i class="fa-solid fa-envelope"></i> Email: tellervtechnology@outlook.com</p>
-            </div>`,
-            icon: 'info',
-            confirmButtonText: 'Fechar',
-            confirmButtonColor: "#0d6efd",
-            customClass: {
-                popup: 'animated fadeIn'
-            }
-        });
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    var startInput = null;
-    var isDragging = false;
-
-    document.addEventListener('mousedown', function (event) {
-        if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
-            startInput = event.target;
-            isDragging = true;
-        }
-    });
-
-    document.addEventListener('mousemove', function (event) {
-        if (isDragging && startInput) {
-            var target = event.target;
-            if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
-                target.value = startInput.value;
-            }
-        }
-    });
-
-    document.addEventListener('mouseup', function () {
-        startInput = null;
-        isDragging = false;
-    });
 });
 
 function toggleIcon() {
@@ -1984,10 +1869,6 @@ async function printPDF() {
 
     doc.save('dashboard_' + dataFormatada + '.pdf');
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById("exportarPDFBtn").addEventListener("click", exportarParaPDF);
-});
 
 console.log("\n%cAtenção Espere! %c\n\n\nEste é um recurso de navegador voltado para desenvolvedores. Se alguém disse para você copiar e colar algo aqui para ativar um recurso ou 'invadir' a maquina de outra pessoa, isso é uma fraude e você dará a ele acesso à sua maquina.\n\nConsulte ataques https://en.wikipedia.org/wiki/Self-XSS para obter mais informações.", "color: red; font-size: 46px;", "font-size: 16px;");
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;

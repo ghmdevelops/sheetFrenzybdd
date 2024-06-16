@@ -73,18 +73,18 @@
             Swal.fire({
                 title: '<strong><img src="./src/img/logoPage200.png" alt="Icon" style="width: 100px; margin-bottom: 10px;"><br>Bem-vindo ao SheetFrenzy BDD!</strong>',
                 html: `
-              <div style="text-align: center;">
-                  <p>Bem-vindo ao <strong>SheetFrenzy BDD</strong>! Otimize seu desenvolvimento com cenários BDD automatizados e personalizados.</p>
-                  <ul id="progm-init">
-                      <li><strong>Geração Automática:</strong> Crie cenários BDD com um clique.</li>
-                      <li><strong>Personalização:</strong> Ajuste os cenários conforme suas necessidades.</li>
-                      <li><strong>Integração Contínua:</strong> Integre em pipelines CI/CD para testes automatizados.</li>
-                      <li><strong>Colaboração:</strong> Facilite a colaboração entre equipes.</li>
-                      <li><strong>Redução de Erros:</strong> Minimize erros com requisitos claros.</li>
-                      <li><strong>Aceleração de Testes:</strong> Acelere seu ciclo de testes.</li>
-                  </ul>
-                  <p>Gostaria de fazer um tour pela página?</p>
-              </div>`,
+               <div style="text-align: center;">
+                   <p>Bem-vindo ao <strong>SheetFrenzy BDD</strong>! Otimize seu desenvolvimento com cenários BDD automatizados e personalizados.</p>
+                   <ul id="progm-init">
+                       <li><strong>Geração Automática:</strong> Crie cenários BDD com um clique.</li>
+                       <li><strong>Personalização:</strong> Ajuste os cenários conforme suas necessidades.</li>
+                       <li><strong>Integração Contínua:</strong> Integre em pipelines CI/CD para testes automatizados.</li>
+                       <li><strong>Colaboração:</strong> Facilite a colaboração entre equipes.</li>
+                       <li><strong>Redução de Erros:</strong> Minimize erros com requisitos claros.</li>
+                       <li><strong>Aceleração de Testes:</strong> Acelere seu ciclo de testes.</li>
+                   </ul>
+                   <p>Gostaria de fazer um tour pela página?</p>
+               </div>`,
                 showCancelButton: true,
                 confirmButtonText: 'Sim',
                 confirmButtonColor: "#0d6efd",
@@ -223,6 +223,9 @@
             </label><br>
 
             <div class="btn-group" role="group" aria-label="Opções">
+                <button title="Selecionar todos os radios" style="display: none;" id="selectAllRadios"
+                    class="btn btn-success mt-2"><i class="fa fa-check-circle mr-2"></i>
+                </button>
                 <button title="Gerar Features" id="featuresBtn" class="btn btn-success mt-2"
                     onclick="adicionarColunaFeature(); toggleButtons('featuresBtn');"
                     data-intro="Gere cenários de teste (features) com este botão." data-step="20">
@@ -234,13 +237,9 @@
                 </button>
                 <button title="Voltar para baixar" id="voltarBtn" class="btn btn-success mt-2 hide"
                     onclick="toggleButtons('featuresBtn');">
-                    <i class="fa-solid fa-angle-left"></i>
+                    <i class="fa-solid fa-angles-left"></i>
                 </button>
             </div>
-            <button id="selectAllRadios" class="btn btn-success mt-2" style="display: none;"
-                data-intro="Selecione todos os cenários de teste." data-step="23">Selecionar
-                Todos</button>
-
             <button title="Copiar para outras linhas" class="btn btn-success mt-2" onclick="copiarParaTodos()"
                 data-intro="Copie o conteúdo de uma célula para todas as linhas." data-step="24">
                 <i class="fa-solid fa-copy"></i> Copiar para todos
@@ -324,118 +323,28 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('viewFeaturesBtn').addEventListener('click', function () {
-                var tabela = document.getElementById("tabela");
+            var startInput = null;
+            var isDragging = false;
 
-                if (!tabela || tabela.rows.length === 0) {
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'Por favor, adicione uma tabela antes de visualizar as features.',
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#1589FF',
-                        customClass: {
-                            popup: 'animated fadeIn'
-                        }
-                    });
-                    return;
+            document.addEventListener('mousedown', function (event) {
+                if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
+                    startInput = event.target;
+                    isDragging = true;
                 }
+            });
 
-                var features = [];
-                var colunasIgnoradas = ["aplicação", "história", "tipo de teste", "funcionalidade"];
-                var contextoIndex = null;
-
-                for (var i = 0; i < tabela.rows[0].cells.length; i++) {
-                    var columnName = tabela.rows[0].cells[i].textContent.toLowerCase().trim();
-                    if (columnName === "contexto") {
-                        contextoIndex = i;
-                        break;
+            document.addEventListener('mousemove', function (event) {
+                if (isDragging && startInput) {
+                    var target = event.target;
+                    if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
+                        target.value = startInput.value;
                     }
                 }
+            });
 
-                for (var i = 1; i < tabela.rows.length; i++) {
-                    var row = tabela.rows[i];
-                    var featureContent = "Feature: " + row.cells[1].querySelector("input").value + "\n";
-
-                    if (contextoIndex !== null) {
-                        var contextoValue = row.cells[contextoIndex].querySelector("input").value;
-                        featureContent += "   " + contextoValue + "\n";
-                    }
-
-                    featureContent += "\nScenario: " + row.cells[0].textContent + "\n";
-                    for (var j = 2; j < row.cells.length - 1; j++) {
-                        var input = row.cells[j].querySelector("input");
-                        if (input) {
-                            var cellValue = input.value;
-                            var columnName = tabela.rows[0].cells[j].textContent.toLowerCase().trim();
-                            if (!colunasIgnoradas.includes(columnName) && columnName !== "contexto") {
-                                featureContent += columnName + " " + cellValue + "\n";
-                            }
-                        }
-                    }
-                    features.push(featureContent);
-                }
-
-                var featuresText = features.join('\n\n');
-
-                Swal.fire({
-                    title: 'Features',
-                    html: `
-                <pre style="text-align: left; max-height: 400px; overflow-y: auto;" id="featuresText">${featuresText}</pre>
-                <div>
-                    <label for="languageSelect">Escolha o idioma:</label>
-                    <select id="languageSelect" class="form-select">
-                        <option value="english">English</option>
-                        <option value="portuguese">Portuguese</option>
-                    </select>
-                </div>
-                <button id="downloadFeaturesBtn" class="btn btn-success mt-3">
-                    <i class="fa-solid fa-download"></i> Download Features
-                </button>
-            `,
-                    width: '80%',
-                    confirmButtonText: 'Fechar',
-                    confirmButtonColor: '#1589FF',
-                    customClass: {
-                        popup: 'animated fadeIn'
-                    }
-                });
-
-                function replaceAllCaseInsensitive(text, search, replacement) {
-                    var re = new RegExp(search, 'gi');
-                    return text.replace(re, replacement);
-                }
-
-                document.getElementById('languageSelect').addEventListener('change', function () {
-                    var selectedLanguage = this.value;
-                    var featureTextElement = document.getElementById('featuresText');
-                    var updatedFeaturesText = featureTextElement.textContent;
-
-                    if (selectedLanguage === 'portuguese') {
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Feature:', 'Funcionalidade:');
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Scenario:', 'Cenário:');
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Given ', 'Dado ');
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'When ', 'Quando ');
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Then ', 'Então ');
-                    } else {
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Funcionalidade:', 'Feature:');
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Cenário:', 'Scenario:');
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Dado ', 'Given ');
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Quando ', 'When ');
-                        updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Então ', 'Then ');
-                    }
-
-                    featureTextElement.textContent = updatedFeaturesText;
-                });
-
-                document.getElementById('downloadFeaturesBtn').addEventListener('click', function () {
-                    var blob = new Blob([document.getElementById('featuresText').textContent], { type: 'text/plain;charset=utf-8' });
-                    var link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    const nomeFile = prompt("Digite o nome da feature.");
-                    link.download = nomeFile + '.feature';
-                    link.click();
-                });
+            document.addEventListener('mouseup', function () {
+                startInput = null;
+                isDragging = false;
             });
         });
     </script>
@@ -447,7 +356,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
-    <script src="./src/js/scriptI.js" defer> </script>
+    <script src="./src/js/scriptI.js" defer async> </script>
+    <script src="./src/js/scriptFunc.js" defer async> </script>
 </body>
 
 </html>
