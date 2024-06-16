@@ -11,6 +11,30 @@ body {
     animation: fadeIn 1s;
 }
 
+.autocomplete-dropdown {
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    background-color: white;
+    z-index: 1000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 1.7rem;
+}
+
+.autocomplete-dropdown li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete-dropdown li:hover {
+    background-color: #4dc26c;
+    color: #ffffff;
+    font-weight: 600;
+}
+
 h1 {
     cursor: pointer;
     font-weight: 700;
@@ -45,8 +69,13 @@ body.dark-theme {
 }
 
 body.custom-theme {
-    background-color: #3498db;
+    background-color: #1d6ca1;
     color: #ffffff;
+}
+
+body.custom-theme h1 {
+    background-color: #252d4f;
+    border-radius: 20px;
 }
 
 body.image-theme {
@@ -85,12 +114,20 @@ body::-webkit-scrollbar-thumb:hover {
     background-color: #0056b3;
 }
 
+body.light-theme #rows {
+    border: 2px solid #000000;
+}
+
+body.light-theme tr:hover {
+    background-color: #d3f9d0;
+}
+
 body.light-theme h1 {
     border: 2px solid #0e1848;
     background-color: #252424;
     color: #000000;
-    border-radius: 3rem;
-    width: 33rem;
+    border-radius: 1rem;
+    width: 39rem;
 }
 
 .theme-selector {

@@ -87,7 +87,7 @@
              </div>`,
                 showCancelButton: true,
                 confirmButtonText: 'Sim',
-                confirmButtonColor: "#15c56d",
+                confirmButtonColor: "#0d6efd",
                 cancelButtonText: 'Não'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -249,10 +249,19 @@
                 data-target="#myModal" data-intro="Gere um dashboard com os dados da tabela." data-step="25">
                 <i class="fa-solid fa-chart-simple"></i> Dashboard
             </button>
+            <button title="Visualizar Features" id="viewFeaturesBtn" class="btn btn-success mt-2"
+                data-intro="Visualize como ficaria o Excel em formato Gherkin." data-step="26"
+                aria-label="Visualizar Features">
+                <i class="fa-solid fa-arrows-to-eye"></i>
+            </button>
             <button id="convertTableButton" title="Gerar excel octane" type="button" class="btn btn-success mt-2"
-                data-intro="Converta a tabela para um formato Excel específico." data-step="26">
+                data-intro="Converta a tabela para um formato Excel específico." data-step="27">
                 <i class="fa-solid fa-cube"></i>
             </button>
+        </div>
+        <div id="saveButtonContainer" style="display: none; margin: auto; text-align: center;">
+            <button id="saveButton" class="btn btn-primary" onclick="saveTable()">Salvar no mesmo excel <i
+                    class="fa-solid fa-file-excel"></i></button>
         </div>
 
         <div class="table-responsive text-center py-3">
@@ -260,7 +269,7 @@
                 <input style="display: none;" class="form-control" type="search" id="filtroCT" name="filtroCT"
                     placeholder="filtrar por cenário ex: CT0001">
                 <button style="display: none;" type="button" class="btn btn-success" id="segundoBotao"
-                    onclick="filtrarPorCT()" data-intro="Filtre os cenários da tabela." data-step="28">
+                    onclick="filtrarPorCT()" data-intro="Filtre os cenários da tabela." data-step="29">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
@@ -270,11 +279,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
         <div style="color: #000000;" class="modal fade text-black" id="myModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><img width="40" src="./src/img/logoPage200.png"
-                                alt="cm"> SheetFrenzy <b style="color: #16db6b;">BDD</b> Dashboard</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            <img width="40" src="./src/img/logoPage200.png" alt="cm"> SheetFrenzy
+                            <b style="color: #16db6b;">BDD</b> Dashboard
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -292,26 +303,19 @@
                         <div style="color: #000000;" id="modalBody"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="showBugScenariosBtn"><i
-                                class="fa-solid fa-bug"></i></button>
-                        <button type="button" class="btn btn-primary" onclick="takeScreenshotAndDownload()"><i
-                                class="fa-solid fa-camera-retro"></i></button>
-                        <button type="button" class="btn btn-primary" id="toggleButton"
-                            onclick="toggleIcon(), gerarDashboard()"><i class="fa-solid fa-chart-line"></i></button>
-                        <script>
-                            function toggleIcon() {
-                                var button = document.getElementById('toggleButton');
-                                var icon = button.querySelector('i');
-
-                                if (icon.classList.contains('fa-magnifying-glass-chart')) {
-                                    icon.classList.remove('fa-magnifying-glass-chart');
-                                    icon.classList.add('fa-sync-alt');
-                                } else {
-                                    icon.classList.remove('fa-sync-alt');
-                                    icon.classList.add('fa-sync-alt');
-                                }
-                            }
-                        </script>
+                        <button type="button" class="btn btn-outline-primary" id="showBugScenariosBtn">
+                            <i class="fa-solid fa-bug"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="takeScreenshotAndDownload()">
+                            <i class="fa-solid fa-camera-retro"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" id="toggleButton"
+                            onclick="toggleIcon(), gerarDashboard()">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="printPDF()">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </button>
                     </div>
                 </div>
             </div>

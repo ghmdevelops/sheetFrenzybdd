@@ -35,11 +35,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+let importedFileName = '';
+
 function importExcel() {
     var input = document.getElementById("importExcel");
     var file = input.files[0];
 
     if (file) {
+        importedFileName = file.name;
         var reader = new FileReader();
 
         reader.onload = function (e) {
@@ -49,7 +52,7 @@ function importExcel() {
             var worksheet = workbook.Sheets[sheetName];
             var importedData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-            updateTable(importedData);
+            addDataToExistingTable(importedData);
 
             const Toast = Swal.mixin({
                 toast: true,
@@ -67,11 +70,74 @@ function importExcel() {
                 icon: "success",
                 title: "Arquivo '" + file.name + "' importado!"
             });
+
+            document.getElementById("saveButtonContainer").style.display = "block";
         };
         reader.readAsBinaryString(file);
     } else {
         alert("Por favor, selecione um arquivo Excel para importar.");
     }
+}
+
+function addDataToExistingTable(importedData) {
+    var tabela = document.getElementById("tabela");
+
+    if (!tabela) {
+        updateTable(importedData);
+        return;
+    }
+
+    var startRowIndex = tabela.rows.length;
+
+    for (var i = 0; i < importedData.length; i++) {
+        var rowData = importedData[i];
+        var row = tabela.insertRow(startRowIndex + i);
+
+        for (var j = 0; j < rowData.length; j++) {
+            var cell = row.insertCell(j);
+            var input = document.createElement("input");
+            input.type = "text";
+            input.value = rowData[j];
+            cell.appendChild(input);
+        }
+    }
+}
+
+function saveTable() {
+    var tabela = document.getElementById("tabela");
+
+    var data = [];
+    for (var i = 0; i < tabela.rows.length; i++) {
+        var rowData = [];
+        for (var j = 0; j < tabela.rows[i].cells.length; j++) {
+            var input = tabela.rows[i].cells[j].querySelector("input");
+            rowData.push(input ? input.value : tabela.rows[i].cells[j].innerHTML);
+        }
+        data.push(rowData);
+    }
+
+    var wb = XLSX.utils.book_new();
+    var ws = XLSX.utils.aoa_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, "Tabela");
+
+    XLSX.writeFile(wb, importedFileName);
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: 'Tabela salva com sucesso!'
+    });
 }
 
 function updateTable(importedData) {
@@ -1185,6 +1251,17 @@ function contarOcorrencias(data, palavraChave) {
 
 function gerarDashboard() {
     var tabela = document.getElementById("tabela");
+
+    if (!tabela) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Nenhuma tabela encontrada',
+            text: 'Por favor, adicione uma tabela antes de gerar o dashboard.',
+            confirmButtonColor: "#3085d6",
+        });
+        return;
+    }
+
     var data = [];
     var colunaIndex = 10;
 
@@ -1200,14 +1277,23 @@ function gerarDashboard() {
     var { numeroLinhas, numeroOK, numeroNOK, numeroDesplanejado, numeroProgredindo, numeroBug } = contarNumeros();
     var porcentagemOK = (numeroOK / numeroLinhas) * 100;
 
-    document.getElementById("porcentagemOK").textContent =
-        "Número de Linhas na Tabela: " + numeroLinhas +
-        "\nnº Ok: " + numeroOK +
-        "\nnº Nok: " + numeroNOK +
-        "\nnº Desplanejado: " + numeroDesplanejado +
-        "\nnº Progredindo: " + numeroProgredindo +
-        "\nnº Bug: " + numeroBug +
-        "\nPorcentagem: " + porcentagemOK.toFixed(2) + "%";
+    var dataAtual = new Date();
+    var dia = String(dataAtual.getDate()).padStart(2, '0');
+    var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+    var ano = dataAtual.getFullYear();
+    var horas = String(dataAtual.getHours()).padStart(2, '0');
+    var minutos = String(dataAtual.getMinutes()).padStart(2, '0');
+    var dataFormatada = dia + '/' + mes + '/' + ano + ' ' + horas + ':' + minutos;
+
+    document.getElementById("porcentagemOK").innerHTML =
+        "<h5>Resumo do BDD - " + dataFormatada + "</h5>" +
+        "<p><span class='label'>Número de Linhas BDD:</span> " + numeroLinhas + "</p>" +
+        "<p><span class='label'>Nº Ok:</span> " + numeroOK + "</p>" +
+        "<p><span class='label'>Nº Nok:</span> " + numeroNOK + "</p>" +
+        "<p><span class='label'>Nº Desplanejado:</span> " + numeroDesplanejado + "</p>" +
+        "<p><span class='label'>Nº Progredindo:</span> " + numeroProgredindo + "</p>" +
+        "<p><span class='label'>Nº Bug:</span> " + numeroBug + "</p>" +
+        "<p><span class='label'>Porcentagem:</span> " + porcentagemOK.toFixed(2) + "%</p>";
 
     var progressBar = document.getElementById("progressBar");
     progressBar.style.width = porcentagemOK + "%";
@@ -1264,7 +1350,7 @@ function mostrarCenariosBug() {
     } else {
         cenariosBug.forEach(function (cenario) {
             var cenarioElement = document.createElement("p");
-            cenarioElement.textContent = cenario.nome + ": " + cenario.dados.join(", ");
+            cenarioElement.textContent = cenario.nome + " " + cenario.dados.join(" ");
             modalBody.appendChild(cenarioElement);
         });
 
@@ -1349,27 +1435,99 @@ function criarDashboard(data) {
                     quantidadeBug
                 ],
                 backgroundColor: [
-                    "rgba(75, 192, 192, 0.2)",
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(255, 205, 86, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(146, 110, 244, 0.8)"
+                    "rgba(75, 192, 192, 0.6)",
+                    "rgba(255, 99, 132, 0.6)",
+                    "rgba(255, 205, 86, 0.6)",
+                    "rgba(54, 162, 235, 0.6)",
+                    "rgba(146, 110, 244, 0.6)"
                 ],
                 borderColor: [
                     "rgba(75, 192, 192, 1)",
                     "rgba(255, 99, 132, 1)",
                     "rgba(255, 205, 86, 1)",
                     "rgba(54, 162, 235, 1)",
-                    "rgba(146, 110, 244, 0.8)"
+                    "rgba(146, 110, 244, 1)"
                 ],
                 borderWidth: 1
             }]
         },
         options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Status',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    color: '#333'
+                },
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 14
+                        },
+                        color: '#333'
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.dataset.label}: ${context.raw}`;
+                        },
+                        title: function (context) {
+                            return `Status: ${context[0].label}`;
+                        }
+                    },
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleFont: {
+                        size: 16
+                    },
+                    bodyFont: {
+                        size: 14
+                    },
+                    padding: 10
+                }
+            },
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#333',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.3)'
+                    },
+                    title: {
+                        display: true,
+                        text: 'porcentagem',
+                        color: '#333',
+                        font: {
+                            size: 18
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#333',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.3)'
+                    }
                 }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeOutBounce'
             }
         }
     });
@@ -1719,10 +1877,199 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>`,
             icon: 'info',
             confirmButtonText: 'Fechar',
-            confirmButtonColor: "#15c56d",
+            confirmButtonColor: "#0d6efd",
             customClass: {
                 popup: 'animated fadeIn'
             }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    var startInput = null;
+    var isDragging = false;
+
+    document.addEventListener('mousedown', function (event) {
+        if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
+            startInput = event.target;
+            isDragging = true;
+        }
+    });
+
+    document.addEventListener('mousemove', function (event) {
+        if (isDragging && startInput) {
+            var target = event.target;
+            if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
+                target.value = startInput.value;
+            }
+        }
+    });
+
+    document.addEventListener('mouseup', function () {
+        startInput = null;
+        isDragging = false;
+    });
+});
+
+function toggleIcon() {
+    var button = document.getElementById('toggleButton');
+    var icon = button.querySelector('i');
+
+    if (icon.classList.contains('fa-magnifying-glass-chart')) {
+        icon.classList.remove('fa-magnifying-glass-chart');
+        icon.classList.add('fa-sync-alt');
+    } else {
+        icon.classList.remove('fa-sync-alt');
+        icon.classList.add('fa-sync-alt');
+    }
+}
+
+async function printPDF() {
+    const { jsPDF } = window.jspdf;
+    const content = document.querySelector(".modal-content");
+    const canvas = await html2canvas(content);
+    const imgData = canvas.toDataURL('image/png');
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const imgWidth = 210;
+    const pageHeight = 295;
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+    let heightLeft = imgHeight;
+
+    let position = 0;
+
+    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+    }
+
+    var dataAtual = new Date();
+    var dia = String(dataAtual.getDate()).padStart(2, '0');
+    var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+    var ano = dataAtual.getFullYear();
+    var horas = String(dataAtual.getHours()).padStart(2, '0');
+    var minutos = String(dataAtual.getMinutes()).padStart(2, '0');
+    var dataFormatada = dia + '/' + mes + '/' + ano + ' ' + horas + ':' + minutos;
+
+    doc.save('dashboard_' + dataFormatada + '.pdf');
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('viewFeaturesBtn').addEventListener('click', function () {
+        var tabela = document.getElementById("tabela");
+
+        if (!tabela || tabela.rows.length === 0) {
+            Swal.fire({
+                title: 'Erro',
+                text: 'Por favor, adicione uma tabela antes de visualizar as features.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#1589FF',
+                customClass: {
+                    popup: 'animated fadeIn'
+                }
+            });
+            return;
+        }
+
+        var features = [];
+        var colunasIgnoradas = ["aplicação", "história", "tipo de teste", "funcionalidade"];
+        var contextoIndex = null;
+
+        for (var i = 0; i < tabela.rows[0].cells.length; i++) {
+            var columnName = tabela.rows[0].cells[i].textContent.toLowerCase().trim();
+            if (columnName === "contexto") {
+                contextoIndex = i;
+                break;
+            }
+        }
+
+        for (var i = 1; i < tabela.rows.length; i++) {
+            var row = tabela.rows[i];
+            var featureContent = "Feature: " + row.cells[1].querySelector("input").value + "\n";
+
+            if (contextoIndex !== null) {
+                var contextoValue = row.cells[contextoIndex].querySelector("input").value;
+                featureContent += "   " + contextoValue + "\n";
+            }
+
+            featureContent += "\nScenario: " + row.cells[0].textContent + "\n";
+            for (var j = 2; j < row.cells.length - 1; j++) {
+                var input = row.cells[j].querySelector("input");
+                if (input) {
+                    var cellValue = input.value;
+                    var columnName = tabela.rows[0].cells[j].textContent.toLowerCase().trim();
+                    if (!colunasIgnoradas.includes(columnName) && columnName !== "contexto") {
+                        featureContent += columnName + " " + cellValue + "\n";
+                    }
+                }
+            }
+            features.push(featureContent);
+        }
+
+        var featuresText = features.join('\n\n');
+
+        Swal.fire({
+            title: 'Features',
+            html: `
+                <pre style="text-align: left; max-height: 400px; overflow-y: auto;" id="featuresText">${featuresText}</pre>
+                <div>
+                    <label for="languageSelect">Escolha o idioma:</label>
+                    <select id="languageSelect" class="form-select">
+                        <option value="english">English</option>
+                        <option value="portuguese">Portuguese</option>
+                    </select>
+                </div>
+                <button id="downloadFeaturesBtn" class="btn btn-success mt-3">
+                    <i class="fa-solid fa-download"></i> Download Features
+                </button>
+            `,
+            width: '80%',
+            confirmButtonText: 'Fechar',
+            confirmButtonColor: '#1589FF',
+            customClass: {
+                popup: 'animated fadeIn'
+            }
+        });
+
+        function replaceAllCaseInsensitive(text, search, replacement) {
+            var re = new RegExp(search, 'gi');
+            return text.replace(re, replacement);
+        }
+
+        document.getElementById('languageSelect').addEventListener('change', function () {
+            var selectedLanguage = this.value;
+            var featureTextElement = document.getElementById('featuresText');
+            var updatedFeaturesText = featureTextElement.textContent;
+
+            if (selectedLanguage === 'portuguese') {
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Feature:', 'Funcionalidade:');
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Scenario:', 'Cenário:');
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Given ', 'Dado ');
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'When ', 'Quando ');
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Then ', 'Então ');
+            } else {
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Funcionalidade:', 'Feature:');
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Cenário:', 'Scenario:');
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Dado ', 'Given ');
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Quando ', 'When ');
+                updatedFeaturesText = replaceAllCaseInsensitive(updatedFeaturesText, 'Então ', 'Then ');
+            }
+
+            featureTextElement.textContent = updatedFeaturesText;
+        });
+
+        document.getElementById('downloadFeaturesBtn').addEventListener('click', function () {
+            var blob = new Blob([document.getElementById('featuresText').textContent], { type: 'text/plain;charset=utf-8' });
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            const nomeFile = prompt("Digite o nome da feature.");
+            link.download = nomeFile + '.feature';
+            link.click();
         });
     });
 });
