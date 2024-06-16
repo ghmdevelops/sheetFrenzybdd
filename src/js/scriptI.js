@@ -170,7 +170,7 @@ function updateTable(importedData) {
     document.body.appendChild(newTable);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function ativarReconhecimentoDeVoz() {
     var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
 
     recognition.onresult = function (event) {
@@ -197,7 +197,18 @@ document.addEventListener('DOMContentLoaded', function () {
             recognition.start();
         }
     });
-});
+}
+
+function getNextInput(currentInput) {
+    var inputs = document.querySelectorAll('input[type="text"]');
+    var currentIndex = Array.from(inputs).indexOf(currentInput);
+
+    if (currentIndex < inputs.length - 1) {
+        return inputs[currentIndex + 1];
+    } else {
+        return null;
+    }
+}
 
 function getNextInput(currentInput) {
     var inputs = document.querySelectorAll('input[type="text"]');
@@ -211,8 +222,7 @@ function getNextInput(currentInput) {
 }
 
 var linhasSublinhadas = [];
-function criarTabela() {
-    mostrarInformacoes();
+async function criarTabela() {
 
     var tabelaExistente = document.getElementById("tabela");
     if (tabelaExistente) {
@@ -305,6 +315,23 @@ function criarTabela() {
         row.cells[10].querySelector("input").value = "nok";
     }
     document.body.appendChild(tabela);
+
+    const { value: activateSpeechRecognition } = await Swal.fire({
+        title: 'Deseja ativar o reconhecimento de voz?',
+        text: "Você poderá preencher os campos usando sua voz.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+    });
+
+    if (activateSpeechRecognition) {
+        ativarReconhecimentoDeVoz();
+    }
+
+    mostrarInformacoes();
 }
 
 function mostrarInformacoes() {
@@ -312,10 +339,10 @@ function mostrarInformacoes() {
         title: 'Informações Importantes',
         html: `
            <ul class="const-import">
-                <li><strong>1. Foco em cenário:</strong> Identifique claramente o cenário específico a ser testado. O cenário deve ser descrito em termos de comportamento observável e deve ser compreensível para todos os stakeholders.</li>
-                <li><strong>2. Escreva a especificação para o cenário:</strong> Defina o comportamento esperado do sistema usando a linguagem Gherkin. A especificação deve incluir as seções "Dado", "Quando" e "Então" para descrever o contexto, a ação e o resultado esperado.</li>
-                <li><strong>3. Escreva a especificação das unidades:</strong> Quebre o cenário em unidades menores de teste. Cada unidade deve testar um aspecto específico do comportamento e ser pequena o suficiente para ser implementada rapidamente.</li>
-                <li><strong>4. Faça a especificação da unidade passar:</strong> Implemente o código necessário para fazer com que cada unidade de teste passe. Refatore o código conforme necessário para manter a clareza e a manutenibilidade.</li>
+                <li><strong>1. Foco no cenário:</strong> Identifique e descreva claramente o cenário específico a ser testado.</li>
+                <li><strong>2. Especificação do cenário:</strong> Use a linguagem Gherkin para definir o comportamento esperado com "Dado", "Quando" e "Então".</li>
+                <li><strong>3. Especificação das unidades:</strong> Quebre o cenário em unidades menores e específicas de teste.</li>
+                <li><strong>4. Fazer o teste passar:</strong> Implemente o código necessário para passar nos testes e refatore conforme necessário.</li>
             </ul>
         `,
         icon: 'info',

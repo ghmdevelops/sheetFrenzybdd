@@ -62,17 +62,17 @@
 <body>
     <script>
         window.onbeforeunload = function () {
-             return "e possível que as alterações feitas não sejam salvas.";
-         };
- 
-         document.addEventListener('contextmenu', function (event) {
-             event.preventDefault();
-         });
- 
-         document.addEventListener('DOMContentLoaded', function () {
-             Swal.fire({
-                 title: '<strong><img src="./src/img/logoPage200.png" alt="Icon" style="width: 100px; margin-bottom: 10px;"><br>Bem-vindo ao SheetFrenzy BDD!</strong>',
-                 html: `
+            return "e possível que as alterações feitas não sejam salvas.";
+        };
+
+        document.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                title: '<strong><img src="./src/img/logoPage200.png" alt="Icon" style="width: 100px; margin-bottom: 10px;"><br>Bem-vindo ao SheetFrenzy BDD!</strong>',
+                html: `
               <div style="text-align: center;">
                   <p>Bem-vindo ao <strong>SheetFrenzy BDD</strong>! Otimize seu desenvolvimento com cenários BDD automatizados e personalizados.</p>
                   <ul id="progm-init">
@@ -85,20 +85,20 @@
                   </ul>
                   <p>Gostaria de fazer um tour pela página?</p>
               </div>`,
-                 showCancelButton: true,
-                 confirmButtonText: 'Sim',
-                 confirmButtonColor: "#0d6efd",
-                 cancelButtonText: 'Não'
-             }).then((result) => {
-                 if (result.isConfirmed) {
-                     iniciarTour();
-                 }
-             });
-         });
- 
-         function iniciarTour() {
-             introJs().start();
-         }
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                confirmButtonColor: "#0d6efd",
+                cancelButtonText: 'Não'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    iniciarTour();
+                }
+            });
+        });
+
+        function iniciarTour() {
+            introJs().start();
+        }
     </script>
 
     <div class="container mt-1">
