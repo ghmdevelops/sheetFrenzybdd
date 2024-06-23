@@ -61,7 +61,7 @@
 
 <body>
     <script>
-        window.onbeforeunload = function () {
+        /*window.onbeforeunload = function () {
             return "e possível que as alterações feitas não sejam salvas.";
         };
 
@@ -71,20 +71,20 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             Swal.fire({
-                title: '<strong><img src="./src/img/logoPage200.png" alt="Icon" style="width: 100px; margin-bottom: 10px;"><br>Bem-vindo ao SheetFrenzy BDD!</strong>',
+                title: '<strong><img src="./src/img/logoPage200.png" alt="Icon" style="width: 100px; margin-bottom: 10px;"><br>Bem-vindo ao SheetFrenzy <b style="color: #12ca1e;">BDD</b></strong>',
                 html: `
-               <div style="text-align: center;">
-                   <p>Bem-vindo ao <strong>SheetFrenzy BDD</strong>! Otimize seu desenvolvimento com cenários BDD automatizados e personalizados.</p>
-                   <ul id="progm-init">
-                       <li><strong>Geração Automática:</strong> Crie cenários BDD com um clique.</li>
-                       <li><strong>Personalização:</strong> Ajuste os cenários conforme suas necessidades.</li>
-                       <li><strong>Integração Contínua:</strong> Integre em pipelines CI/CD para testes automatizados.</li>
-                       <li><strong>Colaboração:</strong> Facilite a colaboração entre equipes.</li>
-                       <li><strong>Redução de Erros:</strong> Minimize erros com requisitos claros.</li>
-                       <li><strong>Aceleração de Testes:</strong> Acelere seu ciclo de testes.</li>
-                   </ul>
-                   <p>Gostaria de fazer um tour pela página?</p>
-               </div>`,
+                <div style="text-align: center;">
+                    <p>Bem-vindo ao <strong>SheetFrenzy BDD</strong>! Otimize seu desenvolvimento com cenários BDD automatizados e personalizados.</p>
+                    <ul id="progm-init">
+                        <li><strong>Geração Automática:</strong> Crie cenários BDD com um clique.</li>
+                        <li><strong>Personalização:</strong> Ajuste os cenários conforme suas necessidades.</li>
+                        <li><strong>Integração Contínua:</strong> Integre em pipelines CI/CD para testes automatizados.</li>
+                        <li><strong>Colaboração:</strong> Facilite a colaboração entre equipes.</li>
+                        <li><strong>Redução de Erros:</strong> Minimize erros com requisitos claros.</li>
+                        <li><strong>Aceleração de Testes:</strong> Acelere seu ciclo de testes.</li>
+                    </ul>
+                    <p>Gostaria de fazer um tour pela página?</p>
+                </div>`,
                 showCancelButton: true,
                 confirmButtonText: 'Sim',
                 confirmButtonColor: "#0d6efd",
@@ -98,7 +98,7 @@
 
         function iniciarTour() {
             introJs().start();
-        }
+        }*/
     </script>
 
     <div class="container mt-1">
@@ -122,23 +122,16 @@
                 <button title="Documentação" id="doc-book" type="button" class="btn btn-success mt-3"
                     data-intro="Acesse a documentação clicando neste botão." data-step="4"><i
                         class="fa-solid fa-book"></i></button>
-                <button title="Conceitos" id="doc-quest" type="button" class="btn btn-success mt-3"
-                    data-intro="Veja os conceitos básicos clicando aqui." data-step="5"><i
-                        class="fa-solid fa-question"></i></button>
+                <button id="convertTableButton" title="Gerar excel octane" type="button" class="btn btn-success mt-3"
+                    data-intro="Converta a tabela para um formato Excel específico." data-step="5">
+                    <i class="fa-solid fa-cube"></i>
+                </button>
                 <button title="Editor Gherkin" id="editor-gherkin" type="button" class="btn btn-success mt-3"
                     data-intro="Abra o editor Gherkin clicando neste botão." data-step="6"><i
                         class="fa-solid fa-file-pen"></i></button>
                 <button title="Gravar uma página" id="recordingButton" type="button" class="btn btn-success mt-3"
                     data-intro="Clique aqui para iniciar uma gravação." data-step="7"><i
                         class="fa-solid fa-video"></i></button>
-                <select class="form-control theme-selector mt-3" id="themeSelector">
-                    <option value="light">Tema claro</option>
-                    <option value="dark">Tema escuro</option>
-                    <option value="custom">Tema azul oceano</option>
-                    <option value="newColor">Tema azul escuro</option>
-                    <option value="image">Tema noite</option>
-                    <option value="anotherImage">Tema dia</option>
-                </select>
                 <button title="Exportar para PDF" id="exportarPDFBtn" class="btn btn-success mt-3"
                     data-intro="Exporte a tabela para PDF usando este botão." data-step="9"><i
                         class="fa-solid fa-file-pdf"></i></button>
@@ -256,10 +249,6 @@
                 aria-label="Visualizar Features">
                 <i class="fa-solid fa-arrows-to-eye"></i>
             </button>
-            <!--<button id="convertTableButton" title="Gerar excel octane" type="button" class="btn btn-success mt-2"
-                data-intro="Converta a tabela para um formato Excel específico." data-step="27">
-                <i class="fa-solid fa-cube"></i>
-            </button>-->
         </div>
         <div id="saveButtonContainer" style="display: none; margin: auto; text-align: center;">
             <button id="saveButton" class="btn btn-primary" onclick="saveTable()">Salvar no mesmo excel <i
@@ -276,6 +265,47 @@
                 </button>
             </div>
         </div>
+
+        <button class="btn btn-primary" id="scrollToTopBtn"><i class="fa fa-arrow-up"></i></button>
+        <script>
+            var scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            if (scrollToTopBtn) {
+                scrollToTopBtn.addEventListener('click', function () {
+                    scrollToTop();
+                });
+            }
+
+            function scrollToTop() {
+                var scrollDuration = 2000;
+                var startTime = null;
+
+                function animation(currentTime) {
+                    if (startTime === null) startTime = currentTime;
+                    var timeElapsed = currentTime - startTime;
+                    var scrollY = window.scrollY;
+                    var scrollStep = scrollY * (timeElapsed / scrollDuration);
+
+                    window.scrollTo(0, scrollY - scrollStep);
+
+                    if (timeElapsed < scrollDuration && scrollY > 0) {
+                        requestAnimationFrame(animation);
+                    } else {
+                        window.scrollTo(0, 0);
+                    }
+                }
+
+                requestAnimationFrame(animation);
+            }
+        </script>
 
         <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -326,21 +356,27 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var startInput = null;
-            var isDragging = false;
+            let startInput = null;
+            let isDragging = false;
+            let startY = 0;
 
             document.addEventListener('mousedown', function (event) {
                 if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
                     startInput = event.target;
                     isDragging = true;
+                    startY = event.clientY;
                 }
             });
 
             document.addEventListener('mousemove', function (event) {
                 if (isDragging && startInput) {
-                    var target = event.target;
+                    const target = event.target;
                     if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
-                        target.value = startInput.value;
+                        if (event.clientY < startY) {
+                            target.value = '';
+                        } else {
+                            target.value = startInput.value;
+                        }
                     }
                 }
             });
@@ -352,7 +388,11 @@
         });
     </script>
 
-    <button class="btn btn-primary" id="scrollToTopBtn"><i class="fa-solid fa-up-long"></i></button>
+    <script>
+        document.getElementById('convertTableButton').addEventListener('click', e => {
+            location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/swiftleft/sheetFrenzybddSwiftShiftConverter.html';
+        });
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

@@ -1,7 +1,7 @@
 document.getElementById('converterForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    let fields = ['name1', 'name2', 'name3', 'name4', 'name5', 'name6', 'name7', 'name8'];
+    let fields = ['name1', 'name5', 'name6', 'name7', 'name8'];
     let emptyFields = fields.filter(field => document.getElementById(field).value.trim() === '');
 
     if (emptyFields.length > 0) {
@@ -13,7 +13,7 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
             confirmButtonText: "OK",
         });
         return;
-    };
+    }
 
     let fileInput = document.getElementById('excelFile');
     if (!fileInput.files.length) {
@@ -86,10 +86,14 @@ function processExcelData(rows, fileName) {
             rows.slice(1).forEach((row, index) => {
                 let name = row[1]; // Pegando o dado da coluna 1
                 let description = row[2]; // Pegando o dado da coluna 2
+                let aplicacao = row[7]; // Pegando o dado da coluna 3 para aplicação
+                let tipoTeste = row[9]; // Pegando o dado da coluna 4 para tipo de teste
+
                 manualSheetData.push([
-                    uniqueId, "test_manual", name, "", "", "Acceptance", document.getElementById('name2').value,
-                    document.getElementById('name3').value, document.getElementById('name4').value, document.getElementById('name5').value,
-                    document.getElementById('name6').value, description, "10 minutos", document.getElementById('name6').value, "Ready"
+                    uniqueId, "test_manual", name, "", "", tipoTeste, document.getElementById('name2').value, aplicacao,
+                    document.getElementById('name4').value, document.getElementById('name5').value,
+                    document.getElementById('name6').value, description, "15",
+                    document.getElementById('name6').value, "Ready"
                 ]);
 
                 let dado = row[4];
@@ -160,4 +164,3 @@ document.getElementById('logoInit').addEventListener('click', function () {
 });
 
 console.log("\n%cAtenção Espere! %c\n\n\nEste é um recurso de navegador voltado para desenvolvedores. Se alguém disse para você copiar e colar algo aqui para ativar um recurso ou 'invadir' a maquina de outra pessoa, isso é uma fraude e você dará a ele acesso à sua maquina.\n\nConsulte ataques https://en.wikipedia.org/wiki/Self-XSS para obter mais informações.", "color: red; font-size: 46px;", "font-size: 16px;");
-const csrfToken = document.querySelector('meta[name="csrf-token"]').content;

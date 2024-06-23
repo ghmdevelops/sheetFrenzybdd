@@ -14,7 +14,7 @@ body {
 
 h1 {
     text-align: center;
-    color: #007bff;
+    color: #000000;
     margin-bottom: 20px;
 }
 
@@ -34,6 +34,10 @@ textarea {
 .dark-theme {
     background-color: #121212;
     color: #e0e0e0;
+}
+
+.dark-theme h1 {
+    color: #ffffff;
 }
 
 .dark-theme .container-custom {

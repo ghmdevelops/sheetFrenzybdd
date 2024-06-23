@@ -20,7 +20,7 @@
     <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
     <meta property="og:description"
         content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
-    <meta property="og:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage200.png">
+    <meta property="og:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/sheetfre200.png">
     <meta property="og:url" content="https://ghmdevelops.github.io/sheetFrenzybdd/index.html">
     <meta property="og:type" content="website">
 
@@ -28,7 +28,7 @@
     <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
     <meta name="twitter:description"
         content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
-    <meta name="twitter:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage200.png">
+    <meta name="twitter:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/sheetfre200.png">
 
     <link rel="canonical" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
 
@@ -59,13 +59,15 @@
 <body>
     <div class="container">
         <div class="title">
-            <img id="logoInit" width="60" src="../img/logoPage.png" alt="swiftl"> Swift Shift Converter
+            <img id="logoInit" width="60" src="../img/logoPage200.png" alt="swiftl"> Swift Shift <b
+                style="color: #16db6b;">Converter</b>
         </div>
-        <form id="converterForm">
+        <form id="converterForm" class="mt-4">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="name1"><i class="fas fa-vial"></i> Nome do teste:</label>
-                    <input type="text" class="form-control" id="name1" name="name1">
+                    <label for="name1"><i class="fas fa-vial"></i> Título:</label>
+                    <input type="text" class="form-control" id="name1" name="name1"
+                        placeholder="digite o título do teste">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="name2"><i class="fas fa-filter"></i> Tipo de teste:</label>
@@ -77,32 +79,29 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="name3"><i class="fas fa-laptop-code"></i> Aplicação:</label>
-                    <input type="text" class="form-control" id="name3" name="name3">
-                </div>
-                <div class="form-group col-md-6">
                     <label for="name4"><i class="fas fa-server"></i> Serviço:</label>
-                    <input type="text" class="form-control" id="name4" name="name4" value="bd-transform-test-90-batch">
+                    <input type="text" class="form-control" id="name4" name="name4" value="SHARED">
                 </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name5"><i class="fas fa-id-badge"></i> ID Octane:</label>
-                    <input type="text" class="form-control" id="name5" name="name5">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="name6"><i class="fas fa-key"></i> Sigla:</label>
-                    <input type="text" class="form-control" id="name6" name="name6">
+                    <input type="text" class="form-control" id="name5" name="name5" placeholder="099302">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="name7"><i class="fas fa-file-alt"></i> Descrição:</label>
-                    <input type="text" class="form-control" id="name7" name="name7">
+                    <label for="name6"><i class="fas fa-key"></i> Sigla:</label>
+                    <input type="text" class="form-control" id="name6" name="name6" placeholder="digite sua sigla">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="name8"><i class="fas fa-tasks"></i> Jira Sprint:</label>
-                    <input type="text" class="form-control" id="name8" name="name8">
+                    <input type="text" class="form-control" id="name8" name="name8" placeholder="Q1S4">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="name7"><i class="fas fa-file-alt"></i> Descrição:</label>
+                    <textarea type="text" class="form-control" id="name7" name="name7"
+                        placeholder="digite a descrição do teste"></textarea>
                 </div>
             </div>
             <div class="form-group" id="excel-file">

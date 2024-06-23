@@ -223,7 +223,6 @@ function getNextInput(currentInput) {
 
 var linhasSublinhadas = [];
 async function criarTabela() {
-
     var tabelaExistente = document.getElementById("tabela");
     if (tabelaExistente) {
         tabelaExistente.remove();
@@ -278,6 +277,51 @@ async function criarTabela() {
 
     document.body.appendChild(btnSublinhar);
 
+    var btnMudarEstilo = document.createElement("button");
+    btnMudarEstilo.id = "mudarEstiloBtn";
+    btnMudarEstilo.classList.add("btn", "btn-primary");
+    btnMudarEstilo.textContent = "Mudar Estilo";
+    btnMudarEstilo.addEventListener('click', function () {
+        Swal.fire({
+            title: 'Selecione a cor de fundo, a cor da fonte e a fonte:',
+            html: `
+                <label>Cor de fundo:</label>
+                <input type="color" id="bgColorInput" value="#ffffff" style="margin-bottom: 10px;"><br>
+                <label>Cor da fonte:</label>
+                <input type="color" id="fontColorInput" value="#000000" style="margin-bottom: 10px;"><br>
+                <label>Fonte:</label>
+                <select id="fontInput">
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                </select>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Aplicar',
+            confirmButtonColor: "#1589FF",
+            cancelButtonText: 'Cancelar',
+            preConfirm: () => {
+                const bgColor = document.getElementById('bgColorInput').value;
+                const fontColor = document.getElementById('fontColorInput').value;
+                const font = document.getElementById('fontInput').value;
+                return { bgColor, fontColor, font };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const { bgColor, fontColor, font } = result.value;
+                document.querySelectorAll("#tabela input").forEach(input => {
+                    input.style.backgroundColor = bgColor;
+                    input.style.color = fontColor;
+                    input.style.fontFamily = font;
+                });
+            }
+        });
+    });
+
+    document.body.appendChild(btnMudarEstilo);
+
     var rows = document.getElementById("rows").value;
     var cols = document.getElementById("cols").value - 1; // Reduzir o número de colunas em 1
     var tabela = document.createElement("table");
@@ -292,6 +336,10 @@ async function criarTabela() {
         th.setAttribute("onclick", "ordenarColuna(" + j + ")");
         th.setAttribute("oncontextmenu", "excluirColuna(event, " + j + "); return false;");
         th.setAttribute("ondblclick", "inserirColuna(" + j + ")");
+
+        if (titulos[j] === "Aplicação" || titulos[j] === "Tipo de teste") {
+            th.classList.add('clickable-column');
+        }
     }
 
     for (var i = 0; i < rows; i++) {
@@ -308,6 +356,18 @@ async function criarTabela() {
 
             if (titulos[j] === "Dado") {
                 input.value = "";
+            }
+
+            if (titulos[j] === "Aplicação") {
+                input.classList.add('clickable-input');
+                input.addEventListener('click', function () {
+                    openSwalForColumnAplicacao(this);
+                });
+            } else if (titulos[j] === "Tipo de teste") {
+                input.classList.add('clickable-input');
+                input.addEventListener('click', function () {
+                    openSwalForColumnTipoTeste(this);
+                });
             }
 
             cell.appendChild(input);
@@ -332,6 +392,83 @@ async function criarTabela() {
     }
 
     mostrarInformacoes();
+}
+
+function atualizarEstiloLinhasSublinhadas() {
+    var tabela = document.getElementById("tabela");
+    for (var i = 1; i < tabela.rows.length; i++) {
+        if (linhasSublinhadas.includes(i)) {
+            tabela.rows[i].style.textDecoration = "underline";
+        } else {
+            tabela.rows[i].style.textDecoration = "none";
+        }
+    }
+}
+
+function openSwalForColumnAplicacao(inputElement) {
+    Swal.fire({
+        title: 'Escolha um valor para Aplicação',
+        html: `
+            <div>
+                <input type="radio" name="aplicacao" value="Web"> Web<br>
+                <input type="radio" name="aplicacao" value="Serviço"> Serviço<br>
+                <input type="radio" name="aplicacao" value="Desktop"> Desktop<br>
+                <input type="radio" name="aplicacao" value="Infra"> Infra<br>
+                <input type="radio" name="aplicacao" value="Mainframe"> Mainframe<br>
+                <input type="radio" name="aplicacao" value="Mobile"> Mobile<br>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+            const selectedOption = document.querySelector('input[name="aplicacao"]:checked');
+            if (selectedOption) {
+                return selectedOption.value;
+            } else {
+                Swal.showValidationMessage('Você precisa escolher um valor!');
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            inputElement.value = result.value;
+        }
+    });
+}
+
+function openSwalForColumnTipoTeste(inputElement) {
+    Swal.fire({
+        title: 'Escolha um valor para Tipo de Teste',
+        html: `
+            <div>
+                <input type="radio" name="tipoteste" value="Acceptance"> Acceptance<br>
+                <input type="radio" name="tipoteste" value="End to End"> End to End<br>
+                <input type="radio" name="tipoteste" value="Regression"> Regression<br>
+                <input type="radio" name="tipoteste" value="Sanity"> Sanity<br>
+                <input type="radio" name="tipoteste" value="Security"> Security<br>
+                <input type="radio" name="tipoteste" value="Performance"> Performance<br>
+                <input type="radio" name="tipoteste" value="UI"> UI<br>
+                <input type="radio" name="tipoteste" value="API"> API<br>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+            const selectedOption = document.querySelector('input[name="tipoteste"]:checked');
+            if (selectedOption) {
+                return selectedOption.value;
+            } else {
+                Swal.showValidationMessage('Você precisa escolher um valor!');
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            inputElement.value = result.value;
+        }
+    });
 }
 
 function mostrarInformacoes() {
@@ -386,10 +523,11 @@ function adicionarLinha() {
         var cellCT = newRow.insertCell(0);
         cellCT.textContent = ctValue;
 
+        var titulos = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Status"];
+
         for (var j = 1; j < tabela.rows[0].cells.length; j++) {
             var cell = newRow.insertCell(j);
 
-            // Verifica se a coluna é "Feature"
             if (tabela.rows[0].cells[j].textContent.trim().toLowerCase() === "feature") {
                 var radioInput = document.createElement("input");
                 radioInput.type = "radio";
@@ -400,17 +538,26 @@ function adicionarLinha() {
                 input.type = "text";
                 input.value = "";
 
-                if (j === 4) {
+                if (titulos[j] === "Dado") {
                     input.value = "";
                 }
 
-                if (j === 10) {
-                    input.value = "nok";
+                if (titulos[j] === "Aplicação") {
+                    input.classList.add('clickable-input');
+                    input.addEventListener('click', function () {
+                        openSwalForColumnAplicacao(this);
+                    });
+                } else if (titulos[j] === "Tipo de teste") {
+                    input.classList.add('clickable-input');
+                    input.addEventListener('click', function () {
+                        openSwalForColumnTipoTeste(this);
+                    });
                 }
 
                 cell.appendChild(input);
             }
         }
+        newRow.cells[10].querySelector("input").value = "nok";
     }
 }
 
@@ -1615,48 +1762,85 @@ function criarDashboard(data) {
 
 document.addEventListener('DOMContentLoaded', function () {
     const themeButton = document.getElementById('themeButton');
-    const themeSelector = document.getElementById('themeSelector');
     const body = document.body;
+    const maxRetries = 3; // número máximo de tentativas de carregamento
+
+    function setBackgroundImage(url, retries = 0) {
+        const img = new Image();
+        img.src = url;
+
+        img.onload = function () {
+            body.style.backgroundImage = `url('${url}')`;
+            console.log('Imagem carregada com sucesso:', url);
+        };
+
+        img.onerror = function () {
+            if (retries < maxRetries) {
+                console.log(`Erro ao carregar imagem. Tentativa ${retries + 1} de ${maxRetries}. Retentando...`);
+                setBackgroundImage(url, retries + 1);
+            } else {
+                console.error('Falha ao carregar a imagem após várias tentativas:', url);
+            }
+        };
+    }
 
     function setDarkThemeWithImage() {
         body.classList.add('dark-theme', 'image-theme');
-        body.style.backgroundImage = "url('./src/img/uuui.jpg')";
-        themeSelector.value = 'image';
+        setBackgroundImage('https://ghmdevelops.github.io/sheetFrenzybdd/src/img/uuui.jpg');
     }
 
     setDarkThemeWithImage();
 
     themeButton.addEventListener('click', function () {
-        themeSelector.style.display = (themeSelector.style.display === 'none' || themeSelector.style.display === '')
-            ? 'block'
-            : 'none';
+        Swal.fire({
+            title: 'Escolha um tema',
+            input: 'radio',
+            inputOptions: {
+                light: 'Claro',
+                dark: 'Escuro',
+                custom: 'Azul Oceano',
+                newColor: 'Azul Escuro',
+                image: 'Noite',
+                anotherImage: 'Dia'
+            },
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Você precisa escolher um tema!';
+                }
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Aplicar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                body.classList.remove('light-theme', 'dark-theme', 'custom-theme', 'image-theme', 'new-color-theme');
+                body.style.backgroundImage = '';
 
-        themeSelector.classList.add('show');
-    });
-
-    themeSelector.addEventListener('change', function () {
-        const selectedTheme = themeSelector.value;
-        body.classList.remove('light-theme', 'dark-theme', 'custom-theme', 'image-theme', 'new-color-theme');
-
-        body.style.backgroundImage = '';
-
-        if (selectedTheme === 'light') {
-            body.classList.add('light-theme');
-        } else if (selectedTheme === 'dark') {
-            body.classList.add('dark-theme');
-        } else if (selectedTheme === 'custom') {
-            body.classList.add('custom-theme');
-        } else if (selectedTheme === 'image') {
-            body.style.backgroundImage = "url('./src/img/uuui.jpg')";
-            body.classList.add('image-theme');
-        } else if (selectedTheme === 'anotherImage') {
-            body.style.backgroundImage = "url('./src/img/yu.jpg')";
-            body.classList.add('image-theme');
-        } else if (selectedTheme === 'newColor') {
-            body.classList.add('new-color-theme');
-        }
-
-        themeSelector.style.display = 'none';
+                switch (result.value) {
+                    case 'light':
+                        body.classList.add('light-theme');
+                        break;
+                    case 'dark':
+                        body.classList.add('dark-theme');
+                        break;
+                    case 'custom':
+                        body.classList.add('custom-theme');
+                        break;
+                    case 'newColor':
+                        body.classList.add('new-color-theme');
+                        break;
+                    case 'image':
+                        body.classList.add('image-theme');
+                        setBackgroundImage('https://ghmdevelops.github.io/sheetFrenzybdd/src/img/uuui.jpg');
+                        break;
+                    case 'anotherImage':
+                        body.classList.add('image-theme');
+                        setBackgroundImage('https://ghmdevelops.github.io/sheetFrenzybdd/src/img/yu.jpg');
+                        break;
+                }
+            }
+        });
     });
 });
 
@@ -1741,18 +1925,6 @@ document.querySelector('#btn-sear').addEventListener('click', function () {
     }
 });
 
-document.querySelector('#themeButton').addEventListener('click', function () {
-    var icon = this.querySelector('i');
-
-    if (icon.classList.contains('fa-circle-half-stroke')) {
-        icon.classList.remove('fa-circle-half-stroke');
-        icon.classList.add('fa-xmark');
-    } else {
-        icon.classList.remove('fa-xmark');
-        icon.classList.add('fa-circle-half-stroke');
-    }
-});
-
 function toggleButtons(clickedBtnId) {
     var featuresBtn = document.getElementById('featuresBtn');
     var baixarBtn = document.getElementById('baixarBtn');
@@ -1807,17 +1979,12 @@ function takeScreenshotAndDownload() {
 const btnquesti = document.getElementById('doc-quest');
 btnquesti.addEventListener('click', e => {
     location.href = './src/html/mod/sheetFrenzybddGherkinConceitos.html';
-})
+});
 
 const btnBlog = document.getElementById('blog');
 btnBlog.addEventListener('click', e => {
     location.href = './src/blog/sheetFrenzybddBlog.html';
-})
-
-const convertTable = document.getElementById('convertTableButton');
-convertTable.addEventListener('click', e => {
-    location.href = './src/swiftleft/sheetFrenzybddSwiftShiftConverter.html';
-})
+});
 
 document.getElementById("titulo").addEventListener("click", function () {
     location.reload();

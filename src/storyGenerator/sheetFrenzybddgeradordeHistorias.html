@@ -17,14 +17,14 @@
     <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
     <meta property="og:description"
         content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
-    <meta property="og:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage200.png">
+    <meta property="og:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/sheetfre200.png">
     <meta property="og:url" content="https://ghmdevelops.github.io/sheetFrenzybdd/index.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
     <meta name="twitter:description"
         content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
-    <meta name="twitter:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage200.png">
+    <meta name="twitter:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/sheetfre200.png">
     <link rel="canonical" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
     <link rel="shortcut icon" href="../img/logoPage200.png" type="image/x-icon">
     <meta name="csrf-token" content="<%= csrfToken %>">
@@ -54,7 +54,7 @@
         </button>
         <h1 style="display: flex; align-items: center; justify-content: center;">
             <img id="logoPage" width="50" src="../img/logoPage200.png" alt="sheet" style="margin-right: 10px;">
-            Gerador de Histórias de Usuário
+            Gerador de Histórias de <b class="m-2" style="color: #16db6b;"> Usuário</b>
         </h1>
         <div class="form-row linesIn">
             <div class="form-group col-md-6">
@@ -94,6 +94,9 @@
         </div>
         <button class="btn btn-danger" onclick="clearStory()">
             <i class="fas fa-trash-alt"></i> Limpar História
+        </button>
+        <button class="btn btn-success" onclick="copyStory()">
+            <i class="fas fa-copy"></i> Copiar História
         </button>
         <div class="suggestion mt-3" id="suggestion"></div>
     </div>

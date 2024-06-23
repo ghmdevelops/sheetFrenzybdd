@@ -10,6 +10,48 @@ function generateStory() {
         return;
     }
 
+    const randomOption = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    const contexts = [
+        `Atualmente, enfrentamos desafios significativos com ${keywords}. A falta de ${goal} tem impactado negativamente nosso trabalho diário, resultando em ${reason}.`,
+        `No momento, temos dificuldades consideráveis com ${keywords}. A ausência de ${goal} está afetando nosso desempenho, causando ${reason}.`,
+        `Estamos lidando com problemas graves relacionados a ${keywords}. A carência de ${goal} tem causado ${reason}, prejudicando nossas operações diárias.`,
+    ];
+
+    const objectives = [
+        `O objetivo principal desta história de usuário é implementar uma solução que permita ${goal} de forma eficaz.`,
+        `Nossa meta é desenvolver uma solução que facilite ${goal} de maneira eficiente.`,
+        `Queremos criar uma solução que torne ${goal} mais acessível e eficiente.`,
+    ];
+
+    const securityDetails = [
+        `A segurança é uma prioridade máxima. A solução incluirá criptografia de dados sensíveis em trânsito e em repouso, autenticação multifator (MFA) para acesso seguro, e auditoria e logging completos para rastreamento de atividades suspeitas.`,
+        `Priorizamos a segurança com criptografia completa dos dados, MFA para maior proteção, e sistemas de auditoria para monitoramento contínuo.`,
+        `Garantimos segurança robusta com criptografia avançada, autenticação multifator, e processos de auditoria detalhados.`,
+    ];
+
+    const featureDetails = [
+        `A interface deve ser intuitiva e responsiva, com uma curva de aprendizado mínima. Deverá suportar múltiplos idiomas e ser acessível em diversos dispositivos.`,
+        `A solução deve ser integrada com serviços de terceiros, como ERPs e CRMs, facilitando o fluxo de dados e aumentando a eficiência operacional.`,
+        `Deverá ser possível configurar notificações personalizadas, permitindo aos usuários receber alertas sobre eventos importantes relacionados a ${keywords}.`,
+    ];
+
+    const acceptanceCriteria = [
+        `Critérios de Aceitação:
+        - Deve permitir que ${userType} acesse facilmente ${goal}.
+        - Notificações em tempo real devem ser configuráveis para ${keywords}.
+        - O dashboard deve ser personalizável de acordo com as necessidades de ${userType}.
+        - A integração com outras ferramentas deve ser simples e eficiente.
+        - Suporte técnico deve estar disponível 24/7.`,
+
+        `Critérios de Aceitação:
+        - A solução deve fornecer acesso rápido e seguro a ${goal} para ${userType}.
+        - Notificações configuráveis em tempo real para eventos relacionados a ${keywords}.
+        - Dashboards personalizáveis que se adaptem às necessidades específicas de ${userType}.
+        - Integrações suaves com sistemas existentes para aumentar a produtividade.
+        - Suporte técnico contínuo para resolução de problemas.`,
+    ];
+
     const storyTemplate = `
         # História de Usuário
 
@@ -19,19 +61,15 @@ function generateStory() {
 
         ### Contexto Atual
 
-        Atualmente, enfrentamos desafios significativos com ${keywords}. A falta de ${goal} tem impactado negativamente nosso trabalho diário, resultando em ${reason}. Isso é evidenciado por ${details}, que demonstram a necessidade urgente de uma solução eficaz.
+        ${randomOption(contexts)} Isso é evidenciado por ${details}, que demonstram a necessidade urgente de uma solução eficaz.
 
         ### Objetivo do Projeto
 
-        O objetivo principal desta história de usuário é implementar uma solução que permita ${goal} de forma eficaz. A solução deve ser intuitiva, acessível e escalável, capaz de suportar o crescimento futuro da nossa organização.
+        ${randomOption(objectives)} A solução deve ser intuitiva, acessível e escalável, capaz de suportar o crescimento futuro da nossa organização.
 
         ## Requisitos e Critérios de Aceitação
 
-        - A solução deve permitir que ${userType} acesse facilmente ${goal}.
-        - Notificações em tempo real devem ser configuráveis para ${keywords}.
-        - O dashboard deve ser personalizável de acordo com as necessidades de ${userType}.
-        - A integração com outras ferramentas deve ser simples e eficiente para aumentar a produtividade.
-        - Suporte técnico deve estar disponível 24/7 para resolver problemas rapidamente.
+        ${randomOption(acceptanceCriteria)}
 
         ## Detalhes Técnicos
 
@@ -48,10 +86,7 @@ function generateStory() {
 
         ### Segurança
 
-        A segurança é uma prioridade máxima. A solução incluirá:
-        - Criptografia de dados sensíveis em trânsito e em repouso.
-        - Autenticação multifator (MFA) para acesso seguro.
-        - Auditoria e logging completos para rastreamento de atividades suspeitas.
+        ${randomOption(securityDetails)}
 
         ### Escalabilidade
 
@@ -160,4 +195,14 @@ function toggleTheme() {
 
 document.getElementById('logoPage').addEventListener('click', function () {
     location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/';
-})
+});
+
+function copyStory() {
+    const userStory = document.getElementById('userStory');
+    userStory.select();
+    userStory.setSelectionRange(0, 99999); // Para dispositivos móveis
+
+    document.execCommand('copy');
+
+    swal("História Copiada", "A história de usuário foi copiada com sucesso!", "success");
+}
