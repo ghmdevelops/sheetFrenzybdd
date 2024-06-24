@@ -2092,11 +2092,6 @@ btnquesti.addEventListener('click', e => {
     location.href = './src/html/mod/sheetFrenzybddGherkinConceitos.html';
 });
 
-const btnBlog = document.getElementById('blog');
-btnBlog.addEventListener('click', e => {
-    location.href = './src/blog/sheetFrenzybddBlog.html';
-});
-
 document.getElementById("titulo").addEventListener("click", function () {
     location.reload();
 });

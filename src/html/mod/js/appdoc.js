@@ -133,3 +133,7 @@ scrollToTopBtn.onclick = function () {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 };
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('themeIcon').click();
+});

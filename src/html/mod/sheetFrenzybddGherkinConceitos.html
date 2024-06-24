@@ -57,251 +57,250 @@
 </head>
 
 <body>
-    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-    <div id="sidebar" class="sidebar">
-        <ul class="nav flex-column ms-5" style="margin-top: 2rem;">
-            <li class="nav-item">
-                <a class="nav-link" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
-                    <i class="fa-solid fa-home"></i> Início
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)" id="toggleThemeLink">
-                    <i class="fa-solid fa-moon" id="themeIcon"></i> Dark Theme
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#intro">
-                    <i class="fa-solid fa-info-circle"></i> Introdução
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#gherkin">
-                    <i class="fa-solid fa-list-alt"></i> O Gherkin
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#padrao">
-                    <i class="fa-solid fa-check-square"></i> O Padrão Gherkin
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#personas">
-                    <i class="fa-solid fa-users"></i> Utilização de Personas
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#features">
-                    <i class="fa-solid fa-cogs"></i> As Features do Gherkin
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#steps">
-                    <i class="fa-solid fa-code"></i> Programação de Steps
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#tags">
-                    <i class="fa-solid fa-tags"></i> Tags
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#conclusao">
-                    <i class="fa-solid fa-lightbulb"></i> Conclusão
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../sheetFrenzybddEditorGherkin.html">
-                    <i class="fa-solid fa-edit"></i> Editor Gherkin
-                </a>
-            </li>
-        </ul>
-        <div class="mt-4">
-            <button title="Botão de play/pause" type="button" class="btn btn-primary w-100 mb-2" id="btnToggleSpeech">
-                <i class="fa-solid fa-play"></i> / <i class="fa-solid fa-pause"></i>
-            </button>
-            <button style="display: none;" title="Ouvir do início" type="button" class="btn btn-primary w-100"
-                id="btnReload">
-                <i class="fa-solid fa-rotate"></i> Recarregar
-            </button>
-        </div>
-    </div>
-
     <div class="container mt-5">
         <div class="text-center">
-            <h1 id="intro" class="display-5 font-weight-bold"><img width="100" src="./img/logoPage200.png" alt="pg">
-                ESPECIFICAÇÃO COLABORATIVA DE TESTES: EXPLORANDO OS PRINCÍPIOS E BENEFÍCIOS DO GHERKIN</h1>
+            <h1 id="intro" class="display-5 font-weight-bold">
+                <img width="100" src="./img/logoPage200.png" alt="Logo" class="img-fluid mb-3">
+                <span class="d-block d-md-inline" id="title-one">Testes
+                    colaborativos:</span>
+                <span class="d-block d-md-inline" id="title-two">descobrindo princípios e benefícios do
+                    Gherkin</span>
+            </h1>
         </div>
 
-        <div class="mt-4">
-            <div class="card-body">
-                <p>Não é novidade para ninguém que a modalidade “teste automatizado” tem crescido rapidamente no mercado
-                    de qualidade de software atual. Na esteira dessa nova realidade, termos como Gherkin ganham
-                    notoriedade, mas você já se perguntou o porquê?</p>
-                <p>O teste automatizado, como o próprio nome diz, automatiza rotinas repetitivas de teste para que o
-                    testador não precise gastar tanto tempo fazendo todo o fluxo manualmente. Com isso, bastante tempo é
-                    economizado, de modo que possa ser utilizado para focar em outras tarefas mais específicas. Sendo
-                    tempo um recurso importantíssimo e irrecuperável, principalmente na correria que vivemos nos tempos
-                    atuais, dispensamos a necessidade de exaltar mais ainda a importância da automatização.</p>
-                <p>Mas você deve estar se perguntando, onde o “Gherkin” entra nisso? O Gherkin tem sido uma opção muito
-                    forte na automação atualmente, pois se trata de um formato que podemos utilizar para padronizar,
-                    documentar, e até reciclar código e funcionalidades.</p>
-
-                <h5 id="gherkin">O Gherkin</h5>
-                <p>O Gherkin é um dos elementos principais quando se trata de BDD em automação. Sua função é padronizar
-                    a forma de descrever especificações de cenários, baseado na regra de negócio.</p>
-                <p>Ele também serve para deixar nossos testes automatizados super fáceis de se ler, inclusive, para uma
-                    pessoa totalmente leiga no assunto. A programação vai “por trás”, já que, literalmente, o tester vai
-                    escrever um código para executar, na prática, o que o Gherkin descreve.</p>
-                <p>O Gherkin segue alguns padrões, afinal, ele deve ser focado na regra de negócio. Ele é escrito em
-                    forma de “steps” (ou “passos”), os quais especificam cada etapa de interação do usuário com o
-                    sistema a ser testado.</p>
-                <p>Sendo assim, se trata de literalmente de uma descrição da regra de negócio do sistema, em forma
-                    passo-a-passo, simples assim. Por exemplo, para fazer um login na aplicação XPTO, teríamos os passos
-                    definidos na mão, mais ou menos, da seguinte forma:</p>
-
-                <ul>
-                    <li>Pré condição: Possuir uma conta no sistema</li>
-                    <li>Acessar a página de login</li>
-                    <li>Preencher credenciais</li>
-                    <li>Clicar no botão de login</li>
-                    <li>Esperar o login ser completado</li>
-                    <li>Simples, certo? Agora, vamos converter esse fluxo para o padrão Gherkin.</li>
-                </ul>
-
-                <h5 id="padrao">O Padrão Gherkin</h5>
-                <p>Antes disso, é preciso entender que no Gherkin existem “keywords” (ou “palavras-chave”) a serem
-                    utilizadas para especificar a forma como cada step interage com o sistema. Dentre todas, as
-                    essenciais nesse momento são:</p>
-
-                <ul>
-                    <li><strong>Given (pt: Dado):</strong> Utilizado para especificar uma pré condição, dentro desse
-                        step é feita a validação de uma condição antes de se prosseguir para os próximos passos. Por se
-                        tratar de uma pré condição, normalmente vem escrito no passado;</li>
-                    <li><strong>When (pt: Quando):</strong> Utilizado quando será executada uma ação de que se espera
-                        uma reação vinda do sistema, que será validada no step “Then”. Este passo vem escrito no
-                        presente;</li>
-                    <li><strong>Then (pt: Então):</strong> Valida se o esperado aconteceu. Segue sempre um passo do tipo
-                        “Quando”, pois aqui é validada a reação da ação recebida. Por se tratar do resultado esperado,
-                        normalmente vem escrito na forma de futuro próximo;</li>
-                    <li><strong>And (pt: E):</strong> Caso seja necessário mais uma interação com o sistema para
-                        complementar um fluxo, mas que não necessariamente se trata de uma ação ou reação, se utiliza
-                        “And”;</li>
-                    <li><strong>But (pt: Mas):</strong> No geral serve a mesma funcionalidade do “And”, porém é
-                        normalmente utilizado após uma validação negativa depois do “Then”;</li>
-                </ul>
-
-                <p>Sabendo disso, podemos traduzir a nossa etapa de login no sistema XPTO para:</p>
-
-                <ul>
-                    <li>Dado que “Fulano” possui uma conta no sistema</li>
-                    <li>E ele acessa a página de login</li>
-                    <li>E ele preenche suas credenciais válidas</li>
-                    <li>Quando ele aciona a opção de realizar login</li>
-                    <li>Então ele deve ser redirecionado para a página inicial logado</li>
-                </ul>
-
-                <h5 id="personas">Utilização de personas</h5>
-                <p>Também é importante notar que estamos descrevendo uma ação que uma terceira “pessoa” está executando.
-                    Portanto, utilizar o nome de um “Fulano” é sempre interessante, afinal, esse “Fulano” é uma das
-                    personas que irá interagir com o nosso sistema, e pode ter qualquer nome.</p>
-                <p>Utilizar personas é um padrão quando se trata de user stories, e a descrição feita no Gherkin é, de
-                    certa forma, um user story. Essa prática na automação é interessante para, por exemplo, as
-                    interações ficarem mais legíveis e, também, na geração de um report ao final de cada execução, assim
-                    como em logs de Jenkins e/ou Docker.</p>
-                <p>Até aí tudo bem, mas aonde iremos escrever/programar/desenvolver isso tudo? Tudo que temos até agora
-                    é puro texto!</p>
-                <p>É verdade, por esse motivo então vamos agora entender as “Features” (ou Funcionalidades).</p>
-
-                <h5 id="features">As features do Gherkin</h5>
-                <p>O arquivo no formato .feature é o que contém os Gherkins. Em uma feature existem outras keywords, que
-                    descrevem características da funcionalidade descrita ali, diferente das keywords de steps. Essas
-                    keywords são:</p>
-
-                <ul>
-                    <li><strong>Feature (pt: Funcionalidade):</strong> Serve para nomear a funcionalidade a ser testada
-                        nesta feature;</li>
-                    <li><strong>Background (pt: Contexto):</strong> Quando existem mais cenários em uma feature que
-                        possuem a mesma pré condição, essa pré condição pode ser definida dentro de um único contexto
-                        para ser executada sempre antes da execução de qualquer cenário da feature, reaproveitando o
-                        mesmo passo em vários cenários diferentes;</li>
-                    <li><strong>Scenario (pt: Cenário):</strong> Também chamado de exemplo. Descreve o comportamento
-                        esperado (Then) dado as pré condições (Given) e ação (When) especificada.</li>
-                </ul>
-
-                <p>Adicionalmente, mas que não iremos utilizar agora, temos:</p>
-
-                <ul>
-                    <li><strong>Scenario Outline (pt: Esquema do Cenário):</strong> São cenários de negócio que possuem
-                        mais de um exemplo. Serão executados na mesma quantidade de linhas que existem na tabela de
-                        exemplos, cada vez utilizando as informações da próxima linha. Ou seja, um mesmo cenário, que
-                        possui o mesmo fluxo, mas que precisa utilizar/validar informações diferentes;</li>
-                    <li><strong>Examples (pt: Exemplos):</strong> Segue sempre o esquema de cenário, pois aqui é
-                        especificada a tabela com os dados a serem utilizados para a execução do mesmo. Um esquema de
-                        cenário será executado a mesma quantidade de vezes de linhas que existirem na tabela de exemplo,
-                        cada vez utilizando os dados da próxima linha.</li>
-                </ul>
-
-                <h5 id="steps">Programação de steps</h5>
-                <p>E voilà, temos nossa feature! Agora, o que resta fazer é programar o que cada step irá executar por
-                    trás, como preenchimento de campos, cliques, validações, etc.</p>
-                <p>Essa programação será feita dentro dos “step definitions”, arquivos que terão seu formato diferente
-                    dependendo da linguagem que será utilizada.</p>
-                <p>A seguir, temos um exemplo de step definition escrito em Typescript:</p>
-
-                <div class="center-image-container py-2">
-                    <img src="../mod/img/pasted-image-0-3.webp" alt="gtp">
-                </div>
-
-                <p>Aqui vemos a forma como o “step” funciona. Pegamos o texto do Gherkin e escrevemos o que deve ser
-                    feito quando aquele step for executado. Aqui, será executado o método de preencher os campos de
-                    login, com credenciais válidas.</p>
-                <p>Porém também existe o Esquema do Cenário que pode ser utilizado ao invés do Cenário, como já
-                    explicado previamente. Nesse caso, precisamos de uma tabela de informações que vem depois da keyword
-                    “Exemplos”.</p>
-                <p>Aplicando um esquema de cenário no nosso exemplo, teríamos:</p>
-
-                <div class="center-image-container py-2">
-                    <img src="../mod/img/pasted-image-0-4.webp" alt="gtp">
-                </div>
-
-                <p>Dessa forma, o cenário será executado no mesmo fluxo, porém utilizando informações diferentes em cada
-                    execução, evitando repetição de código.</p>
-
-                <h5 id="tags">Tags</h5>
-                <p>Os cenários de uma feature também podem ser separados por tags. Tags podem ser incluídas na
-                    funcionalidade toda, para dar aquela tag à todos os cenários contidos ali, ou podem ser colocadas
-                    separadamente de cenário em cenário ou até mesmo em tabelas de exemplos.</p>
-                <p>As tags servem para organizar os cenários utilizando os critérios mais diversos possíveis, como por
-                    exemplo prioridade do teste, se é negativo ou positivo, etc. Essas tags podem ser especificadas na
-                    hora da execução dos testes, para que todos os cenários que possuam a tag mencionada sejam
-                    executados.</p>
-                <p>Também é possível negar uma tag, para não executar os cenários que possuem uma tag XPTO. Para isso,
-                    basta adicionar o parâmetro de tags na hora da execução dos testes: — tags @tag-desejada or
-                    @segunda-tag-desejada and not @tag-nao-desejada</p>
-                <p>Serão executados todos os cenários que contenham ou a tag @tag-desejada, ou a @segunda-tag-desejada,
-                    e nenhum que possua a tag @tag-nao-desejada. Qualquer tag pode ser colocada nos cenários, de acordo
-                    com a necessidade do usuário.</p>
-                <p>Para exemplificar, vamos colocar tags na nossa feature de exemplo:</p>
-
-                <div class="center-image-container py-2">
-                    <img src="../mod/img/pasted-image-0-5.webp" alt="gtp">
-                </div>
-
-                <p>A tag quando colocada na funcionalidade, será aplicada para todos os cenários existentes naquela
-                    feature. Também vale lembrar que um único cenário pode possuir diferentes tags, como por exemplo,
-                    @regressão, @smoke, etc.</p>
-
-                <h5 id="conclusao">Conclusão</h5>
-                <p>Finalmente, podemos dizer que a especificação da nossa história utilizando Gherkin está completa!</p>
-                <p>Incrivelmente fácil, não é? O Gherkin, além de não ser difícil de se aprender, é totalmente legível
-                    para qualquer leitor, economiza tempo na reutilização de steps, além de servir como uma documentação
-                    da regra de negócio do sistema sendo testado!</p>
-                <p>Apesar das explicações um pouco longas, após um tempo e com prática não será mais necessário a
-                    consulta a nenhum material externo para a construção de novos cenários Gherkin.</p>
-                <p>Caso queira se aprofundar mais no assunto, consulte a documentação oficial do Gherkin para mais
-                    informações.</p>
+        <div id="sidebar" class="sidebar mt-5">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
+                        <i class="fa-solid fa-home"></i> Início
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" id="toggleThemeLink">
+                        <i class="fa-solid fa-moon" id="themeIcon"></i> Dark Theme
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#gherkin">
+                        <i class="fa-solid fa-list-alt"></i> O Gherkin
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#padrao">
+                        <i class="fa-solid fa-check-square"></i> O Padrão Gherkin
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#personas">
+                        <i class="fa-solid fa-users"></i> Utilização de Personas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">
+                        <i class="fa-solid fa-cogs"></i> As Features do Gherkin
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#steps">
+                        <i class="fa-solid fa-code"></i> Programação de Steps
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tags">
+                        <i class="fa-solid fa-tags"></i> Tags
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#conclusao">
+                        <i class="fa-solid fa-lightbulb"></i> Conclusão
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../sheetFrenzybddEditorGherkin.html">
+                        <i class="fa-solid fa-edit"></i> Editor Gherkin
+                    </a>
+                </li>
+            </ul>
+            <div class="mt-4">
+                <button title="Botão de play/pause" type="button" class="btn btn-primary w-100 mb-2"
+                    id="btnToggleSpeech">
+                    <i class="fa-solid fa-play"></i> / <i class="fa-solid fa-pause"></i>
+                </button>
+                <button style="display: none;" title="Ouvir do início" type="button" class="btn btn-primary w-100"
+                    id="btnReload">
+                    <i class="fa-solid fa-rotate"></i> Recarregar
+                </button>
             </div>
+        </div>
+
+        <div class="card-body">
+            <h5 id="introducao">Introdução</h5>
+            <p>Não é novidade para ninguém que a modalidade “teste automatizado” tem crescido rapidamente no mercado
+                de qualidade de software atual. Na esteira dessa nova realidade, termos como Gherkin ganham
+                notoriedade, mas você já se perguntou o porquê?</p>
+            <p>O teste automatizado, como o próprio nome diz, automatiza rotinas repetitivas de teste para que o
+                testador não precise gastar tanto tempo fazendo todo o fluxo manualmente. Com isso, bastante tempo é
+                economizado, de modo que possa ser utilizado para focar em outras tarefas mais específicas. Sendo
+                tempo um recurso importantíssimo e irrecuperável, principalmente na correria que vivemos nos tempos
+                atuais, dispensamos a necessidade de exaltar mais ainda a importância da automatização.</p>
+            <p>Mas você deve estar se perguntando, onde o “Gherkin” entra nisso? O Gherkin tem sido uma opção muito
+                forte na automação atualmente, pois se trata de um formato que podemos utilizar para padronizar,
+                documentar, e até reciclar código e funcionalidades.</p>
+
+            <h5 id="gherkin">O Gherkin</h5>
+            <p>O Gherkin é um dos elementos principais quando se trata de BDD em automação. Sua função é padronizar
+                a forma de descrever especificações de cenários, baseado na regra de negócio.</p>
+            <p>Ele também serve para deixar nossos testes automatizados super fáceis de se ler, inclusive, para uma
+                pessoa totalmente leiga no assunto. A programação vai “por trás”, já que, literalmente, o tester vai
+                escrever um código para executar, na prática, o que o Gherkin descreve.</p>
+            <p>O Gherkin segue alguns padrões, afinal, ele deve ser focado na regra de negócio. Ele é escrito em
+                forma de “steps” (ou “passos”), os quais especificam cada etapa de interação do usuário com o
+                sistema a ser testado.</p>
+            <p>Sendo assim, se trata de literalmente de uma descrição da regra de negócio do sistema, em forma
+                passo-a-passo, simples assim. Por exemplo, para fazer um login na aplicação XPTO, teríamos os passos
+                definidos na mão, mais ou menos, da seguinte forma:</p>
+
+            <ul>
+                <li>Pré condição: Possuir uma conta no sistema</li>
+                <li>Acessar a página de login</li>
+                <li>Preencher credenciais</li>
+                <li>Clicar no botão de login</li>
+                <li>Esperar o login ser completado</li>
+                <li>Simples, certo? Agora, vamos converter esse fluxo para o padrão Gherkin.</li>
+            </ul>
+
+            <h5 id="padrao">O Padrão Gherkin</h5>
+            <p>Antes disso, é preciso entender que no Gherkin existem “keywords” (ou “palavras-chave”) a serem
+                utilizadas para especificar a forma como cada step interage com o sistema. Dentre todas, as
+                essenciais nesse momento são:</p>
+
+            <ul>
+                <li><strong>Given (pt: Dado):</strong> Utilizado para especificar uma pré condição, dentro desse
+                    step é feita a validação de uma condição antes de se prosseguir para os próximos passos. Por se
+                    tratar de uma pré condição, normalmente vem escrito no passado;</li>
+                <li><strong>When (pt: Quando):</strong> Utilizado quando será executada uma ação de que se espera
+                    uma reação vinda do sistema, que será validada no step “Then”. Este passo vem escrito no
+                    presente;</li>
+                <li><strong>Then (pt: Então):</strong> Valida se o esperado aconteceu. Segue sempre um passo do tipo
+                    “Quando”, pois aqui é validada a reação da ação recebida. Por se tratar do resultado esperado,
+                    normalmente vem escrito na forma de futuro próximo;</li>
+                <li><strong>And (pt: E):</strong> Caso seja necessário mais uma interação com o sistema para
+                    complementar um fluxo, mas que não necessariamente se trata de uma ação ou reação, se utiliza
+                    “And”;</li>
+                <li><strong>But (pt: Mas):</strong> No geral serve a mesma funcionalidade do “And”, porém é
+                    normalmente utilizado após uma validação negativa depois do “Then”;</li>
+            </ul>
+
+            <p>Sabendo disso, podemos traduzir a nossa etapa de login no sistema XPTO para:</p>
+
+            <ul>
+                <li>Dado que “Fulano” possui uma conta no sistema</li>
+                <li>E ele acessa a página de login</li>
+                <li>E ele preenche suas credenciais válidas</li>
+                <li>Quando ele aciona a opção de realizar login</li>
+                <li>Então ele deve ser redirecionado para a página inicial logado</li>
+            </ul>
+
+            <h5 id="personas">Utilização de personas</h5>
+            <p>Também é importante notar que estamos descrevendo uma ação que uma terceira “pessoa” está executando.
+                Portanto, utilizar o nome de um “Fulano” é sempre interessante, afinal, esse “Fulano” é uma das
+                personas que irá interagir com o nosso sistema, e pode ter qualquer nome.</p>
+            <p>Utilizar personas é um padrão quando se trata de user stories, e a descrição feita no Gherkin é, de
+                certa forma, um user story. Essa prática na automação é interessante para, por exemplo, as
+                interações ficarem mais legíveis e, também, na geração de um report ao final de cada execução, assim
+                como em logs de Jenkins e/ou Docker.</p>
+            <p>Até aí tudo bem, mas aonde iremos escrever/programar/desenvolver isso tudo? Tudo que temos até agora
+                é puro texto!</p>
+            <p>É verdade, por esse motivo então vamos agora entender as “Features” (ou Funcionalidades).</p>
+
+            <h5 id="features">As features do Gherkin</h5>
+            <p>O arquivo no formato .feature é o que contém os Gherkins. Em uma feature existem outras keywords, que
+                descrevem características da funcionalidade descrita ali, diferente das keywords de steps. Essas
+                keywords são:</p>
+
+            <ul>
+                <li><strong>Feature (pt: Funcionalidade):</strong> Serve para nomear a funcionalidade a ser testada
+                    nesta feature;</li>
+                <li><strong>Background (pt: Contexto):</strong> Quando existem mais cenários em uma feature que
+                    possuem a mesma pré condição, essa pré condição pode ser definida dentro de um único contexto
+                    para ser executada sempre antes da execução de qualquer cenário da feature, reaproveitando o
+                    mesmo passo em vários cenários diferentes;</li>
+                <li><strong>Scenario (pt: Cenário):</strong> Também chamado de exemplo. Descreve o comportamento
+                    esperado (Then) dado as pré condições (Given) e ação (When) especificada.</li>
+            </ul>
+
+            <p>Adicionalmente, mas que não iremos utilizar agora, temos:</p>
+
+            <ul>
+                <li><strong>Scenario Outline (pt: Esquema do Cenário):</strong> São cenários de negócio que possuem
+                    mais de um exemplo. Serão executados na mesma quantidade de linhas que existem na tabela de
+                    exemplos, cada vez utilizando as informações da próxima linha. Ou seja, um mesmo cenário, que
+                    possui o mesmo fluxo, mas que precisa utilizar/validar informações diferentes;</li>
+                <li><strong>Examples (pt: Exemplos):</strong> Segue sempre o esquema de cenário, pois aqui é
+                    especificada a tabela com os dados a serem utilizados para a execução do mesmo. Um esquema de
+                    cenário será executado a mesma quantidade de vezes de linhas que existirem na tabela de exemplo,
+                    cada vez utilizando os dados da próxima linha.</li>
+            </ul>
+
+            <h5 id="steps">Programação de steps</h5>
+            <p>E voilà, temos nossa feature! Agora, o que resta fazer é programar o que cada step irá executar por
+                trás, como preenchimento de campos, cliques, validações, etc.</p>
+            <p>Essa programação será feita dentro dos “step definitions”, arquivos que terão seu formato diferente
+                dependendo da linguagem que será utilizada.</p>
+            <p>A seguir, temos um exemplo de step definition escrito em Typescript:</p>
+
+            <div class="center-image-container py-2">
+                <img src="../mod/img/pasted-image-0-3.webp" alt="gtp">
+            </div>
+
+            <p>Aqui vemos a forma como o “step” funciona. Pegamos o texto do Gherkin e escrevemos o que deve ser
+                feito quando aquele step for executado. Aqui, será executado o método de preencher os campos de
+                login, com credenciais válidas.</p>
+            <p>Porém também existe o Esquema do Cenário que pode ser utilizado ao invés do Cenário, como já
+                explicado previamente. Nesse caso, precisamos de uma tabela de informações que vem depois da keyword
+                “Exemplos”.</p>
+            <p>Aplicando um esquema de cenário no nosso exemplo, teríamos:</p>
+
+            <div class="center-image-container py-2">
+                <img src="../mod/img/pasted-image-0-4.webp" alt="gtp">
+            </div>
+
+            <p>Dessa forma, o cenário será executado no mesmo fluxo, porém utilizando informações diferentes em cada
+                execução, evitando repetição de código.</p>
+
+            <h5 id="tags">Tags</h5>
+            <p>Os cenários de uma feature também podem ser separados por tags. Tags podem ser incluídas na
+                funcionalidade toda, para dar aquela tag à todos os cenários contidos ali, ou podem ser colocadas
+                separadamente de cenário em cenário ou até mesmo em tabelas de exemplos.</p>
+            <p>As tags servem para organizar os cenários utilizando os critérios mais diversos possíveis, como por
+                exemplo prioridade do teste, se é negativo ou positivo, etc. Essas tags podem ser especificadas na
+                hora da execução dos testes, para que todos os cenários que possuam a tag mencionada sejam
+                executados.</p>
+            <p>Também é possível negar uma tag, para não executar os cenários que possuem uma tag XPTO. Para isso,
+                basta adicionar o parâmetro de tags na hora da execução dos testes: — tags @tag-desejada or
+                @segunda-tag-desejada and not @tag-nao-desejada</p>
+            <p>Serão executados todos os cenários que contenham ou a tag @tag-desejada, ou a @segunda-tag-desejada,
+                e nenhum que possua a tag @tag-nao-desejada. Qualquer tag pode ser colocada nos cenários, de acordo
+                com a necessidade do usuário.</p>
+            <p>Para exemplificar, vamos colocar tags na nossa feature de exemplo:</p>
+
+            <div class="center-image-container py-2">
+                <img src="../mod/img/pasted-image-0-5.webp" alt="gtp">
+            </div>
+
+            <p>A tag quando colocada na funcionalidade, será aplicada para todos os cenários existentes naquela
+                feature. Também vale lembrar que um único cenário pode possuir diferentes tags, como por exemplo,
+                @regressão, @smoke, etc.</p>
+
+            <h5 id="conclusao">Conclusão</h5>
+            <p>Finalmente, podemos dizer que a especificação da nossa história utilizando Gherkin está completa!</p>
+            <p>Incrivelmente fácil, não é? O Gherkin, além de não ser difícil de se aprender, é totalmente legível
+                para qualquer leitor, economiza tempo na reutilização de steps, além de servir como uma documentação
+                da regra de negócio do sistema sendo testado!</p>
+            <p>Apesar das explicações um pouco longas, após um tempo e com prática não será mais necessário a
+                consulta a nenhum material externo para a construção de novos cenários Gherkin.</p>
+            <p>Caso queira se aprofundar mais no assunto, consulte a documentação oficial do Gherkin para mais
+                informações.</p>
         </div>
     </div>
 

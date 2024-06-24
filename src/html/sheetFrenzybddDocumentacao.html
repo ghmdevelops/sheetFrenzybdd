@@ -54,375 +54,363 @@
 </head>
 
 <body>
-    <button id="menuToggle" class="menu-toggle"><i class="fa-solid fa-bars"></i></button>
     <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
-                                <i class="fas fa-home"></i> Início
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" id="toggle-theme">
-                                <i class="fas fa-adjust"></i> Dark Theme
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#introducao">
-                                <i class="fas fa-info-circle"></i> Introdução
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#botoes-barra-superior">
-                                <i class="fas fa-bars"></i> Botões da Barra Superior
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#botoes-manipulacao-tabela">
-                                <i class="fas fa-table"></i> Botões de Manipulação de Tabela
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#botoes-adicionais">
-                                <i class="fas fa-plus-circle"></i> Botões Adicionais
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#resumo-funcionalidades">
-                                <i class="fas fa-list-alt"></i> Resumo das Funcionalidades
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                                href="https://ghmdevelops.github.io/sheetFrenzybdd/src/html/mod/sheetFrenzybddGherkinConceitos.html">
-                                <i class="fas fa-seedling"></i> Princípios e benefícios do Gherkin
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+        <div class="container">
+            <h1 class="text-center">
+                <img width="85" src="../img/logoPage200.png" alt="sheetfrenzy" class="img-fluid">
+                Documentação
+                SheetFrenzy <b style="color: #16db6b;">BDD</b>
+            </h1>
+            <div class="sidebar-sticky mt-5">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
+                            <i class="fas fa-home"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="toggle-theme">
+                            <i class="fa-solid fa-moon"></i> Dark Theme
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#botoes-barra-superior">
+                            <i class="fas fa-bars"></i> Botões da Barra Superior
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#botoes-manipulacao-tabela">
+                            <i class="fas fa-table"></i> Botões de Manipulação de Tabela
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#botoes-adicionais">
+                            <i class="fas fa-plus-circle"></i> Botões Adicionais
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#resumo-funcionalidades">
+                            <i class="fas fa-list-alt"></i> Resumo das Funcionalidades
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="https://ghmdevelops.github.io/sheetFrenzybdd/src/html/mod/sheetFrenzybddGherkinConceitos.html">
+                            <i class="fas fa-seedling"></i> Princípios e benefícios do Gherkin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <section class="mt-5" id="introducao">
+                <h2>Introdução</h2>
+                <p>O <strong>SheetFrenzy BDD</strong> é uma ferramenta para otimizar o desenvolvimento de
+                    software utilizando o Desenvolvimento Orientado a Comportamento (BDD). Esta documentação
+                    detalha a funcionalidade de cada botão presente na página principal da ferramenta.</p>
+            </section>
 
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <div class="container">
-                    <h1 class="text-center"><img width="75" src="../img/logoPage200.png" alt="sheetfrenzy">
+            <section class="mt-4" id="botoes-barra-superior">
+                <h2>Botões da Barra Superior</h2>
+                <div class="card">
+                    <div class="card-header">
+                        Acessar Blog Compartilhado
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Este botão leva o usuário ao blog compartilhado, onde é
+                            possível encontrar artigos, tutoriais e outras informações úteis sobre BDD e
+                            desenvolvimento de software.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Direciona o usuário ao blog compartilhado, facilitando o acesso a recursos adicionais.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Fazer uma busca
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Ao clicar neste botão, o usuário pode realizar buscas
+                            dentro da página para encontrar informações específicas rapidamente.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Alterna a visibilidade do campo de busca, permitindo ao usuário exibir ou ocultar o campo conforme necessário.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Temas
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Permite ao usuário alternar entre diferentes temas de
+                            cores para a página, proporcionando uma experiência de visualização personalizada.
+                        </p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Alterna entre diferentes temas visuais para a página.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
                         Documentação
-                        SheetFrenzy <b style="color: #16db6b;">BDD</b>
-                    </h1>
-                    <section class="mt-5" id="introducao">
-                        <h2>Introdução</h2>
-                        <p>O <strong>SheetFrenzy BDD</strong> é uma ferramenta para otimizar o desenvolvimento de
-                            software utilizando o Desenvolvimento Orientado a Comportamento (BDD). Esta documentação
-                            detalha a funcionalidade de cada botão presente na página principal da ferramenta.</p>
-                    </section>
-
-                    <section class="mt-4" id="botoes-barra-superior">
-                        <h2>Botões da Barra Superior</h2>
-                        <div class="card">
-                            <div class="card-header">
-                                Acessar Blog Compartilhado
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Este botão leva o usuário ao blog compartilhado, onde é
-                                    possível encontrar artigos, tutoriais e outras informações úteis sobre BDD e
-                                    desenvolvimento de software.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Direciona o usuário ao blog compartilhado, facilitando o acesso a recursos adicionais.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Fazer uma busca
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Ao clicar neste botão, o usuário pode realizar buscas
-                                    dentro da página para encontrar informações específicas rapidamente.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Alterna a visibilidade do campo de busca, permitindo ao usuário exibir ou ocultar o campo conforme necessário.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Temas
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Permite ao usuário alternar entre diferentes temas de
-                                    cores para a página, proporcionando uma experiência de visualização personalizada.
-                                </p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Alterna entre diferentes temas visuais para a página.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Documentação
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Direciona o usuário para a documentação completa da
-                                    ferramenta, onde ele pode encontrar guias de uso e referência.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Abre a documentação completa da ferramenta.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Conceitos
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Fornece acesso a conceitos básicos e explicações sobre
-                                    BDD e a utilização da ferramenta.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Abre uma página ou modal com explicações sobre os conceitos básicos de BDD.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Editor Gherkin
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Abre o editor Gherkin, onde o usuário pode criar e editar
-                                    cenários BDD usando a linguagem Gherkin.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Abre o editor Gherkin para criação e edição de cenários BDD.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Gravar uma página
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Inicia uma gravação da sessão atual, útil para criar
-                                    tutoriais ou registrar processos.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Inicia a gravação da sessão atual do usuário.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Exportar para PDF
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Exporta a tabela ou o conteúdo atual da página para um
-                                    arquivo PDF.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Exporta o conteúdo da página para um arquivo PDF.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Entrar em contato
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Permite ao usuário entrar em contato com o suporte ou a
-                                    equipe de desenvolvimento.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Abre uma interface de contato para que o usuário possa se comunicar com o suporte.</code></pre>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="botoes-manipulacao-tabela">
-                        <h2>Botões de Manipulação de Tabela</h2>
-                        <div class="card">
-                            <div class="card-header">
-                                Diminuir número de linhas
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Diminui o número de linhas na tabela.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Diminui o número de linhas na tabela quando o botão é pressionado e interrompe o decremento quando o botão é solto.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Adicionar número de linhas
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Aumenta o número de linhas na tabela.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Aumenta o número de linhas na tabela quando o botão é pressionado e interrompe o incremento quando o botão é solto.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Adicionar Tabela
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Cria uma nova tabela com o número especificado de linhas
-                                    e colunas.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Cria uma nova tabela com base nos valores de linhas e colunas fornecidos pelo usuário.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Apagar Linha
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Apaga a linha selecionada na tabela.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Apaga a linha selecionada na tabela.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Adicionar Linha
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Adiciona uma nova linha à tabela.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Adiciona uma nova linha à tabela.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Adicionar Coluna
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Adiciona uma nova coluna à tabela.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Adiciona uma nova coluna à tabela.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Baixar Excel
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Exporta a tabela para um arquivo Excel.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Exporta e baixa a tabela para um arquivo Excel.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Selecionar Excel
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Permite ao usuário importar dados de um arquivo Excel
-                                    para a tabela.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Importa dados de um arquivo Excel selecionado pelo usuário e preenche a tabela com esses dados.</code></pre>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="botoes-adicionais">
-                        <h2>Botões Adicionais</h2>
-                        <div class="card">
-                            <div class="card-header">
-                                Gerar Features
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Gera cenários de teste (features) para BDD com base na
-                                    tabela atual.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Gera cenários de teste (features) com base na tabela atual.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Baixar Features
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Baixa os cenários de teste gerados em formato compatível
-                                    com ferramentas BDD.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Exporta e baixa os cenários de teste selecionados pelo usuário.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Voltar para baixar
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Volta para a visualização anterior na interface de
-                                    usuário.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Alterna entre diferentes estados de botões na interface.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Selecionar Todos
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Seleciona todos os cenários de teste para download ou
-                                    edição.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Seleciona todos os cenários de teste na tabela.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Copiar para outras linhas
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Copia o conteúdo de uma célula para todas as linhas da
-                                    tabela.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Copia o conteúdo de uma célula para todas as outras células na mesma coluna.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Gerar dashboard
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Gera um dashboard visual com gráficos baseados nos dados
-                                    da tabela.</p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Gera um dashboard visual com gráficos baseados nos dados da tabela.</code></pre>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Gerar excel octane
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Descrição:</strong> Converte a tabela para um formato específico de Excel.
-                                </p>
-                                <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                                <pre class="btn-function"
-                                    style="display: none;"><code>Converte a tabela para um formato específico de Excel.</code></pre>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="resumo-funcionalidades">
-                        <h2>Resumo das Funcionalidades</h2>
-                        <p>A página do <strong>SheetFrenzy BDD</strong> oferece uma série de funcionalidades para
-                            facilitar a criação e manipulação de cenários BDD. Os botões descritos acima permitem ao
-                            usuário manipular a tabela, gerar e baixar cenários de teste, personalizar a aparência da
-                            página e acessar informações e ajuda de maneira eficiente.</p>
-                    </section>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Direciona o usuário para a documentação completa da
+                            ferramenta, onde ele pode encontrar guias de uso e referência.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Abre a documentação completa da ferramenta.</code></pre>
+                    </div>
                 </div>
-            </main>
+                <div class="card">
+                    <div class="card-header">
+                        Conceitos
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Fornece acesso a conceitos básicos e explicações sobre
+                            BDD e a utilização da ferramenta.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Abre uma página ou modal com explicações sobre os conceitos básicos de BDD.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Editor Gherkin
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Abre o editor Gherkin, onde o usuário pode criar e editar
+                            cenários BDD usando a linguagem Gherkin.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Abre o editor Gherkin para criação e edição de cenários BDD.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Gravar uma página
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Inicia uma gravação da sessão atual, útil para criar
+                            tutoriais ou registrar processos.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Inicia a gravação da sessão atual do usuário.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Exportar para PDF
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Exporta a tabela ou o conteúdo atual da página para um
+                            arquivo PDF.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Exporta o conteúdo da página para um arquivo PDF.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Entrar em contato
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Permite ao usuário entrar em contato com o suporte ou a
+                            equipe de desenvolvimento.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Abre uma interface de contato para que o usuário possa se comunicar com o suporte.</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="botoes-manipulacao-tabela">
+                <h2>Botões de Manipulação de Tabela</h2>
+                <div class="card">
+                    <div class="card-header">
+                        Diminuir número de linhas
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Diminui o número de linhas na tabela.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Diminui o número de linhas na tabela quando o botão é pressionado e interrompe o decremento quando o botão é solto.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Adicionar número de linhas
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Aumenta o número de linhas na tabela.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Aumenta o número de linhas na tabela quando o botão é pressionado e interrompe o incremento quando o botão é solto.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Adicionar Tabela
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Cria uma nova tabela com o número especificado de linhas
+                            e colunas.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Cria uma nova tabela com base nos valores de linhas e colunas fornecidos pelo usuário.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Apagar Linha
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Apaga a linha selecionada na tabela.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Apaga a linha selecionada na tabela.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Adicionar Linha
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Adiciona uma nova linha à tabela.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Adiciona uma nova linha à tabela.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Adicionar Coluna
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Adiciona uma nova coluna à tabela.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Adiciona uma nova coluna à tabela.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Baixar Excel
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Exporta a tabela para um arquivo Excel.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Exporta e baixa a tabela para um arquivo Excel.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Selecionar Excel
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Permite ao usuário importar dados de um arquivo Excel
+                            para a tabela.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Importa dados de um arquivo Excel selecionado pelo usuário e preenche a tabela com esses dados.</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="botoes-adicionais">
+                <h2>Botões Adicionais</h2>
+                <div class="card">
+                    <div class="card-header">
+                        Gerar Features
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Gera cenários de teste (features) para BDD com base na
+                            tabela atual.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Gera cenários de teste (features) com base na tabela atual.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Baixar Features
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Baixa os cenários de teste gerados em formato compatível
+                            com ferramentas BDD.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Exporta e baixa os cenários de teste selecionados pelo usuário.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Voltar para baixar
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Volta para a visualização anterior na interface de
+                            usuário.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Alterna entre diferentes estados de botões na interface.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Selecionar Todos
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Seleciona todos os cenários de teste para download ou
+                            edição.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Seleciona todos os cenários de teste na tabela.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Copiar para outras linhas
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Copia o conteúdo de uma célula para todas as linhas da
+                            tabela.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Copia o conteúdo de uma célula para todas as outras células na mesma coluna.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Gerar dashboard
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Gera um dashboard visual com gráficos baseados nos dados
+                            da tabela.</p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Gera um dashboard visual com gráficos baseados nos dados da tabela.</code></pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Gerar excel octane
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Descrição:</strong> Converte a tabela para um formato específico de Excel.
+                        </p>
+                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
+                        <pre class="btn-function"
+                            style="display: none;"><code>Converte a tabela para um formato específico de Excel.</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="resumo-funcionalidades">
+                <h2>Resumo das Funcionalidades</h2>
+                <p>A página do <strong>SheetFrenzy BDD</strong> oferece uma série de funcionalidades para
+                    facilitar a criação e manipulação de cenários BDD. Os botões descritos acima permitem ao
+                    usuário manipular a tabela, gerar e baixar cenários de teste, personalizar a aparência da
+                    página e acessar informações e ajuda de maneira eficiente.</p>
+            </section>
         </div>
     </div>
 
