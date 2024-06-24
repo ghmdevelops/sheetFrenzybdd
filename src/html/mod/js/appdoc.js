@@ -1,11 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
     var btnToggleSpeech = document.getElementById('btnToggleSpeech');
     var btnReload = document.getElementById('btnReload');
-    var btnToggleTheme = document.getElementById('btnToggleTheme');
+    var toggleThemeLink = document.getElementById('toggleThemeLink');
+    var themeIcon = document.getElementById('themeIcon');
     var speechSynthesis = window.speechSynthesis;
     var speechUtterance;
 
-    btnToggleSpeech.addEventListener('click', function () {
+    btnReload.style.display = 'none';
+
+    function toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        document.querySelector('.sidebar').classList.toggle('dark-theme');
+        document.querySelectorAll('button').forEach(button => button.classList.toggle('dark-theme'));
+        document.querySelectorAll('.sidebar ul li a').forEach(link => link.classList.toggle('dark-theme'));
+
+        if (document.body.classList.contains('dark-theme')) {
+            themeIcon.classList.remove('fa-adjust');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-adjust');
+        }
+    }
+
+    function startSpeech() {
         if (!speechSynthesis) {
             console.error('Speech synthesis is not supported on this browser.');
             return;
@@ -14,79 +32,104 @@ document.addEventListener('DOMContentLoaded', function () {
         if (speechSynthesis.speaking) {
             if (speechSynthesis.paused) {
                 speechSynthesis.resume();
+                btnToggleSpeech.innerHTML = '<i class="fa-solid fa-pause"></i>';
             } else {
                 speechSynthesis.pause();
+                btnToggleSpeech.innerHTML = '<i class="fa-solid fa-play"></i>';
             }
         } else {
-            var containerContent = document.querySelector('.row');
-
-            if (!containerContent) {
-                console.error('Element with class "row" not found.');
+            var titleElement = document.querySelector('.display-5');
+            var contentElement = document.querySelector('.card-body');
+            if (!titleElement) {
+                console.error('Element with class "display-5" not found.');
+                return;
+            }
+            if (!contentElement) {
+                console.error('Element with class "card-body" not found.');
                 return;
             }
 
-            var contentToSpeak = containerContent.innerText.trim();
+            var titleToSpeak = titleElement.innerText.trim();
+            var contentToSpeak = contentElement.innerText.trim();
+            var fullTextToSpeak = titleToSpeak + '. ' + contentToSpeak;
 
-            if (!contentToSpeak) {
+            if (!fullTextToSpeak) {
                 console.warn('The content to speak is empty.');
                 return;
             }
 
-            speechUtterance = new SpeechSynthesisUtterance(contentToSpeak);
+            speechUtterance = new SpeechSynthesisUtterance(fullTextToSpeak);
             speechSynthesis.speak(speechUtterance);
+            btnToggleSpeech.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            btnReload.style.display = 'block';  // Show the reload button
         }
-    });
+    }
 
-    btnReload.addEventListener('click', function () {
+    function reloadSpeech() {
+        if (speechSynthesis.speaking || speechSynthesis.paused) {
+            speechSynthesis.cancel();
+            btnToggleSpeech.innerHTML = '<i class="fa-solid fa-play"></i>';
+            btnReload.style.display = 'none';  // Hide the reload button
+        }
+    }
+
+    window.addEventListener('beforeunload', function () {
         if (speechSynthesis.speaking || speechSynthesis.paused) {
             speechSynthesis.cancel();
         }
     });
 
-    btnToggleTheme.addEventListener('click', function () {
-        document.body.classList.toggle('dark-theme');
-        if (document.body.classList.contains('dark-theme')) {
-            btnToggleTheme.innerHTML = '<i class="fa-solid fa-sun"></i>';
-        } else {
-            btnToggleTheme.innerHTML = '<i class="fa-solid fa-moon"></i>';
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    var scrollToTopBtn = document.getElementById('scrollToTopBtn');
-
-    window.addEventListener('scroll', function () {
+    function handleScroll() {
         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
             scrollToTopBtn.style.display = 'block';
         } else {
             scrollToTopBtn.style.display = 'none';
         }
-    });
+    }
+
+    function scrollToTop() {
+        var scrollDuration = 3000;
+        var scrollStep = -window.scrollY / (scrollDuration / 15);
+        var scrollInterval = setInterval(function () {
+            if (window.scrollY != 0) {
+                window.scrollBy(0, scrollStep);
+            } else {
+                clearInterval(scrollInterval);
+            }
+        }, 15);
+    }
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('active');
+    }
+
+    btnToggleSpeech.addEventListener('click', startSpeech);
+    btnReload.addEventListener('click', reloadSpeech);
+    toggleThemeLink.addEventListener('click', toggleTheme);
+    menuToggle.addEventListener('click', toggleSidebar);
+    window.addEventListener('scroll', handleScroll);
 
     if (scrollToTopBtn) {
-        scrollToTopBtn.addEventListener('click', function () {
-            scrollToTop();
-        });
+        scrollToTopBtn.addEventListener('click', scrollToTop);
     }
+
+    console.log("\n%cAtenção Espere! %c\n\n\nEste é um recurso de navegador voltado para desenvolvedores. Se alguém disse para você copiar e colar algo aqui para ativar um recurso ou 'invadir' a máquina de outra pessoa, isso é uma fraude e você dará a ele acesso à sua máquina.\n\nConsulte ataques https://en.wikipedia.org/wiki/Self-XSS para obter mais informações.", "color: red; font-size: 46px;", "font-size: 16px;");
 });
 
-function scrollToTop() {
-    var scrollDuration = 3000;
-    var scrollStep = -window.scrollY / (scrollDuration / 15);
-    var scrollInterval = setInterval(function () {
-        if (window.scrollY != 0) {
-            window.scrollBy(0, scrollStep);
-        } else {
-            clearInterval(scrollInterval);
-        }
-    }, 15);
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
 }
 
-const btnOffLod = document.getElementById('off-pagf');
-btnOffLod.addEventListener('click', e => {
-    location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/';
-});
+const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+window.onscroll = function () {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        scrollToTopBtn.style.display = 'block';
+    } else {
+        scrollToTopBtn.style.display = 'none';
+    }
+};
 
-console.log("\n%cAtenção Espere! %c\n\n\nEste é um recurso de navegador voltado para desenvolvedores. Se alguém disse para você copiar e colar algo aqui para ativar um recurso ou 'invadir' a maquina de outra pessoa, isso é uma fraude e você dará a ele acesso à sua maquina.\n\nConsulte ataques https://en.wikipedia.org/wiki/Self-XSS para obter mais informações.", "color: red; font-size: 46px;", "font-size: 16px;");
-const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+scrollToTopBtn.onclick = function () {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+};

@@ -279,8 +279,13 @@ async function criarTabela() {
 
     var btnMudarEstilo = document.createElement("button");
     btnMudarEstilo.id = "mudarEstiloBtn";
-    btnMudarEstilo.classList.add("btn", "btn-primary");
-    btnMudarEstilo.textContent = "Mudar Estilo";
+    btnMudarEstilo.classList.add("btn", "btn-warning", "m-2");
+
+    var icon = document.createElement("i");
+    icon.classList.add("fa-solid", "fa-brush");
+
+    btnMudarEstilo.appendChild(icon);
+    btnMudarEstilo.appendChild(document.createTextNode(" Mudar Estilo"));
     btnMudarEstilo.addEventListener('click', function () {
         Swal.fire({
             title: 'Selecione a cor de fundo, a cor da fonte e a fonte:',
@@ -353,6 +358,7 @@ async function criarTabela() {
             var input = document.createElement("input");
             input.type = "text";
             input.value = "";
+            input.spellcheck = true;
 
             if (titulos[j] === "Dado") {
                 input.value = "";
@@ -409,13 +415,26 @@ function openSwalForColumnAplicacao(inputElement) {
     Swal.fire({
         title: 'Escolha um valor para Aplicação',
         html: `
+            <style>
+                .swal2-container .swal2-popup .swal2-html-container {
+                    text-align: left;
+                }
+                .swal2-container .swal2-popup .swal2-html-container div {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .swal2-container .swal2-popup .swal2-html-container div input {
+                    margin-right: 10px;
+                }
+            </style>
             <div>
-                <input type="radio" name="aplicacao" value="Web"> Web<br>
-                <input type="radio" name="aplicacao" value="Serviço"> Serviço<br>
-                <input type="radio" name="aplicacao" value="Desktop"> Desktop<br>
-                <input type="radio" name="aplicacao" value="Infra"> Infra<br>
-                <input type="radio" name="aplicacao" value="Mainframe"> Mainframe<br>
-                <input type="radio" name="aplicacao" value="Mobile"> Mobile<br>
+                <label><input type="radio" name="aplicacao" value="Web"> Web</label>
+                <label><input type="radio" name="aplicacao" value="Serviço"> Serviço</label>
+                <label><input type="radio" name="aplicacao" value="Desktop"> Desktop</label>
+                <label><input type="radio" name="aplicacao" value="Infra"> Infra</label>
+                <label><input type="radio" name="aplicacao" value="Mainframe"> Mainframe</label>
+                <label><input type="radio" name="aplicacao" value="Mobile"> Mobile</label>
             </div>
         `,
         showCancelButton: true,
@@ -441,15 +460,28 @@ function openSwalForColumnTipoTeste(inputElement) {
     Swal.fire({
         title: 'Escolha um valor para Tipo de Teste',
         html: `
+            <style>
+                .swal2-container .swal2-popup .swal2-html-container {
+                    text-align: left;
+                }
+                .swal2-container .swal2-popup .swal2-html-container div {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .swal2-container .swal2-popup .swal2-html-container div input {
+                    margin-right: 10px;
+                }
+            </style>
             <div>
-                <input type="radio" name="tipoteste" value="Acceptance"> Acceptance<br>
-                <input type="radio" name="tipoteste" value="End to End"> End to End<br>
-                <input type="radio" name="tipoteste" value="Regression"> Regression<br>
-                <input type="radio" name="tipoteste" value="Sanity"> Sanity<br>
-                <input type="radio" name="tipoteste" value="Security"> Security<br>
-                <input type="radio" name="tipoteste" value="Performance"> Performance<br>
-                <input type="radio" name="tipoteste" value="UI"> UI<br>
-                <input type="radio" name="tipoteste" value="API"> API<br>
+                <label><input type="radio" name="tipoteste" value="Acceptance"> Acceptance</label>
+                <label><input type="radio" name="tipoteste" value="End to End"> End to End</label>
+                <label><input type="radio" name="tipoteste" value="Regression"> Regression</label>
+                <label><input type="radio" name="tipoteste" value="Sanity"> Sanity</label>
+                <label><input type="radio" name="tipoteste" value="Security"> Security</label>
+                <label><input type="radio" name="tipoteste" value="Performance"> Performance</label>
+                <label><input type="radio" name="tipoteste" value="UI"> UI</label>
+                <label><input type="radio" name="tipoteste" value="API"> API</label>
             </div>
         `,
         showCancelButton: true,
@@ -1291,20 +1323,82 @@ document.addEventListener('DOMContentLoaded', function () {
             if (searchText.includes('bug')) {
                 Swal.fire({
                     title: 'Adicionar informações de Bug',
+                    width: '80%',
                     html:
-                        '<div style="display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 20px;">' +
+                        '<div style="max-height: 400px; overflow-y: auto;">' +
+                        '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
                         '<label for="bugNumber" style="margin-bottom: 5px;"><i class="fa-solid fa-bugs"></i> Número do Bug</label>' +
-                        '<input type="text" id="bugNumber" class="swal2-input" placeholder="INC00000000">' +
+                        '<input type="text" id="bugNumber" class="swal2-input" placeholder="INC00000000" style="width: 100%;">' +
                         '</div>' +
 
-                        '<div style="display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 10px;">' +
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
                         '<label for="aplicacaoName" style="margin-bottom: 5px;"><i class="fa-solid fa-globe"></i> Nome da Aplicação</label>' +
-                        '<input type="text" id="aplicacaoName" class="swal2-input" placeholder="aplicação...">' +
+                        '<input type="text" id="aplicacaoName" class="swal2-input" placeholder="aplicação..." style="width: 100%;">' +
                         '</div>' +
 
-                        '<div style="display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 10px;">' +
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
                         '<label for="torreName" style="margin-bottom: 5px;"><i class="fa-solid fa-circle-info"></i> Descrição resumida</label>' +
-                        '<input type="text" id="torreName" class="swal2-input" placeholder="descrição resumida...">' +
+                        '<input type="text" id="torreName" class="swal2-input" placeholder="descrição resumida..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="abertoPor" style="margin-bottom: 5px;"><i class="fa-solid fa-user"></i> Aberto por</label>' +
+                        '<input type="text" id="abertoPor" class="swal2-input" placeholder="aberto por..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="tipo" style="margin-bottom: 5px;"><i class="fa-solid fa-list"></i> Tipo</label>' +
+                        '<input type="text" id="tipo" class="swal2-input" placeholder="tipo..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="categoria" style="margin-bottom: 5px;"><i class="fa-solid fa-tags"></i> Categoria</label>' +
+                        '<input type="text" id="categoria" class="swal2-input" placeholder="categoria..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="ambiente" style="margin-bottom: 5px;"><i class="fa-solid fa-cloud"></i> Ambiente</label>' +
+                        '<input type="text" id="ambiente" class="swal2-input" placeholder="ambiente..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="servico" style="margin-bottom: 5px;"><i class="fa-solid fa-cogs"></i> Serviço</label>' +
+                        '<input type="text" id="servico" class="swal2-input" placeholder="serviço..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="estado" style="margin-bottom: 5px;"><i class="fa-solid fa-clipboard-check"></i> Estado</label>' +
+                        '<input type="text" id="estado" class="swal2-input" placeholder="estado..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="impacto" style="margin-bottom: 5px;"><i class="fa-solid fa-exclamation-triangle"></i> Impacto</label>' +
+                        '<input type="text" id="impacto" class="swal2-input" placeholder="impacto..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="urgencia" style="margin-bottom: 5px;"><i class="fa-solid fa-bolt"></i> Urgência</label>' +
+                        '<input type="text" id="urgencia" class="swal2-input" placeholder="urgência..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="prioridade" style="margin-bottom: 5px;"><i class="fa-solid fa-arrow-up"></i> Prioridade</label>' +
+                        '<input type="text" id="prioridade" class="swal2-input" placeholder="prioridade..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="grupoAtribuicao" style="margin-bottom: 5px;"><i class="fa-solid fa-users"></i> Grupo de Atribuição</label>' +
+                        '<input type="text" id="grupoAtribuicao" class="swal2-input" placeholder="grupo de atribuição..." style="width: 100%;">' +
+                        '</div>' +
+
+                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
+                        '<label for="criadoEm" style="margin-bottom: 5px;"><i class="fa-solid fa-calendar"></i> Criado em</label>' +
+                        '<input type="date" id="criadoEm" class="swal2-input" style="width: 100%;">' +
+                        '</div>' +
+
+                        '</div>' +
                         '</div>',
                     showCancelButton: true,
                     confirmButtonText: 'Adicionar',
@@ -1313,15 +1407,26 @@ document.addEventListener('DOMContentLoaded', function () {
                     showLoaderOnConfirm: true,
                     preConfirm: () => {
                         var bugNumber = document.getElementById('bugNumber').value.trim();
-                        var torreName = document.getElementById('torreName').value.trim();
                         var aplicacaoName = document.getElementById('aplicacaoName').value.trim();
+                        var torreName = document.getElementById('torreName').value.trim();
+                        var abertoPor = document.getElementById('abertoPor').value.trim();
+                        var tipo = document.getElementById('tipo').value.trim();
+                        var categoria = document.getElementById('categoria').value.trim();
+                        var ambiente = document.getElementById('ambiente').value.trim();
+                        var servico = document.getElementById('servico').value.trim();
+                        var estado = document.getElementById('estado').value.trim();
+                        var impacto = document.getElementById('impacto').value.trim();
+                        var urgencia = document.getElementById('urgencia').value.trim();
+                        var prioridade = document.getElementById('prioridade').value.trim();
+                        var grupoAtribuicao = document.getElementById('grupoAtribuicao').value.trim();
+                        var criadoEm = document.getElementById('criadoEm').value.trim();
 
-                        if (!bugNumber || !torreName || !aplicacaoName) {
-                            Swal.showValidationMessage('Por favor, preencha ambos os campos.');
+                        if (!bugNumber || !aplicacaoName || !torreName || !abertoPor || !tipo || !categoria || !ambiente || !servico || !estado || !impacto || !urgencia || !prioridade || !grupoAtribuicao || !criadoEm) {
+                            Swal.showValidationMessage('Por favor, preencha todos os campos.');
                             return false;
                         }
 
-                        target.value = `bug nº ${bugNumber}, Aplicação: ${aplicacaoName}, Descrição: ${torreName}`;
+                        target.value = `bug nº ${bugNumber}, Aplicação: ${aplicacaoName}, Descrição: ${torreName}, Aberto por: ${abertoPor}, Tipo: ${tipo}, Categoria: ${categoria}, Ambiente: ${ambiente}, Serviço: ${servico}, Estado: ${estado}, Impacto: ${impacto}, Urgência: ${urgencia}, Prioridade: ${prioridade}, Grupo de Atribuição: ${grupoAtribuicao}, Criado em: ${criadoEm}`;
                     },
                     allowOutsideClick: () => !Swal.isLoading()
                 });
@@ -1763,7 +1868,7 @@ function criarDashboard(data) {
 document.addEventListener('DOMContentLoaded', function () {
     const themeButton = document.getElementById('themeButton');
     const body = document.body;
-    const maxRetries = 3; // número máximo de tentativas de carregamento
+    const maxRetries = 3;
 
     function setBackgroundImage(url, retries = 0) {
         const img = new Image();
@@ -1794,30 +1899,36 @@ document.addEventListener('DOMContentLoaded', function () {
     themeButton.addEventListener('click', function () {
         Swal.fire({
             title: 'Escolha um tema',
-            input: 'radio',
-            inputOptions: {
-                light: 'Claro',
-                dark: 'Escuro',
-                custom: 'Azul Oceano',
-                newColor: 'Azul Escuro',
-                image: 'Noite',
-                anotherImage: 'Dia'
-            },
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Você precisa escolher um tema!';
-                }
-            },
+            html: `
+                <select id="themeSelector" class="swal2-select">
+                    <option value="#" selected disabled>Seleciona um tema</option>
+                    <option value="light">Claro</option>
+                    <option value="dark">Escuro</option>
+                    <option value="custom">Azul Oceano</option>
+                    <option value="newColor">Azul Escuro</option>
+                    <option value="image">Noite</option>
+                    <option value="anotherImage">Dia</option>
+                </select>
+            `,
             showCancelButton: true,
             confirmButtonText: 'Aplicar',
             confirmButtonColor: '#3085d6',
-            cancelButtonText: 'Cancelar'
+            cancelButtonText: 'Cancelar',
+            preConfirm: () => {
+                const selectedTheme = Swal.getPopup().querySelector('#themeSelector').value;
+                if (!selectedTheme) {
+                    Swal.showValidationMessage('Você precisa escolher um tema!');
+                }
+                return selectedTheme;
+            }
         }).then((result) => {
             if (result.isConfirmed) {
+                const selectedTheme = result.value;
+
                 body.classList.remove('light-theme', 'dark-theme', 'custom-theme', 'image-theme', 'new-color-theme');
                 body.style.backgroundImage = '';
 
-                switch (result.value) {
+                switch (selectedTheme) {
                     case 'light':
                         body.classList.add('light-theme');
                         break;
