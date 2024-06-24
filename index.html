@@ -203,11 +203,10 @@
                 data-intro="Adicione uma nova coluna clicando aqui." data-step="17">
                 <i class="fa-solid fa-plus"></i> Coluna
             </button>
-            <button title="Baixar Excel" class="btn btn-success" onclick="baixarExcel()"
-                data-intro="Exporte a tabela para Excel usando este botão." data-step="18">
-                <i class="fa-solid fa-file-excel"></i> Exportar excel
+            <button title="Baixar EXCEL, JSON, XML e YAML" class="btn btn-success" onclick="baixarExcel()"
+                data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="18">
+                <i class="fa-solid fa-file-arrow-down"></i> Exportar
             </button>
-
             <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
                 onchange="importExcel()" style="display: none;">
             <label title="Selecionar Excel" for="importExcel" class="btn btn-success" id="customButtonEx"

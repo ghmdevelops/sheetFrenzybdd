@@ -611,6 +611,16 @@ function apagarLinha() {
 function adicionarColuna() {
     var tabela = document.getElementById("tabela");
 
+    if (!tabela) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Nenhuma tabela encontrada',
+            text: 'Não há nenhuma tabela disponível para adicionar colune.',
+            confirmButtonColor: "#3085d6",
+        });
+        return;
+    }
+
     Swal.fire({
         icon: 'question',
         text: 'Digite o índice da nova coluna (começando de 0):',
@@ -911,6 +921,17 @@ function inserirColuna(colIndex) {
 async function baixarExcel() {
     var tabela = document.getElementById("tabela");
 
+    if (!tabela || tabela.rows.length === 0) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Atenção',
+            text: 'Não há nenhuma tabela disponível para exportação.',
+            confirmButtonColor: '#0d6efd',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
     var data = [];
     for (var i = 0; i < tabela.rows.length; i++) {
         var rowData = [];
@@ -921,62 +942,109 @@ async function baixarExcel() {
         data.push(rowData);
     }
 
-    var wb = XLSX.utils.book_new();
-    var ws = XLSX.utils.aoa_to_sheet(data);
-
-    const { value: email, isConfirmed } = await Swal.fire({
-        text: "Digite o nome do arquivo",
-        input: "text",
-        inputPlaceholder: "nome do arquivo...",
-        confirmButtonText: '<i class="fa-solid fa-file-arrow-down"></i> Baixar',
-        confirmButtonColor: "#006400",
+    const { value: exportFormat } = await Swal.fire({
+        title: 'Escolha um formato de exportação',
+        input: 'select',
+        inputOptions: {
+            'excel': 'Excel',
+            'json': 'JSON',
+            'xml': 'XML',
+            'yaml': 'YAML'
+        },
+        inputPlaceholder: 'Selecione um formato',
         showCancelButton: true,
-        cancelButtonText: "Cancelar",
+        confirmButtonText: 'Exportar',
+        confirmButtonColor: '#006400',
+        cancelButtonText: 'Cancelar',
         inputValidator: (value) => {
             if (!value) {
-                return 'Por favor, preencha o nome do arquivo!';
+                return 'Você precisa escolher um formato!';
             }
         }
     });
 
-    if (isConfirmed && email) {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            }
-        });
-        Toast.fire({
-            icon: 'success',
-            title: `Excel baixado com sucesso: ${email}`
-        });
+    if (exportFormat) {
+        if (exportFormat === 'excel') {
+            const { value: fileName } = await Swal.fire({
+                title: 'Digite o nome do arquivo',
+                input: 'text',
+                inputPlaceholder: 'nome do arquivo...',
+                confirmButtonText: 'Baixar',
+                confirmButtonColor: '#006400',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Por favor, preencha o nome do arquivo!';
+                    }
+                }
+            });
 
-        XLSX.utils.book_append_sheet(wb, ws, "Tabela");
-        XLSX.writeFile(wb, email + ".xlsx");
+            if (fileName) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: `Excel baixado com sucesso: ${fileName}`
+                });
 
-        abrirModalEmail();
-    } else {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
+                var wb = XLSX.utils.book_new();
+                var ws = XLSX.utils.aoa_to_sheet(data);
+                XLSX.utils.book_append_sheet(wb, ws, "Tabela");
+                XLSX.writeFile(wb, fileName + ".xlsx");
+            } else {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: 'info',
+                    title: 'Operação cancelada!'
+                });
             }
-        });
-        Toast.fire({
-            icon: 'info',
-            title: 'Operação cancelada!'
-        });
+        } else if (exportFormat === 'json') {
+            const jsonContent = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8' });
+            saveAs(blob, 'data.json');
+        } else if (exportFormat === 'xml') {
+            const xmlContent = convertToXML(data);
+            const blob = new Blob([xmlContent], { type: 'application/xml;charset=utf-8' });
+            saveAs(blob, 'data.xml');
+        } else if (exportFormat === 'yaml') {
+            const yamlContent = jsyaml.dump(data);
+            const blob = new Blob([yamlContent], { type: 'application/x-yaml;charset=utf-8' });
+            saveAs(blob, 'data.yaml');
+        }
     }
+}
+
+function convertToXML(data) {
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<data>\n';
+    data.forEach(row => {
+        xml += '  <row>\n';
+        row.forEach(cell => {
+            xml += `    <cell>${cell}</cell>\n`;
+        });
+        xml += '  </row>\n';
+    });
+    xml += '</data>';
+    return xml;
 }
 
 function openEmailClient(senderEmail, recipientEmail) {
