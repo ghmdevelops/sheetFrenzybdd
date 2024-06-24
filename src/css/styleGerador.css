@@ -87,3 +87,41 @@ h2 {
 #logoPage {
     cursor: pointer;
 }
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    margin-right: 10px;
+    width: 80px;
+    height: auto;
+}
+
+.title {
+    font-size: 1.5em;
+}
+
+.highlight {
+    color: #16db6b;
+    margin-left: 5px;
+}
+
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+    }
+
+    .logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
+}

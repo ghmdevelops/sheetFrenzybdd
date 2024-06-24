@@ -52,9 +52,9 @@
         <button class="btn btn-light mb-3" onclick="toggleTheme()">
             <i id="theme-icon" class="fas fa-sun"></i>
         </button>
-        <h1 style="display: flex; align-items: center; justify-content: center;">
-            <img id="logoPage" width="50" src="../img/logoPage200.png" alt="sheet" style="margin-right: 10px;">
-            Gerador de Histórias de <b class="m-2" style="color: #16db6b;"> Usuário</b>
+        <h1 class="header">
+            <img id="logoPage" width="50" src="../img/logoPage200.png" alt="sheet" class="logo">
+            <span class="title">Gerador de Histórias de <b class="highlight">Usuário</b></span>
         </h1>
         <div class="form-row linesIn">
             <div class="form-group col-md-6">
@@ -92,12 +92,20 @@
             <textarea class="form-control" id="userStory" rows="10"
                 placeholder="Sua história de usuário aparecerá aqui..."></textarea>
         </div>
-        <button class="btn btn-danger" onclick="clearStory()">
-            <i class="fas fa-trash-alt"></i> Limpar História
-        </button>
-        <button class="btn btn-success" onclick="copyStory()">
-            <i class="fas fa-copy"></i> Copiar História
-        </button>
+        <div class="container my-3">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 mb-2 mb-md-0">
+                    <button class="btn btn-danger btn-block" onclick="clearStory()">
+                        <i class="fas fa-trash-alt"></i> Limpar História
+                    </button>
+                </div>
+                <div class="col-12 col-md-6">
+                    <button class="btn btn-success btn-block" onclick="copyStory()">
+                        <i class="fas fa-copy"></i> Copiar História
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="suggestion mt-3" id="suggestion"></div>
     </div>
     <script src="../js/scriptGerador.js" defer async></script>
