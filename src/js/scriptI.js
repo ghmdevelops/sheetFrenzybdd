@@ -924,7 +924,7 @@ async function baixarExcel() {
     if (!tabela || tabela.rows.length === 0) {
         Swal.fire({
             icon: 'info',
-            title: 'Atenção',
+            title: 'Nenhuma tabela encontrada',
             text: 'Não há nenhuma tabela disponível para exportação.',
             confirmButtonColor: '#0d6efd',
             confirmButtonText: 'OK'
