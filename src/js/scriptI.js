@@ -53,6 +53,7 @@ function importExcel() {
             var importedData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
             addDataToExistingTable(importedData);
+            adicionarEventosDeClique();
 
             const Toast = Swal.mixin({
                 toast: true,
@@ -76,6 +77,29 @@ function importExcel() {
         reader.readAsBinaryString(file);
     } else {
         alert("Por favor, selecione um arquivo Excel para importar.");
+    }
+}
+
+function adicionarEventosDeClique() {
+    var tabela = document.getElementById("tabela");
+
+    for (var i = 1; i < tabela.rows.length; i++) {
+        for (var j = 0; j < tabela.rows[i].cells.length; j++) {
+            var cell = tabela.rows[i].cells[j];
+            var input = cell.querySelector("input");
+
+            if (input) {
+                if (tabela.rows[0].cells[j].textContent.trim() === "Aplicação") {
+                    input.addEventListener('click', function () {
+                        openSwalForColumnAplicacao(this);
+                    });
+                } else if (tabela.rows[0].cells[j].textContent.trim() === "Tipo de teste") {
+                    input.addEventListener('click', function () {
+                        openSwalForColumnTipoTeste(this);
+                    });
+                }
+            }
+        }
     }
 }
 
