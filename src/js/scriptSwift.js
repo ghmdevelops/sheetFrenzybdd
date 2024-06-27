@@ -118,7 +118,7 @@ function processExcelData(rows, fileName) {
             ];
 
             testDataSheetData.push([
-                1, "test_suite", document.getElementById('name1').value, "", "ug-transform-reports-fgts-batch", document.getElementById('name5').value,
+                1, "test_suite", document.getElementById('name1').value, "", document.getElementById('name4').value, document.getElementById('name5').value,
                 document.getElementById('name6').value, document.getElementById('name7').value, "Acceptance", document.getElementById('name6').value,
                 "EMPPVD", document.getElementById('name8').value, "teste"
             ]);
