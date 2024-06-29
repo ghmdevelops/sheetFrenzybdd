@@ -245,6 +245,12 @@
                 aria-label="Visualizar Features">
                 <i class="fa-solid fa-arrows-to-eye"></i>
             </button>
+            <div class="d-flex justify-content-center mt-2">
+                <button title="Ativar Reconhecimento de Voz" id="audioButton" class="btn btn-warning"
+                    style="display:none;" onclick="ativarReconhecimentoDeVoz()">
+                    <i class="fas fa-microphone"></i> Ativar Reconhecimento de Voz
+                </button>
+            </div>
         </div>
         <div id="saveButtonContainer" style="display: none; margin: auto; text-align: center;">
             <button id="saveButton" class="btn btn-primary" onclick="saveTable()">Salvar no mesmo excel <i
@@ -355,12 +361,14 @@
             let startInput = null;
             let isDragging = false;
             let startY = 0;
+            let startX = 0;
 
             document.addEventListener('mousedown', function (event) {
                 if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
                     startInput = event.target;
                     isDragging = true;
                     startY = event.clientY;
+                    startX = event.clientX;
                 }
             });
 
@@ -368,7 +376,7 @@
                 if (isDragging && startInput) {
                     const target = event.target;
                     if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
-                        if (event.clientY < startY) {
+                        if (event.clientY < startY || event.clientX < startX) {
                             target.value = '';
                         } else {
                             target.value = startInput.value;

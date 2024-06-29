@@ -88,9 +88,10 @@ function processExcelData(rows, fileName) {
                 let description = row[2]; // Pegando o dado da coluna 2
                 let aplicacao = row[7]; // Pegando o dado da coluna 3 para aplicação
                 let tipoTeste = row[9]; // Pegando o dado da coluna 4 para tipo de teste
+                let testeCampo = row[10];
 
                 manualSheetData.push([
-                    uniqueId, "test_manual", name, "", "", tipoTeste, document.getElementById('name2').value, aplicacao,
+                    uniqueId, "test_manual", name, "", "", tipoTeste, testeCampo, aplicacao,
                     document.getElementById('name4').value, document.getElementById('name5').value,
                     document.getElementById('name6').value, description, "15",
                     document.getElementById('name6').value, "Ready"

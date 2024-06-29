@@ -78,6 +78,7 @@ function importExcel() {
     } else {
         alert("Por favor, selecione um arquivo Excel para importar.");
     }
+    
 }
 
 function adicionarEventosDeClique() {
@@ -96,6 +97,10 @@ function adicionarEventosDeClique() {
                 } else if (tabela.rows[0].cells[j].textContent.trim() === "Tipo de teste") {
                     input.addEventListener('click', function () {
                         openSwalForColumnTipoTeste(this);
+                    });
+                } else if (tabela.rows[0].cells[j].textContent.trim() === "Teste de campo") {
+                    input.addEventListener('click', function () {
+                        openSwalForColumnTesteCampo(this);
                     });
                 }
             }
@@ -164,7 +169,7 @@ function saveTable() {
     });
 }
 
-function updateTable(importedData) {
+async function updateTable(importedData) {
     var headerRow = importedData[0];
     var existingTable = document.getElementById("tabela");
 
@@ -192,45 +197,73 @@ function updateTable(importedData) {
         }
     }
     document.body.appendChild(newTable);
+
+    const { value: activateSpeechRecognition } = await Swal.fire({
+        title: 'Deseja ativar o reconhecimento de voz?',
+        text: "Você poderá preencher os campos usando sua voz.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+    });
+
+    if (activateSpeechRecognition) {
+        ativarReconhecimentoDeVoz();
+    } else {
+        document.getElementById('audioButton').style.display = 'block';
+    }
 }
 
 function ativarReconhecimentoDeVoz() {
-    var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+    if (isRecognitionActive) {
+        recognition.stop();
+        isRecognitionActive = false;
+        Swal.fire('Reconhecimento de voz desativado', '', 'info');
+        document.getElementById('audioButton').innerHTML = '<i class="fas fa-microphone"></i> Ativar Reconhecimento de Voz';
+    } else {
+        if (!('webkitSpeechRecognition' in window)) {
+            Swal.fire('Erro', 'Reconhecimento de voz não suportado neste navegador.', 'error');
+            return;
+        }
 
-    recognition.onresult = function (event) {
-        var last = event.results.length - 1;
-        var spokenText = event.results[last][0].transcript;
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'pt-BR';
 
-        if (document.activeElement.tagName === 'INPUT' && document.activeElement.type === 'text') {
-            document.activeElement.value = spokenText;
+        recognition.onstart = function () {
+            Swal.fire('Reconhecimento de voz ativado', 'Você pode começar a falar.', 'success');
+            document.getElementById('audioButton').innerHTML = '<i class="fas fa-microphone-slash"></i> Desativar Reconhecimento de Voz';
+        };
 
-            setTimeout(function () {
-                var nextInput = getNextInput(document.activeElement);
-                if (nextInput) {
-                    nextInput.focus();
-                    recognition.start();
+        recognition.onerror = function (event) {
+            Swal.fire('Erro no reconhecimento de voz', event.error, 'error');
+        };
+
+        recognition.onresult = function (event) {
+            let interimTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    document.activeElement.value += event.results[i][0].transcript;
+                } else {
+                    interimTranscript += event.results[i][0].transcript;
                 }
-            }, 2000);
-        }
-    };
+            }
+        };
 
-    document.addEventListener('click', function (event) {
-        var target = event.target;
+        recognition.onend = function () {
+            if (isRecognitionActive) {
+                recognition.start();
+            } else {
+                document.getElementById('audioButton').innerHTML = '<i class="fas fa-microphone"></i> Ativar Reconhecimento de Voz';
+            }
+        };
 
-        if (target.tagName === 'INPUT' && target.type === 'text') {
-            recognition.start();
-        }
-    });
-}
-
-function getNextInput(currentInput) {
-    var inputs = document.querySelectorAll('input[type="text"]');
-    var currentIndex = Array.from(inputs).indexOf(currentInput);
-
-    if (currentIndex < inputs.length - 1) {
-        return inputs[currentIndex + 1];
-    } else {
-        return null;
+        recognition.start();
+        isRecognitionActive = true;
+        document.getElementById('audioButton').innerHTML = '<i class="fas fa-microphone-slash"></i> Desativar Reconhecimento de Voz';
     }
 }
 
@@ -244,6 +277,20 @@ function getNextInput(currentInput) {
         return null;
     }
 }
+
+function getNextInput(currentInput) {
+    var inputs = document.querySelectorAll('input[type="text"]');
+    var currentIndex = Array.from(inputs).indexOf(currentInput);
+
+    if (currentIndex < inputs.length - 1) {
+        return inputs[currentIndex + 1];
+    } else {
+        return null;
+    }
+}
+
+let recognition;
+let isRecognitionActive = false;
 
 var linhasSublinhadas = [];
 async function criarTabela() {
@@ -352,12 +399,12 @@ async function criarTabela() {
     document.body.appendChild(btnMudarEstilo);
 
     var rows = document.getElementById("rows").value;
-    var cols = document.getElementById("cols").value - 1; // Reduzir o número de colunas em 1
+    var cols = document.getElementById("cols").value; // Reduzir o número de colunas em 1
     var tabela = document.createElement("table");
     tabela.id = "tabela";
 
     var cabecalho = tabela.createTHead().insertRow(0);
-    var titulos = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Status"];
+    var titulos = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Teste de campo", "Status"];
 
     for (var j = 0; j < cols; j++) {
         var th = cabecalho.insertCell(j);
@@ -398,11 +445,16 @@ async function criarTabela() {
                 input.addEventListener('click', function () {
                     openSwalForColumnTipoTeste(this);
                 });
+            } else if (titulos[j] === "Teste de campo") {
+                input.classList.add('clickable-input');
+                input.addEventListener('click', function () {
+                    openSwalForColumnTesteCampo(this);
+                });
             }
 
             cell.appendChild(input);
         }
-        row.cells[10].querySelector("input").value = "nok";
+        row.cells[11].querySelector("input").value = "nok";
     }
     document.body.appendChild(tabela);
 
@@ -419,6 +471,8 @@ async function criarTabela() {
 
     if (activateSpeechRecognition) {
         ativarReconhecimentoDeVoz();
+    } else {
+        document.getElementById('audioButton').style.display = 'block';
     }
 
     mostrarInformacoes();
@@ -527,6 +581,47 @@ function openSwalForColumnTipoTeste(inputElement) {
     });
 }
 
+function openSwalForColumnTesteCampo(inputElement) {
+    Swal.fire({
+        title: 'Escolha um valor para Teste de campo',
+        html: `
+            <style>
+                .swal2-container .swal2-popup .swal2-html-container {
+                    text-align: left;
+                }
+                .swal2-container .swal2-popup .swal2-html-container div {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .swal2-container .swal2-popup .swal2-html-container div input {
+                    margin-right: 10px;
+                }
+            </style>
+            <div>
+                <label><input type="radio" name="tipoteste" value="Positivo"> Positivo</label>
+                <label><input type="radio" name="tipoteste" value="Negativo"> Negativo</label>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+            const selectedOption = document.querySelector('input[name="tipoteste"]:checked');
+            if (selectedOption) {
+                return selectedOption.value;
+            } else {
+                Swal.showValidationMessage('Você precisa escolher um valor!');
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            inputElement.value = result.value;
+        }
+    });
+}
+
 function mostrarInformacoes() {
     Swal.fire({
         title: 'Informações Importantes',
@@ -579,7 +674,7 @@ function adicionarLinha() {
         var cellCT = newRow.insertCell(0);
         cellCT.textContent = ctValue;
 
-        var titulos = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Status"];
+        var titulos = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Teste de campo", "Status"];
 
         for (var j = 1; j < tabela.rows[0].cells.length; j++) {
             var cell = newRow.insertCell(j);
@@ -608,12 +703,17 @@ function adicionarLinha() {
                     input.addEventListener('click', function () {
                         openSwalForColumnTipoTeste(this);
                     });
+                } else if (titulos[j] === "Teste de campo") {
+                    input.classList.add('clickable-input');
+                    input.addEventListener('click', function () {
+                        openSwalForColumnTesteCampo(this);
+                    });
                 }
 
                 cell.appendChild(input);
             }
         }
-        newRow.cells[10].querySelector("input").value = "nok";
+        newRow.cells[11].querySelector("input").value = "nok";
     }
 }
 
@@ -1687,7 +1787,7 @@ function gerarDashboard() {
     }
 
     var data = [];
-    var colunaIndex = 10;
+    var colunaIndex = 11;
 
     for (var i = 1; i < tabela.rows.length; i++) {
         var input = tabela.rows[i].cells[colunaIndex].querySelector("input");
@@ -1734,7 +1834,7 @@ function gerarDashboard() {
 
 function mostrarCenariosBug() {
     var tabela = document.getElementById("tabela");
-    var colunaIndex = 10;
+    var colunaIndex = 11;
     var modalBody = document.getElementById("modalBody");
     var colunasIgnoradas = ["Contexto", "Funcionalidade", "Dado", "E", "Quando", "Então", "Aplicação", "História", "Tipo de teste"];
     var cenariosBug = [];
@@ -1793,7 +1893,7 @@ function contarNumeros() {
     var numeroDesplanejado = 0;
     var numeroProgredindo = 0;
     var numeroBug = 0;
-    var colunaIndex = 10;
+    var colunaIndex = 11;
 
     for (var i = 1; i < tabela.rows.length; i++) {
         var input = tabela.rows[i].cells[colunaIndex].querySelector("input");
