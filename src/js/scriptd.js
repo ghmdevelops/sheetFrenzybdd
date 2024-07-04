@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function scrollToTop() {
-    var scrollDuration = 3000;
+    var scrollDuration = 3;
     var scrollStep = -window.scrollY / (scrollDuration / 15);
     var scrollInterval = setInterval(function () {
         if (window.scrollY != 0) {

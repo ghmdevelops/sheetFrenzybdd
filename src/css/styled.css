@@ -3,6 +3,10 @@ body {
     transition: background-color 0.5s, color 0.5s;
 }
 
+h1 {
+    color: #effff6;
+}
+
 .sidebar a {
     color: #000;
 }
