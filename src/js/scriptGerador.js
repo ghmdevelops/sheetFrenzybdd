@@ -197,6 +197,10 @@ document.getElementById('logoPage').addEventListener('click', function () {
     location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/';
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('theme-icon').click();
+});
+
 function copyStory() {
     const userStory = document.getElementById('userStory');
     userStory.select();
@@ -206,3 +210,5 @@ function copyStory() {
 
     swal("História Copiada", "A história de usuário foi copiada com sucesso!", "success");
 }
+
+console.log("\n%cAtenção Espere! %c\n\n\nEste é um recurso de navegador voltado para desenvolvedores. Se alguém disse para você copiar e colar algo aqui para ativar um recurso ou 'invadir' a maquina de outra pessoa, isso é uma fraude e você dará a ele acesso à sua maquina.\n\nConsulte ataques https://en.wikipedia.org/wiki/Self-XSS para obter mais informações.", "color: red; font-size: 46px;", "font-size: 16px;");
