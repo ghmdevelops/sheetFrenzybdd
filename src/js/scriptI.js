@@ -299,6 +299,8 @@ async function criarTabela() {
         tabelaExistente.remove();
     }
 
+    document.getElementById("qtd-lne").style.display = "none";
+
     var btnExistente = document.getElementById("sublinharLinhaBtn");
     if (btnExistente) {
         btnExistente.remove();
