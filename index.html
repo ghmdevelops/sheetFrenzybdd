@@ -39,7 +39,6 @@
     <meta name="geo.position" content="-23.5637;-46.6549">
     <meta name="ICBM" content="-23.5637, -46.6549">
     <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
         integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
@@ -70,6 +69,52 @@
     <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
     <link rel="stylesheet" href="./src/css/style.css">
+    <script>
+        let idleTime = 0;
+
+        function resetIdleTime() {
+            idleTime = 0;
+        }
+
+        function startIdleTimer() {
+            setInterval(timerIncrement, 1000);
+            window.onmousemove = resetIdleTime;
+            window.onkeypress = resetIdleTime;
+        }
+
+        function timerIncrement() {
+            idleTime += 1;
+            if (idleTime > 60) {
+                Swal.fire({
+                    title: 'Você está inativo!',
+                    text: 'Você está inativo há mais de 1 minuto. Precisa de ajuda?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim',
+                    confirmButtonColor: "#1589FF",
+                    cancelButtonText: 'Não',
+                    cancelButtonColor: "red",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            '',
+                            '<b>Clique em contato <i class="fa-solid fa-phone"></i>.</b>',
+                            'success',
+                        );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                            'Ação Cancelada',
+                            '',
+                            'error'
+                        );
+                    }
+                });
+                idleTime = 0;
+            }
+        }
+
+        window.onload = startIdleTimer;
+    </script>
 </head>
 
 <body>
