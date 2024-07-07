@@ -1,7 +1,7 @@
 const CACHE_NAME = 'sheetfrenzy-v1';
 const urlsToCache = [
     '/',
-    '/src/html/index.html',
+    './index.html',
     '/src/css/styles.css',
     '/src/js/app.js',
     '/src/img/logoPage200.png',
