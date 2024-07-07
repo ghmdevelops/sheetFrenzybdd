@@ -4,6 +4,10 @@ body {
 }
 
 h1 {
+    color: #000000;
+}
+
+body.dark-theme h1 {
     color: #effff6;
 }
 

@@ -78,7 +78,7 @@ function importExcel() {
     } else {
         alert("Por favor, selecione um arquivo Excel para importar.");
     }
-    
+
 }
 
 function adicionarEventosDeClique() {
@@ -476,6 +476,8 @@ async function criarTabela() {
     }
 
     mostrarInformacoes();
+    document.querySelector('.grade-buttons').classList.remove('d-none');
+    document.querySelector('#audioButton').classList.remove('d-none');
 }
 
 function atualizarEstiloLinhasSublinhadas() {

@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!tabela || tabela.rows.length === 0) {
             Swal.fire({
-                title: 'Erro',
+                title: 'Nenhuma tabela encontrada',
                 text: 'Por favor, adicione uma tabela antes de visualizar as features.',
-                icon: 'error',
+                icon: 'info',
                 confirmButtonText: 'OK',
-                confirmButtonColor: '#1589FF',
+                confirmButtonColor: "#1589FF",
                 customClass: {
                     popup: 'animated fadeIn'
                 }

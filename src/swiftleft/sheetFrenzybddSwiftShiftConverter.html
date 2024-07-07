@@ -57,6 +57,11 @@
 </head>
 
 <body>
+    <script>
+        window.onbeforeunload = function () {
+            return "e possível que as alterações feitas não sejam salvas.";
+        };
+    </script>
     <div class="container">
         <div class="title">
             <img id="logoInit" width="60" src="../img/logoPage200.png" alt="swiftl"> Swift Shift <b

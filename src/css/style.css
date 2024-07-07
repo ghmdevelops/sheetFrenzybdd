@@ -117,8 +117,9 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
     background-color: #333232;
-    border: 1px solid #4dc26c;
+    border: 1px solid #ffffff;
     transition: background-color 0.3s ease;
+    border-radius: 19rem;
 }
 
 body::-webkit-scrollbar-thumb:hover {
@@ -178,7 +179,7 @@ table input {
 }
 
 table tr:hover {
-    background-color: #214f38;
+    background-color: #0077ff;
 }
 
 input[type="number"] {
@@ -249,21 +250,32 @@ button#btn-more2:active {
     display: none;
 }
 
+.grade-buttons {
+    background-color: #28a745;
+    border: 1px solid #16db6b;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+}
+
 .botoes-container {
     display: inline-block;
     border: 2px solid none;
     background-color: #28a745;
     border-radius: 3px;
+    font-weight: 500;
+    color: #fff;
 }
 
 button#scrollToTopBtn {
     position: fixed;
     display: none;
-    border-radius: 20%;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
+    border-radius: 15%;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
     background-color: #007bff;
     color: white;
     font-size: 20px;
@@ -277,7 +289,7 @@ button#scrollToTopBtn {
 button#scrollToTopBtn:hover {
     background-color: #0056b3;
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.3);
 }
 
 button#scrollToTopBtn i {
