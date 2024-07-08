@@ -102,316 +102,490 @@
                     </li>
                 </ul>
             </div>
+
             <section class="mt-5" id="introducao">
                 <h2>Introdução</h2>
                 <p>O <strong>SheetFrenzy BDD</strong> é uma ferramenta para otimizar o desenvolvimento de
                     software utilizando o Desenvolvimento Orientado a Comportamento (BDD). Esta documentação
                     detalha a funcionalidade de cada botão presente na página principal da ferramenta.</p>
+                <h2>Estrutura HTML</h2>
             </section>
 
-            <section class="mt-4" id="botoes-barra-superior">
-                <h2>Botões da Barra Superior</h2>
-                <div class="card">
-                    <div class="card-header">
-                        Acessar Blog Compartilhado
+            <div class="container">
+                <div class="content-section" id="estrutura-html">
+                    <div id="botoes" class="content-section">
+                        <h3>Botões</h3>
+                        <ul>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Importar Excel:</strong> Permite ao usuário importar dados de um arquivo
+                                    Excel para a tabela exibida na página.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário importar dados de
+                                            um arquivo Excel para a tabela exibida na página.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, o usuário pode
+                                            selecionar um arquivo Excel de seu computador. O conteúdo do arquivo é lido
+                                            e os dados são adicionados à tabela existente, mantendo qualquer informação
+                                            já presente.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Salvar Tabela:</strong> Permite ao usuário salvar a tabela atual em um
+                                    arquivo Excel.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário salvar a tabela
+                                            atual em um arquivo Excel.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, o usuário pode
+                                            salvar os dados da tabela em um arquivo Excel no seu computador. A
+                                            funcionalidade inclui a criação de um novo arquivo Excel com os dados atuais
+                                            da tabela e a notificação do usuário sobre o sucesso da operação.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Adicionar Linha:</strong> Permite ao usuário adicionar uma nova linha à
+                                    tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário adicionar uma nova
+                                            linha à tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, uma nova linha é
+                                            adicionada ao final da tabela. Cada célula da nova linha contém um campo de
+                                            entrada (input) onde o usuário pode inserir dados.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Excluir Linha:</strong> Permite ao usuário excluir a última linha da tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário excluir a última
+                                            linha da tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, a última linha da
+                                            tabela é removida. Se houver apenas uma linha restante na tabela, uma
+                                            mensagem de aviso é exibida indicando que não é possível excluir a última
+                                            linha.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Adicionar Coluna:</strong> Permite ao usuário adicionar uma nova coluna à
+                                    tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário adicionar uma nova
+                                            coluna à tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, o usuário é
+                                            solicitado a fornecer o título da nova coluna. A nova coluna é então
+                                            adicionada à tabela em uma posição especificada pelo usuário ou ao final da
+                                            tabela.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Gerar Dashboard:</strong> Permite ao usuário gerar um dashboard com base nos
+                                    dados da tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário gerar um dashboard
+                                            com base nos dados da tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, um dashboard é
+                                            gerado mostrando a distribuição dos dados em diferentes categorias, como
+                                            "Ok", "Nok", "Desplanejado", "Progredindo" e "Bug". O dashboard é exibido em
+                                            um modal.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Copiar para Todos:</strong> Permite ao usuário copiar valores de uma célula
+                                    para todas as células em uma coluna especificada.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário copiar valores de
+                                            uma célula para todas as células em uma coluna especificada.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, o usuário pode
+                                            especificar a coluna e o intervalo de linhas onde deseja copiar o valor. O
+                                            valor é então copiado para todas as células no intervalo especificado.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Filtro por CT:</strong> Permite ao usuário filtrar a tabela por um valor
+                                    especificado no campo de filtro.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário filtrar a tabela
+                                            por um valor especificado no campo de filtro.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, a tabela é filtrada
+                                            para mostrar apenas as linhas que contêm o valor especificado no campo de
+                                            filtro. As linhas correspondentes são destacadas e a tabela é rolada para a
+                                            primeira linha correspondente.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Tema:</strong> Permite ao usuário alterar o tema da página.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário alterar o tema da
+                                            página.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, uma janela de
+                                            seleção de tema é aberta. O usuário pode escolher entre diferentes temas,
+                                            como Claro, Escuro, Azul Oceano, entre outros. O tema selecionado é aplicado
+                                            imediatamente à página.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Email:</strong> Permite ao usuário enviar um email com o conteúdo da tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário enviar um email
+                                            com o conteúdo da tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, uma janela é aberta
+                                            para o usuário fornecer o endereço de email do destinatário e do remetente.
+                                            Um email é então composto com os dados da tabela e enviado aos endereços
+                                            especificados.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="mt-4">
+                                    <strong>Print PDF:</strong> Permite ao usuário gerar um PDF do dashboard.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Este botão permite ao usuário gerar um PDF do
+                                            dashboard.</li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar neste botão, o conteúdo do
+                                            dashboard é convertido em um PDF, que pode ser baixado pelo usuário. O PDF
+                                            contém uma captura de tela do dashboard, incluindo gráficos e resumos de
+                                            dados.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Este botão leva o usuário ao blog compartilhado, onde é
-                            possível encontrar artigos, tutoriais e outras informações úteis sobre BDD e
-                            desenvolvimento de software.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Direciona o usuário ao blog compartilhado, facilitando o acesso a recursos adicionais.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Fazer uma busca
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Ao clicar neste botão, o usuário pode realizar buscas
-                            dentro da página para encontrar informações específicas rapidamente.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Alterna a visibilidade do campo de busca, permitindo ao usuário exibir ou ocultar o campo conforme necessário.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Temas
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Permite ao usuário alternar entre diferentes temas de
-                            cores para a página, proporcionando uma experiência de visualização personalizada.
-                        </p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Alterna entre diferentes temas visuais para a página.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Documentação
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Direciona o usuário para a documentação completa da
-                            ferramenta, onde ele pode encontrar guias de uso e referência.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Abre a documentação completa da ferramenta.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Conceitos
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Fornece acesso a conceitos básicos e explicações sobre
-                            BDD e a utilização da ferramenta.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Abre uma página ou modal com explicações sobre os conceitos básicos de BDD.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Editor Gherkin
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Abre o editor Gherkin, onde o usuário pode criar e editar
-                            cenários BDD usando a linguagem Gherkin.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Abre o editor Gherkin para criação e edição de cenários BDD.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Gravar uma página
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Inicia uma gravação da sessão atual, útil para criar
-                            tutoriais ou registrar processos.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Inicia a gravação da sessão atual do usuário.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Exportar para PDF
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Exporta a tabela ou o conteúdo atual da página para um
-                            arquivo PDF.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Exporta o conteúdo da página para um arquivo PDF.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Entrar em contato
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Permite ao usuário entrar em contato com o suporte ou a
-                            equipe de desenvolvimento.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Abre uma interface de contato para que o usuário possa se comunicar com o suporte.</code></pre>
-                    </div>
-                </div>
-            </section>
 
-            <section id="botoes-manipulacao-tabela">
-                <h2>Botões de Manipulação de Tabela</h2>
-                <div class="card">
-                    <div class="card-header">
-                        Diminuir número de linhas
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Diminui o número de linhas na tabela.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Diminui o número de linhas na tabela quando o botão é pressionado e interrompe o decremento quando o botão é solto.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Adicionar número de linhas
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Aumenta o número de linhas na tabela.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Aumenta o número de linhas na tabela quando o botão é pressionado e interrompe o incremento quando o botão é solto.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Adicionar Tabela
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Cria uma nova tabela com o número especificado de linhas
-                            e colunas.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Cria uma nova tabela com base nos valores de linhas e colunas fornecidos pelo usuário.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Apagar Linha
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Apaga a linha selecionada na tabela.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Apaga a linha selecionada na tabela.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Adicionar Linha
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Adiciona uma nova linha à tabela.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Adiciona uma nova linha à tabela.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Adicionar Coluna
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Adiciona uma nova coluna à tabela.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Adiciona uma nova coluna à tabela.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Baixar Excel
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Exporta a tabela para um arquivo Excel.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Exporta e baixa a tabela para um arquivo Excel.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Selecionar Excel
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Permite ao usuário importar dados de um arquivo Excel
-                            para a tabela.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Importa dados de um arquivo Excel selecionado pelo usuário e preenche a tabela com esses dados.</code></pre>
-                    </div>
-                </div>
-            </section>
 
-            <section id="botoes-adicionais">
-                <h2>Botões Adicionais</h2>
-                <div class="card">
-                    <div class="card-header">
-                        Gerar Features
+                    <div id="inputs" class="content-section">
+                        <h3>Inputs</h3>
+                        <ul>
+                            <div class="mt-4">
+                                <li><strong>Upload de Arquivo:</strong> Campo de entrada para importar um arquivo Excel.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Permite ao usuário selecionar um arquivo Excel
+                                            de
+                                            seu
+                                            computador. O conteúdo do arquivo é lido e os dados são adicionados à tabela
+                                            existente
+                                            na página.</li>
+                                        <li><strong>Funcionalidade:</strong> Permite ao usuário selecionar um arquivo
+                                            Excel
+                                            de seu
+                                            computador. O conteúdo do arquivo é lido e os dados são adicionados à tabela
+                                            existente
+                                            na página.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                            <div class="mt-4">
+                                <li><strong>Campo de Filtro:</strong> Campo de entrada para filtrar a tabela por CT.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Permite ao usuário inserir um valor para filtrar
+                                            a
+                                            tabela.
+                                        </li>
+                                        <li><strong>Funcionalidade:</strong> Quando o valor é inserido e o botão de
+                                            filtro é
+                                            clicado, a tabela é filtrada para mostrar apenas as linhas que contêm o
+                                            valor
+                                            especificado.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                            <div class="mt-4">
+                                <li><strong>Quantidade de Linhas:</strong> Campo para especificar a quantidade de linhas
+                                    a
+                                    serem
+                                    adicionadas à tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Permite ao usuário definir o número de linhas a
+                                            serem
+                                            adicionadas à tabela ao criar uma nova tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> Permite ao usuário definir o número de
+                                            linhas a
+                                            serem
+                                            adicionadas à tabela ao criar uma nova tabela.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                            <div class="mt-4">
+                                <li><strong>Quantidade de Colunas:</strong> Campo para especificar a quantidade de
+                                    colunas a
+                                    serem
+                                    adicionadas à tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Permite ao usuário definir o número de colunas a
+                                            serem
+                                            adicionadas à tabela ao criar uma nova tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> Permite ao usuário definir o número de
+                                            colunas
+                                            a serem
+                                            adicionadas à tabela ao criar uma nova tabela.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                        </ul>
                     </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Gera cenários de teste (features) para BDD com base na
-                            tabela atual.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Gera cenários de teste (features) com base na tabela atual.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Baixar Features
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Baixa os cenários de teste gerados em formato compatível
-                            com ferramentas BDD.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Exporta e baixa os cenários de teste selecionados pelo usuário.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Voltar para baixar
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Volta para a visualização anterior na interface de
-                            usuário.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Alterna entre diferentes estados de botões na interface.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Selecionar Todos
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Seleciona todos os cenários de teste para download ou
-                            edição.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Seleciona todos os cenários de teste na tabela.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Copiar para outras linhas
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Copia o conteúdo de uma célula para todas as linhas da
-                            tabela.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Copia o conteúdo de uma célula para todas as outras células na mesma coluna.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Gerar dashboard
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Gera um dashboard visual com gráficos baseados nos dados
-                            da tabela.</p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Gera um dashboard visual com gráficos baseados nos dados da tabela.</code></pre>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Gerar excel octane
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descrição:</strong> Converte a tabela para um formato específico de Excel.
-                        </p>
-                        <button class="btn btn-primary btn-show-function">Mostrar Função</button>
-                        <pre class="btn-function"
-                            style="display: none;"><code>Converte a tabela para um formato específico de Excel.</code></pre>
-                    </div>
-                </div>
-            </section>
 
-            <section id="resumo-funcionalidades">
-                <h2>Resumo das Funcionalidades</h2>
-                <p>A página do <strong>SheetFrenzy BDD</strong> oferece uma série de funcionalidades para
-                    facilitar a criação e manipulação de cenários BDD. Os botões descritos acima permitem ao
-                    usuário manipular a tabela, gerar e baixar cenários de teste, personalizar a aparência da
-                    página e acessar informações e ajuda de maneira eficiente.</p>
-            </section>
+                    <div id="tabelas" class="content-section">
+                        <h3>Tabelas</h3>
+                        <ul>
+                            <li><strong>Tabela de Dados:</strong> Tabela principal que armazena e exibe os dados
+                                importados e
+                                inseridos.
+                                <ul>
+                                    <li><strong>Descrição:</strong> Exibe os dados em formato tabular.</li>
+                                    <li><strong>Funcionalidade:</strong> Cada célula da tabela contém um campo de
+                                        entrada
+                                        (input) onde o usuário pode inserir ou editar dados. A tabela pode ser
+                                        manipulada
+                                        através dos botões para adicionar/excluir linhas e colunas, e pode ser filtrada
+                                        e
+                                        ordenada conforme necessário.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="modais" class="content-section">
+                        <h3>Modais</h3>
+                        <ul>
+                            <li><strong>Modal Principal:</strong> Modal que exibe o dashboard gerado com base nos dados
+                                da
+                                tabela.
+                                <ul>
+                                    <li><strong>Descrição:</strong> Exibe um resumo visual dos dados da tabela,
+                                        incluindo
+                                        gráficos e resumos.</li>
+                                    <li><strong>Funcionalidade:</strong> O modal pode ser aberto ao clicar no botão
+                                        "Gerar
+                                        Dashboard" e pode ser fechado pelo usuário após a visualização.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-section ms-5 mt-5" id="funcionalidades-javascript">
+                    <h2>Funcionalidades JavaScript</h2>
+
+                    <div id="eventos-de-duplo-clique" class="content-section mt-4">
+                        <h3>Eventos de Duplo Clique</h3>
+                        <ul>
+                            <li><strong>Descrição:</strong> Abre um modal de edição ao dar um duplo clique em um campo
+                                de texto
+                                (input[type="text"]) dentro da tabela.</li>
+                            <li><strong>Funcionalidade:</strong> Ao dar um duplo clique em uma célula da tabela, um
+                                modal é
+                                aberto permitindo ao usuário editar o conteúdo da célula em um campo de texto maior.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="importacao-de-excel" class="content-section">
+                        <h3>Importação de Excel</h3>
+                        <ul>
+                            <li><strong>Descrição:</strong> Importa dados de um arquivo Excel selecionado pelo usuário e
+                                adiciona esses dados à tabela existente.</li>
+                            <li><strong>Funcionalidade:</strong> O usuário seleciona um arquivo Excel de seu computador.
+                                O
+                                conteúdo do arquivo é lido e os dados são adicionados à tabela existente. Uma
+                                notificação é
+                                exibida informando o sucesso da importação.</li>
+                        </ul>
+                    </div>
+
+                    <div id="salvamento-de-tabela" class="content-section">
+                        <h3>Salvamento de Tabela</h3>
+                        <ul>
+                            <li><strong>Descrição:</strong> Salva a tabela atual em um arquivo Excel.</li>
+                            <li><strong>Funcionalidade:</strong> Os dados da tabela são exportados para um novo arquivo
+                                Excel
+                                que é salvo no computador do usuário. Uma notificação é exibida informando o sucesso da
+                                operação.</li>
+                        </ul>
+                    </div>
+
+                    <div id="gerenciamento-de-tabela" class="content-section">
+                        <h3>Gerenciamento de Tabela</h3>
+                        <ul>
+                            <div class="mt-4">
+                                <li><strong>Adicionar Linha:</strong> Adiciona uma nova linha à tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Adiciona uma nova linha à tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> Uma nova linha é adicionada ao final da
+                                            tabela,
+                                            com
+                                            campos de entrada vazios para que o usuário possa inserir novos dados.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                            <div class="mt-4">
+                                <li><strong>Excluir Linha:</strong> Exclui a última linha da tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Exclui a última linha da tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> A última linha da tabela é removida. Se
+                                            houver
+                                            apenas
+                                            uma linha restante, uma mensagem de aviso é exibida.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                            <div class="mt-4">
+                                <li><strong>Adicionar Coluna:</strong> Adiciona uma nova coluna à tabela.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Adiciona uma nova coluna à tabela.</li>
+                                        <li><strong>Funcionalidade:</strong> O usuário é solicitado a fornecer o título
+                                            da
+                                            nova
+                                            coluna, que é então adicionada à tabela na posição especificada.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+
+                    <div id="reconhecimento-de-voz" class="content-section">
+                        <h3>Reconhecimento de Voz</h3>
+                        <ul>
+                            <li><strong>Descrição:</strong> Permite ao usuário preencher os campos da tabela usando
+                                comandos de
+                                voz.</li>
+                            <li><strong>Funcionalidade:</strong> O reconhecimento de voz é ativado, permitindo que o
+                                usuário
+                                insira dados na tabela através de comandos de voz. Os dados inseridos são preenchidos
+                                automaticamente nos campos de entrada da tabela.</li>
+                        </ul>
+                    </div>
+
+                    <div id="configuracao-de-estilo" class="content-section">
+                        <h3>Configuração de Estilo</h3>
+                        <ul>
+                            <li><strong>Descrição:</strong> Permite ao usuário alterar o estilo da tabela e dos campos
+                                de
+                                entrada.</li>
+                            <li><strong>Funcionalidade:</strong> O usuário pode selecionar diferentes cores de fundo,
+                                cores de
+                                fonte e fontes para personalizar a aparência da tabela. As alterações são aplicadas
+                                imediatamente aos campos de entrada da tabela.</li>
+                        </ul>
+                    </div>
+
+                    <div id="filtragem-e-ordenacao" class="content-section">
+                        <h3>Filtragem e Ordenação</h3>
+                        <ul>
+                            <div class="mt-4">
+                                <li><strong>Filtragem:</strong> Filtra a tabela por um valor especificado.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Filtra a tabela por um valor especificado.</li>
+                                        <li><strong>Funcionalidade:</strong> O usuário insere um valor no campo de
+                                            filtro e
+                                            a tabela
+                                            é atualizada para mostrar apenas as linhas que contêm o valor especificado.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </div>
+                            <div class="mt-4">
+                                <li><strong>Ordenação:</strong> Ordena a tabela por uma coluna especificada.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Ordena a tabela por uma coluna especificada.
+                                        </li>
+                                        <li><strong>Funcionalidade:</strong> Ao clicar no cabeçalho de uma coluna, a
+                                            tabela
+                                            é
+                                            ordenada em ordem crescente ou decrescente com base nos valores da coluna.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+
+                    <div id="copiar-para-todos" class="content-section">
+                        <h3>Copiar para Todos</h3>
+                        <ul>
+                            <li><strong>Descrição:</strong> Copia valores de uma célula para todas as células em uma
+                                coluna
+                                especificada.</li>
+                            <li><strong>Funcionalidade:</strong> O usuário especifica a coluna e o intervalo de linhas
+                                onde
+                                deseja copiar o valor. O valor é então copiado para todas as células no intervalo
+                                especificado.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="dashboard" class="content-section">
+                        <h3>Dashboard</h3>
+                        <ul>
+                            <li><strong>Descrição:</strong> Gera um dashboard com base nos dados da tabela.</li>
+                            <li><strong>Funcionalidade:</strong> Um resumo visual dos dados da tabela é gerado,
+                                incluindo
+                                gráficos e resumos. O dashboard é exibido em um modal, permitindo ao usuário visualizar
+                                a
+                                distribuição dos dados em diferentes categorias.</li>
+                        </ul>
+                    </div>
+
+                    <div id="tema" class="content-section">
+                        <h3>Tema</h3>
+                        <ul>
+                            <li><strong>Descrição:</strong> Permite ao usuário alterar o tema da página.</li>
+                            <li><strong>Funcionalidade:</strong> O usuário pode escolher entre diferentes temas, como
+                                Claro,
+                                Escuro, Azul Oceano, entre outros. O tema selecionado é aplicado imediatamente à página.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="print-e-download" class="content-section">
+                        <h3>Print e Download</h3>
+                        <ul>
+                            <div class="mt-4">
+                                <li><strong>Print PDF:</strong> Gera um PDF do dashboard.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Gera um PDF do dashboard.</li>
+                                        <li><strong>Funcionalidade:</strong> O conteúdo do dashboard é convertido em um
+                                            PDF
+                                            que pode
+                                            ser baixado pelo usuário. O PDF contém uma captura de tela do dashboard,
+                                            incluindo
+                                            gráficos e resumos de dados.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                            <div class="mt-4">
+                                <li><strong>Download Excel:</strong> Permite ao usuário baixar a tabela como um arquivo
+                                    Excel.
+                                    <ul>
+                                        <li><strong>Descrição:</strong> Permite ao usuário baixar a tabela como um
+                                            arquivo
+                                            Excel.
+                                        </li>
+                                        <li><strong>Funcionalidade:</strong> A tabela é exportada como um arquivo Excel
+                                            e
+                                            baixada
+                                            para o computador do usuário.</li>
+                                    </ul>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -427,15 +601,21 @@
                             SHEETFRENZY <b style="color: #16db6b;">BDD</b>
                         </h6>
                         <p>
-                            Nosso site é dedicado a fornecer uma valiosa ferramenta para equipes que buscam uma maneira
-                            eficaz de criar, organizar e editar documentação de testes, promovendo uma colaboração mais
-                            eficiente e ágil no ciclo de desenvolvimento de software. Uma característica notável do site
+                            Nosso site é dedicado a fornecer uma valiosa ferramenta para equipes que buscam uma
+                            maneira
+                            eficaz de criar, organizar e editar documentação de testes, promovendo uma
+                            colaboração mais
+                            eficiente e ágil no ciclo de desenvolvimento de software. Uma característica notável
+                            do site
                             é a
-                            flexibilidade oferecida aos usuários, permitindo a edição ilimitada dos documentos gerados.
+                            flexibilidade oferecida aos usuários, permitindo a edição ilimitada dos documentos
+                            gerados.
                             Isso
-                            possibilita ajustes contínuos conforme as necessidades evoluem ou novos requisitos surgem.
+                            possibilita ajustes contínuos conforme as necessidades evoluem ou novos requisitos
+                            surgem.
                             Com
-                            essa abordagem iterativa, o processo de desenvolvimento e teste se torna mais dinâmico e
+                            essa abordagem iterativa, o processo de desenvolvimento e teste se torna mais
+                            dinâmico e
                             adaptável.
                         </p>
                     </div>

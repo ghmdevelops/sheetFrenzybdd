@@ -267,6 +267,48 @@ function ativarReconhecimentoDeVoz() {
     }
 }
 
+/*function executarComando(comando) {
+    if (comando.includes('blog')) {
+        document.getElementById('blog').click();
+    } else if (comando.includes('buscar')) {
+        document.getElementById('btn-sear').click();
+    } else if (comando.includes('tema')) {
+        document.getElementById('themeButton').click();
+    } else if (comando.includes('documentação')) {
+        document.getElementById('doc-book').click();
+    } else if (comando.includes('gerar excel') || comando.includes('octane')) {
+        document.getElementById('convertTableButton').click();
+    } else if (comando.includes('gravar')) {
+        document.getElementById('recordingButton').click();
+    } else if (comando.includes('exportar pdf')) {
+        document.getElementById('exportarPDFBtn').click();
+    } else if (comando.includes('contato')) {
+        document.getElementById('contact').click();
+    } else if (comando.includes('gerador de histórias')) {
+        document.getElementById('storyGenerator').click();
+    } else if (comando.includes('apagar linha')) {
+        document.getElementById('lsmns').click();
+    } else if (comando.includes('adicionar linha')) {
+        document.getElementById('lsdty').click();
+    } else if (comando.includes('baixar bdd')) {
+        document.querySelector('button[title="Baixar EXCEL, JSON, XML e YAML"]').click();
+    } else if (comando.includes('importar bdd')) {
+        document.getElementById('customButtonEx').click();
+    } else if (comando.includes('gerar features')) {
+        document.getElementById('featuresBtn').click();
+    } else if (comando.includes('baixar features')) {
+        document.getElementById('baixarBtn').click();
+    } else if (comando.includes('visualizar features')) {
+        document.getElementById('viewFeaturesBtn').click();
+    } else if (comando.includes('copiar')) {
+        document.querySelector('button[title="Copiar para outras linhas"]').click();
+    } else if (comando.includes('gerar dashboard')) {
+        document.querySelector('button[title="Gerar dashboard"]').click();
+    } else {
+       // Swal.fire('Comando não reconhecido', comando, 'error');
+    }
+}*/
+
 function getNextInput(currentInput) {
     var inputs = document.querySelectorAll('input[type="text"]');
     var currentIndex = Array.from(inputs).indexOf(currentInput);
@@ -2282,11 +2324,6 @@ function takeScreenshotAndDownload() {
         showButtons();
     });
 }
-
-const btnquesti = document.getElementById('doc-quest');
-btnquesti.addEventListener('click', e => {
-    location.href = './src/html/mod/sheetFrenzybddGherkinConceitos.html';
-});
 
 document.getElementById("titulo").addEventListener("click", function () {
     location.reload();
