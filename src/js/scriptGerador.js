@@ -1,14 +1,62 @@
-function generateStory() {
-    const keywords = document.getElementById('keywords').value.trim();
-    const userType = document.getElementById('userType').value.trim();
-    const goal = document.getElementById('goal').value.trim();
-    const reason = document.getElementById('reason').value.trim();
-    const details = document.getElementById('details').value.trim();
+$(document).ready(function () {
+    $('#userStoryForm').validate({
+        rules: {
+            keywords: {
+                required: true
+            },
+            userType: {
+                required: true
+            },
+            goal: {
+                required: true
+            },
+            reason: {
+                required: true
+            }
+        },
+        messages: {
+            keywords: {
+                required: "Por favor, insira palavras-chave."
+            },
+            userType: {
+                required: "Por favor, insira o tipo de usuário."
+            },
+            goal: {
+                required: "Por favor, insira o objetivo."
+            },
+            reason: {
+                required: "Por favor, insira o motivo."
+            }
+        },
+        errorElement: 'div',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            if (element.prop('type') === 'checkbox') {
+                error.insertAfter(element.next('label'));
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-valid').removeClass('is-invalid');
+        }
+    });
+});
 
-    if (!keywords || !userType || !goal || !reason) {
+function generateStory() {
+    if (!$('#userStoryForm').valid()) {
         swal("Campos obrigatórios", "Por favor, preencha todos os campos obrigatórios.", "warning");
         return;
     }
+
+    const keywords = $('#keywords').val().trim();
+    const userType = $('#userType').val().trim();
+    const goal = $('#goal').val().trim();
+    const reason = $('#reason').val().trim();
+    const details = $('#details').val().trim();
 
     const randomOption = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -174,11 +222,11 @@ function generateStory() {
     document.getElementById('userStory').value = story;
     document.getElementById('suggestion').innerText = `História gerada com base nas palavras-chave: "${keywords}"`;
 
-    document.getElementById('keywords').value = '';
-    document.getElementById('userType').value = '';
-    document.getElementById('goal').value = '';
-    document.getElementById('reason').value = '';
-    document.getElementById('details').value = '';
+    $('#keywords').val('');
+    $('#userType').val('');
+    $('#goal').val('');
+    $('#reason').val('');
+    $('#details').val('');
 }
 
 function clearStory() {
