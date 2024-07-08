@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Lateral com Troca de Conteúdo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <a href="#" onclick="loadContent('theme1')">Selenium Teste</a>
+        <a href="#" onclick="loadContent('theme2')">Tema 2</a>
+        <a href="#" onclick="loadContent('theme3')">Tema 3</a>
+    </div>
+
+    <div class="content" id="content">
+        <h2>Bem-vindo!</h2>
+        <p>Selecione um tema no menu lateral para ver o conteúdo.</p>
+    </div>
+
+    <script>
+        function loadContent(theme) {
+            let content = document.getElementById('content');
+            if (theme === 'theme1') {
+                content.innerHTML = `
+                <h2>Selenium Teste</h2>
+                <p>Conteúdo para o Tema 1.</p>
+            `;
+            } else if (theme === 'theme2') {
+                content.innerHTML = `
+                <h2>Tema 2</h2>
+                <p>Conteúdo para o Tema 2.</p>
+            `;
+            } else if (theme === 'theme3') {
+                content.innerHTML = `
+                <h2>Tema 3</h2>
+                <p>Conteúdo para o Tema 3.</p>
+            `;
+            }
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 suggestionItem.className = 'autocomplete-suggestion';
                 suggestionItem.textContent = suggestion;
                 suggestionItem.addEventListener('click', () => {
-                    const newText = editor.getRange({ line: cursorPos.line, ch: token.start }, cursorPos) + suggestion + editor.getRange(cursorPos, { line: cursorPos.line, ch: token.end });
+                    const newText = suggestion;
                     editor.replaceRange(newText, { line: cursorPos.line, ch: token.start }, { line: cursorPos.line, ch: token.end });
                     autocompleteList.innerHTML = '';
                 });
@@ -55,6 +55,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (event) => {
         if (!event.target.closest('.autocomplete-container')) {
             autocompleteList.innerHTML = '';
+        }
+    });
+
+    editor.on('keydown', (cm, event) => {
+        if (event.key === 'Enter' && autocompleteList.children.length > 0) {
+            event.preventDefault();
+            const firstSuggestion = autocompleteList.children[0];
+            if (firstSuggestion) {
+                const cursorPos = editor.getCursor();
+                const token = editor.getTokenAt(cursorPos);
+                const newText = firstSuggestion.textContent;
+                editor.replaceRange(newText, { line: cursorPos.line, ch: token.start }, { line: cursorPos.line, ch: token.end });
+                autocompleteList.innerHTML = '';
+            }
         }
     });
 
@@ -117,11 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const lines = gherkinText.split('\n');
         let isValid = true;
         let formattedText = '';
+        let errorLines = [];
 
-        lines.forEach(line => {
+        lines.forEach((line, index) => {
             const trimmedLine = line.trim();
             if (action === 'validate' && trimmedLine && !keywords.some(keyword => trimmedLine.startsWith(keyword))) {
                 isValid = false;
+                errorLines.push(index + 1);
             }
             formattedText += trimmedLine + '\n';
         });
@@ -130,7 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (action === 'format') {
             output.textContent = formattedText.trim();
         } else if (action === 'validate') {
-            output.textContent = isValid ? 'A sintaxe do Gherkin é válida.' : 'Sintaxe do Gherkin inválida. Por favor, verifique seus cenários.';
+            if (isValid) {
+                output.textContent = 'A sintaxe do Gherkin é válida.';
+            } else {
+                output.textContent = 'Sintaxe do Gherkin inválida. Por favor, verifique seus cenários nas seguintes linhas: ' + errorLines.join(', ') + '.';
+            }
         }
     }
 
