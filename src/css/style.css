@@ -51,6 +51,12 @@ h1:hover {
     transform: scale(1.05);
 }
 
+#titulo img {
+    width: 100%;
+    height: auto;
+    max-width: 700px;
+}
+
 .const-import li {
     background-color: transparent;
     text-align: left;
@@ -360,11 +366,49 @@ select:focus {
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
-/* Layout Responsivo */
+.responsive-popup {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.responsive-popup img {
+    width: 10%;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.responsive-popup #progm-init {
+    text-align: left;
+    padding: 0;
+    list-style-type: none;
+}
+
+.responsive-popup #progm-init li {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 576px) {
+    .responsive-popup {
+        padding: 10px;
+    }
+
+    .responsive-popup img {
+        width: 60%;
+        max-width: 100px;
+    }
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 1.5rem;
         width: auto;
+    }
+
+    #titulo {
+        font-size: 1.5rem;
     }
 
     select#themeSelector {
@@ -383,6 +427,15 @@ select:focus {
 
     .table-responsive {
         overflow-x: auto;
+    }
+
+    .responsive-popup {
+        padding: 15px;
+    }
+
+    .responsive-popup img {
+        width: 70%;
+        max-width: 120px;
     }
 }
 
