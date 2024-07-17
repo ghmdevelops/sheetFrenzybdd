@@ -1,26 +1,23 @@
 {
-    "name": "SheetFrenzy BDD",
-    "short_name": "SheetFrenzy",
-    "description": "Uma aplicação web para geração de cenários BDD automatizados e personalizados utilizando a linguagem Gherkin.",
-    "start_url": "./index.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#007bff",
-    "icons": [
-      {
-        "src": "./src/favicon.ico",
-        "sizes": "200x200",
-        "type": "image/png"
-      },
-      {
-        "src": "./src/favicon.ico",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ],
-    "permissions": [
-      "microphone",
-      "notifications"
-    ],
-    "gcm_sender_id": "YOUR_GCM_SENDER_ID"
-  }  
+  "name": "SheetFrenzy BDD",
+  "short_name": "SheetFrenzy",
+  "description": "Uma aplicação web para geração de cenários BDD automatizados e personalizados utilizando a linguagem Gherkin.",
+  "start_url": "./index.html",
+  "id": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "icons": [
+    {
+      "src": "./src/img/logoPage200.png",
+      "sizes": "193x200",
+      "type": "image/png"
+    }
+  ],
+  "permissions": [
+    "microphone",
+    "notifications",
+    "geolocation"
+  ],
+  "gcm_sender_id": "YOUR_GCM_SENDER_ID"
+}

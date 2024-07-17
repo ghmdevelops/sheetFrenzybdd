@@ -50,11 +50,35 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register('./src/js/sw.js').then(function (registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function (err) {
-                    console.log('ServiceWorker registration failed: ', err);
+            navigator.serviceWorker.register('./src/js/sw.js').then(function (registration) {
+                console.log('Service Worker registrado com sucesso:', registration.scope);
+            }).catch(function (error) {
+                console.log('Falha ao registrar o Service Worker:', error);
+            });
+        }
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredPrompt = event;
+            showInstallPromotion();
+        });
+
+        function showInstallPromotion() {
+            const installButton = document.getElementById('installButton');
+            installButton.style.display = 'block';
+
+            installButton.addEventListener('click', () => {
+                installButton.style.display = 'none';
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou o prompt de instalação');
+                    } else {
+                        console.log('Usuário recusou o prompt de instalação');
+                    }
+                    deferredPrompt = null;
                 });
             });
         }
@@ -218,6 +242,10 @@
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Clique aqui para gerador de Historias." data-step="11">
                         <i class="fa-solid fa-book-open"></i>
+                    </button>
+                    <button title="Gerador de Historias" id="installButton" style="cursor: pointer; display: none;"
+                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg">
+                        <i class="fa-solid fa-download"></i>
                     </button>
                 </div>
             </div>

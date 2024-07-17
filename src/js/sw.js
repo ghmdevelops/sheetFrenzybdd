@@ -34,7 +34,6 @@ const urlsToCache = [
     './src/js/sw.js'
 ];
 
-// Instalando o Service Worker e cacheando os recursos
 self.addEventListener('install', function (event) {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -42,14 +41,16 @@ self.addEventListener('install', function (event) {
                 console.log('Cache aberto');
                 return Promise.all(
                     urlsToCache.map(url => {
-                        return fetch(url).then(response => {
-                            if (!response.ok) {
-                                throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
-                            }
-                            return cache.put(url, response);
-                        }).catch(error => {
-                            console.error(`Falha ao adicionar ${url} ao cache:`, error);
-                        });
+                        return fetch(url)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+                                }
+                                return cache.put(url, response);
+                            })
+                            .catch(error => {
+                                console.error(`Falha ao adicionar ${url} ao cache:`, error);
+                            });
                     })
                 );
             })
@@ -59,27 +60,22 @@ self.addEventListener('install', function (event) {
     );
 });
 
-// Interceptando as requisições de rede e servindo o conteúdo a partir do cache se disponível
 self.addEventListener('fetch', function (event) {
     event.respondWith(
         caches.match(event.request)
             .then(function (response) {
-                // Cache hit - retorna a resposta do cache
                 if (response) {
                     return response;
                 }
 
-                // Clonar a requisição
                 var fetchRequest = event.request.clone();
 
                 return fetch(fetchRequest).then(
                     function (response) {
-                        // Verifica se recebeu uma resposta válida
                         if (!response || response.status !== 200 || response.type !== 'basic') {
                             return response;
                         }
 
-                        // Clonar a resposta
                         var responseToCache = response.clone();
 
                         caches.open(CACHE_NAME)
@@ -89,12 +85,14 @@ self.addEventListener('fetch', function (event) {
 
                         return response;
                     }
-                );
+                ).catch(function (error) {
+                    console.error('Fetch failed; returning offline page instead.', error);
+                    return caches.match('./offline.html');
+                });
             })
     );
 });
 
-// Atualizando o Service Worker e limpando caches antigos
 self.addEventListener('activate', function (event) {
     var cacheWhitelist = [CACHE_NAME];
 
