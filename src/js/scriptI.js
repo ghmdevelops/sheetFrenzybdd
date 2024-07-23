@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 let importedFileName = '';
 
-function importExcel() {
+async function importExcel() {
     var input = document.getElementById("importExcel");
     var file = input.files[0];
 
@@ -78,6 +78,27 @@ function importExcel() {
     } else {
         alert("Por favor, selecione um arquivo Excel para importar.");
     }
+
+    const { value: activateSpeechRecognition } = await Swal.fire({
+        title: 'Deseja ativar o reconhecimento de voz?',
+        text: "Você poderá preencher os campos usando sua voz.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+    });
+
+    if (activateSpeechRecognition) {
+        ativarReconhecimentoDeVoz();
+    } else {
+        document.getElementById('audioButton').style.display = 'block';
+    }
+
+    mostrarInformacoes();
+    document.querySelector('.grade-buttons').classList.remove('d-none');
+    document.querySelector('#audioButton').classList.remove('d-none');
 
 }
 

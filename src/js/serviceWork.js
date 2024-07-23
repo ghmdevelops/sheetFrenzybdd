@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sheetfrenzy-v1';
+const CACHE_NAME = 'sheetFrenzyBDD-cache-v1';
 const urlsToCache = [
     '/',
     './index.html',
@@ -34,6 +34,7 @@ const urlsToCache = [
     './src/js/sw.js'
 ];
 
+// Instalando o Service Worker e cacheando os recursos
 self.addEventListener('install', function (event) {
     event.waitUntil(
         caches.open(CACHE_NAME)

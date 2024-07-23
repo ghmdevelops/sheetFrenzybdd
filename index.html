@@ -48,9 +48,31 @@
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
 
+    <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Weather Full Speed",
+                "url": "https://ghmdevelops.github.io/sheetFrenzybdd/",
+                "logo": "https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage.png",
+                "sameAs": [
+                    "https://www.facebook.com/sheetFrenzybdd",
+                    "https://www.twitter.com/sheetFrenzybdd",
+                    "https://www.instagram.com/sheetFrenzybdd"
+                ],
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+55-11-1234-5678",
+                    "contactType": "Customer Service",
+                    "areaServed": "BR",
+                    "availableLanguage": ["Portuguese", "English"]
+                }
+            }
+            </script>
+
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./src/js/sw.js').then(function (registration) {
+            navigator.serviceWorker.register('./src/js/serviceWork.js').then(function (registration) {
                 console.log('Service Worker registrado com sucesso:', registration.scope);
             }).catch(function (error) {
                 console.log('Falha ao registrar o Service Worker:', error);
@@ -83,6 +105,7 @@
             });
         }
     </script>
+
     <script src="https://kit.fontawesome.com/dc28592b31.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -243,10 +266,9 @@
                         data-intro="Clique aqui para gerador de Historias." data-step="11">
                         <i class="fa-solid fa-book-open"></i>
                     </button>
-                    <button title="Gerador de Historias" id="installButton" style="cursor: pointer; display: none;"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg">
-                        <i class="fa-solid fa-download"></i>
-                    </button>
+                    <button id="installButton" style="border: 2px solid #16db6b;cursor: pointer; display: none;"
+                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"><i style="color: #16db6b;"
+                            class="fa-regular fa-circle-down"></i></button>
                 </div>
             </div>
         </div>
@@ -254,7 +276,7 @@
 
     <video class="d-none" id="recordedVideo" controls></video>
 
-    <div class="container col-md-6">
+    <div class="container col-md-10">
         <div class="container py-3">
             <div id="qtd-lne" class="row justify-content-center">
                 <div class="col-md-5 col-sm-12 mx-auto mb-3">
@@ -290,10 +312,19 @@
                 </div>
 
                 <div class="col-md-4 col-sm-12 mt-md-4" data-intro="Clique aqui para criar a tabela." data-step="13">
-                    <button title="Adicionar Tabela" id="card-btns" class="btn btn-success w-100"
-                        onclick="criarTabela()">
-                        <i class="fa-solid fa-plus-circle"></i> Gerar BDD
-                    </button>
+                    <div class="d-inline-block">
+                        <button title="Adicionar Tabela" id="card-btns" class="btn btn-success" onclick="criarTabela()">
+                            <i class="fa-solid fa-plus-circle"></i> Gerar BDD
+                        </button>
+                    </div>
+                    <div class="d-inline-block">
+                        <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
+                            onchange="importExcel()" style="display: none;">
+                        <label title="Selecionar Excel" for="importExcel" class="btn btn-success" id="customButtonEx"
+                            data-intro="Selecione um arquivo Excel para importar." data-step="17">
+                            <i class="fa-solid fa-file-circle-plus"></i> Importar BDD
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -320,12 +351,6 @@
                     data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="16">
                     <i class="fa-solid fa-file-download"></i> Exportar BDD
                 </button>
-                <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
-                    onchange="importExcel()" style="display: none;">
-                <label title="Selecionar Excel" for="importExcel" class="btn btn-success" id="customButtonEx"
-                    data-intro="Selecione um arquivo Excel para importar." data-step="17">
-                    <i class="fa-solid fa-file-circle-plus"></i> Importar BDD
-                </label>
                 <br>
 
                 <div class="btn-group" role="group" aria-label="Opções">

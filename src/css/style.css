@@ -480,6 +480,16 @@ button {
     transition: transform 0.2s;
 }
 
+#card-btns {
+    cursor: pointer;
+    transition: transform 0s;
+}
+
+#card-btns:hover {
+    transform: translateY(-0px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 button:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
