@@ -469,7 +469,7 @@ async function criarTabela() {
     tabela.id = "tabela";
 
     var cabecalho = tabela.createTHead().insertRow(0);
-    var titulos = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Teste de campo", "Status"];
+    var titulos = ["Nº", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Teste de campo", "Status"];
 
     for (var j = 0; j < cols; j++) {
         var th = cabecalho.insertCell(j);
@@ -741,7 +741,7 @@ function adicionarLinha() {
         var cellCT = newRow.insertCell(0);
         cellCT.textContent = ctValue;
 
-        var titulos = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Teste de campo", "Status"];
+        var titulos = ["Nº", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Teste de campo", "Status"];
 
         for (var j = 1; j < tabela.rows[0].cells.length; j++) {
             var cell = newRow.insertCell(j);
