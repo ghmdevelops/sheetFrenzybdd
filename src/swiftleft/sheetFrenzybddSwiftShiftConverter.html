@@ -78,7 +78,11 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="name4"><i class="fas fa-server"></i> Serviço:</label>
-                    <input type="text" class="form-control" id="name4" name="name4" value="SHARED">
+                    <input list="serviceOptions" class="form-control" id="name4" name="name4"
+                        placeholder="Adicione o nome do serviço Ex: camel_example_service">
+                    <datalist id="serviceOptions">
+                        <option value="SHARED">
+                    </datalist>
                 </div>
             </div>
             <div class="form-row">

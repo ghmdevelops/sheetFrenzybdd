@@ -53,6 +53,30 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
                 let firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                 let rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
 
+                // Cabeçalhos obrigatórios
+                let requiredHeaders = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Teste de campo", "Status"];
+                let actualHeaders = rows[0].map(header => header.trim());
+                let missingHeaders = requiredHeaders.filter(header => !actualHeaders.includes(header));
+                let extraHeaders = actualHeaders.filter(header => !requiredHeaders.includes(header));
+
+                if (missingHeaders.length > 0 || extraHeaders.length > 0) {
+                    let message = '';
+                    if (missingHeaders.length > 0) {
+                        message += `Os seguintes títulos estão faltando no arquivo: ${missingHeaders.join(', ')}. `;
+                    }
+                    if (extraHeaders.length > 0) {
+                        message += `Os seguintes títulos são extras ou diferentes: ${extraHeaders.join(', ')}. por favor retirar.`;
+                    }
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: message,
+                        confirmButtonColor: "#15c56d",
+                        confirmButtonText: "OK",
+                    });
+                    return;
+                }
+
                 // Processar os dados do arquivo Excel
                 processExcelData(rows, fileName);
             };
@@ -150,7 +174,6 @@ function processExcelData(rows, fileName) {
     }, 100);
 }
 
-// Função para salvar o arquivo
 function saveAs(blob, fileName) {
     let link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
