@@ -9,7 +9,7 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
             icon: "error",
             title: "Oops...",
             text: "Por favor, preencha todos os campos.",
-            confirmButtonColor: "#15c56d",
+            confirmButtonColor: "#0f4178",
             confirmButtonText: "OK",
         });
         return;
@@ -21,7 +21,7 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
             icon: "error",
             title: "Oops...",
             text: "Por favor, escolha um arquivo Excel.",
-            confirmButtonColor: "#15c56d",
+            confirmButtonColor: "#0f4178",
             confirmButtonText: "OK",
         });
         return;
@@ -33,7 +33,7 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
         inputLabel: 'Por favor, insira o nome do arquivo:',
         inputPlaceholder: 'Swift_Shift_Converter',
         showCancelButton: true,
-        confirmButtonColor: "#15c56d",
+        confirmButtonColor: "#0f4178",
         confirmButtonText: 'OK',
         cancelButtonText: 'Cancelar',
         inputValidator: (value) => {
@@ -71,7 +71,7 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
                         icon: "error",
                         title: "Oops...",
                         text: message,
-                        confirmButtonColor: "#15c56d",
+                        confirmButtonColor: "#0f4178",
                         confirmButtonText: "OK",
                     });
                     return;
@@ -166,8 +166,12 @@ function processExcelData(rows, fileName) {
             Swal.fire({
                 icon: "success",
                 text: "O arquivo Excel foi criado com sucesso!",
-                confirmButtonColor: "#15c56d",
+                confirmButtonColor: "#0f4178",
                 confirmButtonText: "OK",
+                timer: 1900,
+                showConfirmButton: false,
+                position: 'center',
+                timerProgressBar: true,
             });
             progressContainer.style.display = 'none';
         }

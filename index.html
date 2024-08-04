@@ -248,22 +248,22 @@
                     </button>
                     <button title="Gravar uma página" id="recordingButton" type="button"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Clique aqui para iniciar uma gravação." data-step="7">
+                        data-intro="Clique aqui para iniciar uma gravação." data-step="6">
                         <i class="fa-solid fa-video"></i>
                     </button>
                     <button title="Exportar para PDF" id="exportarPDFBtn"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Exporte a tabela para PDF usando este botão." data-step="9">
+                        data-intro="Exporte a tabela para PDF usando este botão." data-step="7">
                         <i class="fa-solid fa-file-pdf"></i>
                     </button>
                     <button title="Entrar em contato" id="contact"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Clique aqui para entrar em contato." data-step="10">
+                        data-intro="Clique aqui para entrar em contato." data-step="8">
                         <i class="fa-solid fa-phone"></i>
                     </button>
                     <button title="Gerador de Historias" id="storyGenerator"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Clique aqui para gerador de Historias." data-step="11">
+                        data-intro="Clique aqui para gerador de Historias." data-step="9">
                         <i class="fa-solid fa-book-open"></i>
                     </button>
                     <button id="installButton" style="border: 2px solid #16db6b;cursor: pointer; display: none;"
@@ -286,7 +286,7 @@
                             onmousedown="startDecrement1()" onmouseup="stopDecrement1()">
                             <i class="fa-solid fa-minus"></i>
                         </button>
-                        <input data-intro="Aqui você pode definir o número de linhas para a tabela." data-step="12"
+                        <input data-intro="Aqui você pode definir o número de linhas para a tabela." data-step="11"
                             type="text" id="rows" value="1" class="form-control text-center font-weight-bold">
                         <button title="Adicionar número de linhas" id="btn-less1" class="btn btn-secondary"
                             onmousedown="startIncrement1()" onmouseup="stopIncrement1()">
@@ -311,9 +311,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 col-sm-12 mt-md-4" data-intro="Clique aqui para criar a tabela." data-step="13">
+                <div class="col-md-4 col-sm-12 mt-md-4">
                     <div class="d-inline-block">
-                        <button title="Adicionar Tabela" id="card-btns" class="btn btn-success" onclick="criarTabela()">
+                        <button title="Adicionar Tabela" id="card-btns" class="btn btn-success"
+                            data-intro="Clique aqui para criar a tabela." data-step="12" onclick="criarTabela()">
                             <i class="fa-solid fa-plus-circle"></i> Gerar BDD
                         </button>
                     </div>
@@ -321,7 +322,7 @@
                         <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
                             onchange="importExcel()" style="display: none;">
                         <label title="Selecionar Excel" for="importExcel" class="btn btn-success" id="customButtonEx"
-                            data-intro="Selecione um arquivo Excel para importar." data-step="17">
+                            data-intro="Selecione um arquivo Excel para importar." data-step="13">
                             <i class="fa-solid fa-file-circle-plus"></i> Importar BDD
                         </label>
                     </div>
@@ -334,21 +335,21 @@
             <div class="grade-buttons col-md-12 d-none">
                 <div id="myDiv-cards" class="botoes-container">
                     <button title="Apagar Linha" id="lsmns" class="btn btn-success" onclick="apagarLinha()"
-                        data-intro="Apague a linha selecionada clicando aqui." data-step="13">
+                        data-intro="Apague a linha selecionada clicando aqui." data-step="14">
                         <i class="fa-solid fa-minus"></i>
                     </button>
                     <label class="mt-2">Linha</label>
                     <button title="Adicionar Linha" id="lsdty" class="btn btn-success" onclick="adicionarLinha()"
-                        data-intro="Adicione uma nova linha clicando aqui." data-step="14">
+                        data-intro="Adicione uma nova linha clicando aqui." data-step="15">
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
                 <button title="Adicionar Coluna" class="btn btn-success" onclick="adicionarColuna()"
-                    data-intro="Adicione uma nova coluna clicando aqui." data-step="15">
+                    data-intro="Adicione uma nova coluna clicando aqui." data-step="16">
                     <i class="fa-solid fa-plus"></i> Coluna
                 </button>
                 <button title="Baixar EXCEL, JSON, XML e YAML" class="btn btn-success" onclick="baixarExcel()"
-                    data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="16">
+                    data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="17">
                     <i class="fa-solid fa-file-download"></i> Exportar BDD
                 </button>
                 <br>
@@ -403,7 +404,7 @@
                 <input style="display: none;" class="form-control" type="search" id="filtroCT" name="filtroCT"
                     placeholder="filtrar por cenário ex: CT0001">
                 <button style="display: none;" type="button" class="btn btn-success" id="segundoBotao"
-                    onclick="filtrarPorCT()" data-intro="Filtre os cenários da tabela." data-step="29">
+                    onclick="filtrarPorCT()" data-intro="Filtre os cenários da tabela." data-step="23">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>

@@ -70,16 +70,17 @@
         <form id="converterForm" class="mt-4">
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="name1"><i class="fas fa-vial"></i> Título:</label>
-                    <input type="text" class="form-control" id="name1" name="name1"
-                        placeholder="Digite o título do teste">
+                    <input type="text" class="form-control floating-input" id="name1" name="name1" placeholder=" ">
+                    <label class="floating-label" for="name1"><i class="fas fa-vial"></i> Digite o título do
+                        teste</label>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="name4"><i class="fas fa-server"></i> Serviço:</label>
-                    <input list="serviceOptions" class="form-control" id="name4" name="name4"
-                        placeholder="Adicione o nome do serviço Ex: camel_example_service">
+                    <input list="serviceOptions" class="form-control floating-input" id="name4" name="name4"
+                        placeholder=" ">
+                    <label class="floating-label" for="name4"><i class="fas fa-server"></i> Adicione o nome do serviço
+                        Ex: camel_example_service</label>
                     <datalist id="serviceOptions">
                         <option value="SHARED">
                     </datalist>
@@ -87,35 +88,40 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="name5"><i class="fas fa-id-badge"></i> ID Octane:</label>
-                    <input type="text" class="form-control" id="name5" name="name5"
-                        placeholder="Inserir nesse campo o ID do Octane referente das stories">
+                    <input type="text" class="form-control floating-input" id="name5" name="name5" placeholder=" ">
+                    <label class="floating-label" for="name5"><i class="fas fa-id-badge"></i> Inserir nesse campo o ID
+                        do Octane referente das stories</label>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="name6"><i class="fas fa-key"></i> Sigla:</label>
-                    <input type="text" class="form-control" id="name6" name="name6"
-                        placeholder="Inserir o T ou o X do usuário que criou o teste">
+                    <input type="text" class="form-control floating-input" id="name6" name="name6" placeholder=" ">
+                    <label class="floating-label" for="name6"><i class="fas fa-key"></i> Inserir o T ou o X do usuário
+                        que criou o teste</label>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="name8"><i class="fas fa-tasks"></i> Jira Sprint:</label>
-                    <input type="text" class="form-control" id="name8" name="name8"
-                        placeholder="Deve conter a chave Jira do time">
+                    <input type="text" class="form-control floating-input" id="name8" name="name8" placeholder=" ">
+                    <label class="floating-label" for="name8"><i class="fas fa-tasks"></i> Deve conter a chave Jira do
+                        time</label>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="name7"><i class="fas fa-file-alt"></i> Descrição:</label>
-                    <textarea type="text" class="form-control" id="name7" name="name7"
-                        placeholder="Digite a descrição do projeto"></textarea>
+                    <textarea class="form-control floating-input" id="name7" name="name7" placeholder=" "></textarea>
+                    <label class="floating-label" for="name7"><i class="fas fa-file-alt"></i> Digite a descrição do
+                        projeto</label>
                 </div>
             </div>
-            <div class="form-group" id="excel-file">
-                <label for="excelFile"><i class="fas fa-file-excel"></i> Escolher arquivo Excel:</label>
-                <input type="file" class="form-control-file" id="excelFile" name="excelFile" accept=".xlsx, .xls">
+            <div class="form-group text-center" id="excel-file">
+                <div class="file-upload-wrapper">
+                    <label class="file-upload-label" for="excelFile" id="file-label">
+                        <img src="https://img.icons8.com/color/38/000000/microsoft-excel-2019--v1.png" alt="Excel Icon">
+                        Escolher BDD
+                    </label>
+                    <input type="file" class="form-control-file" id="excelFile" name="excelFile" accept=".xlsx, .xls">
+                </div>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-exchange-alt"></i>
@@ -127,11 +133,40 @@
         </div>
     </div>
 
+    <script>
+        document.getElementById('excelFile').addEventListener('change', function () {
+            var fileLabel = document.getElementById('file-label');
+            var fileName = this.files[0] ? this.files[0].name : 'Escolher arquivo';
+            fileLabel.innerHTML = '<img src="https://img.icons8.com/color/38/000000/microsoft-excel-2019--v1.png" alt="Excel Icon"> ' + fileName;
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputs = document.querySelectorAll(".floating-input");
+
+            inputs.forEach(input => {
+                input.addEventListener("focus", function () {
+                    this.parentNode.querySelector(".floating-label").classList.add("active");
+                });
+
+                input.addEventListener("blur", function () {
+                    if (this.value === "") {
+                        this.parentNode.querySelector(".floating-label").classList.remove("active");
+                    }
+                });
+
+                // Check on page load
+                if (input.value !== "") {
+                    input.parentNode.querySelector(".floating-label").classList.add("active");
+                }
+            });
+        });
+    </script>
+
     <section class="mt-5">
         <footer class="bg-body-tertiary text-center text-md-start bg-black bg-dark text-white">
             <div class=" p-4">
                 <div class="row">
-                    <div style="margin: auto; text-align: center;" class="col-lg-5">
+                    <div style="margin: auto; text-align: center;" class="col-lg-7">
                         <h6 class="text-uppercase"><img width="40" src="../img/logoPage200.png" alt="sheetfrenzy">
                             SHEETFRENZY <b style="color: #16db6b;">BDD</b>
                         </h6>
