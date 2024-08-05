@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SheetFrenzy BDD | Gerador de Historias</title>
-
+    <title>SheetFrenzy BDD | Gerador de Histórias</title>
     <meta name="author" content="@gehaim" />
     <meta name="creator" content="@Gehaim" />
     <meta name="description"
@@ -88,14 +87,100 @@
                 <textarea class="form-control" id="details" rows="5"
                     placeholder="Digite detalhes adicionais que gostaria de incluir na história..."></textarea>
             </div>
-            <button type="button" class="btn btn-primary" onclick="generateStory()">
-                <i class="fas fa-file-alt"></i> Gerar História
-            </button>
+            <div class="form-group linesIn">
+                <label for="sections"><i class="fas fa-list"></i> Seções da História:</label>
+                <div class="checkbox-container mt-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="contextSection" name="sections"
+                            value="context">
+                        <label class="form-check-label" for="contextSection"><i class="fas fa-info-circle"></i> Contexto
+                            Atual</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="objectiveSection" name="sections"
+                            value="objective">
+                        <label class="form-check-label" for="objectiveSection"><i class="fas fa-bullseye"></i> Objetivo
+                            do Projeto</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="acceptanceSection" name="sections"
+                            value="acceptance">
+                        <label class="form-check-label" for="acceptanceSection"><i class="fas fa-check-circle"></i>
+                            Critérios de Aceitação</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="techDetailsSection" name="sections"
+                            value="techDetails">
+                        <label class="form-check-label" for="techDetailsSection"><i class="fas fa-cogs"></i> Detalhes
+                            Técnicos</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="scenariosSection" name="sections"
+                            value="scenarios">
+                        <label class="form-check-label" for="scenariosSection"><i class="fas fa-lightbulb"></i> Cenários
+                            de Uso</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="impactSection" name="sections"
+                            value="impact">
+                        <label class="form-check-label" for="impactSection"><i class="fas fa-chart-line"></i> Análise de
+                            Impacto</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="futurePlansSection" name="sections"
+                            value="futurePlans">
+                        <label class="form-check-label" for="futurePlansSection"><i class="fas fa-calendar-alt"></i>
+                            Planos Futuros</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="riskSection" name="sections" value="risk">
+                        <label class="form-check-label" for="riskSection"><i class="fas fa-exclamation-triangle"></i>
+                            Riscos e Mitigações</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="dependencySection" name="sections"
+                            value="dependency">
+                        <label class="form-check-label" for="dependencySection"><i class="fas fa-link"></i>
+                            Dependências</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="userInteractionSection" name="sections"
+                            value="userInteraction">
+                        <label class="form-check-label" for="userInteractionSection"><i class="fas fa-users"></i>
+                            Interação</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="innovationSection" name="sections"
+                            value="innovation">
+                        <label class="form-check-label" for="innovationSection"><i class="fas fa-rocket"></i> Inovação e
+                            Tendências Tecnológicas</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="nonFunctionalSection" name="sections"
+                            value="nonFunctional">
+                        <label class="form-check-label" for="nonFunctionalSection"><i class="fas fa-sliders-h"></i>
+                            Requisitos Não Funcionais</label>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="button" class="btn btn-primary" onclick="generateStory()">
+                    <i class="fas fa-file-alt mt"></i> Gerar História
+                </button>
+            </div>
         </form>
-        <div class="form-group mt-4">
+        <div class="form-group mt-3">
             <h2>História de Usuário</h2>
             <textarea class="form-control" id="userStory" rows="10"
                 placeholder="Sua história de usuário aparecerá aqui..."></textarea>
+            <div class="suggestion mt-3" id="suggestion"></div>
+            <div class="mt-3">
+                <button id="importFiles" class="btn btn-secondary"
+                    onclick="document.getElementById('importFile').click()"><i class="fa-solid fa-book"></i> Importar
+                    História</button>
+                <input type="file" id="importFile" style="display:none" accept=".pdf,.txt,.json"
+                    onchange="importStory(event)">
+            </div>
         </div>
         <div id="btn-corp" class="container my-3">
             <div class="row justify-content-center">
@@ -104,14 +189,58 @@
                         <i class="fas fa-trash-alt"></i> Limpar História
                     </button>
                 </div>
-                <div class="col-12 col-md-6 btn-2his">
+                <div class="col-12 col-md-6">
                     <button class="btn btn-success btn-block" onclick="copyStory()">
                         <i class="fas fa-copy"></i> Copiar História
                     </button>
                 </div>
             </div>
         </div>
-        <div class="suggestion mt-3" id="suggestion"></div>
+
+        <div class="container my-3">
+            <div class="row justify-content-center" id="model-formats">
+                <div class="col-12 col-md-3 mb-2 mb-md-0">
+                    <button class="btn btn-info btn-block" onclick="exportStory('pdf')">
+                        <i class="fas fa-file-pdf"></i> Exportar como PDF
+                    </button>
+                </div>
+                <div class="col-12 col-md-3 mb-2 mb-md-0">
+                    <button class="btn btn-info btn-block" onclick="exportStory('txt')">
+                        <i class="fas fa-file-alt"></i> Exportar como TXT
+                    </button>
+                </div>
+                <div class="col-12 col-md-3 mb-2 mb-md-0">
+                    <button class="btn btn-info btn-block" onclick="exportStory('markdown')">
+                        <i class="fas fa-file-alt"></i> Exportar como Markdown
+                    </button>
+                </div>
+                <div class="col-12 col-md-3">
+                    <button class="btn btn-info btn-block" onclick="exportStory('json')">
+                        <i class="fas fa-file-code"></i> Exportar como JSON
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container my-3 text-center">
+            <div class="row justify-content-center" id="sugest-critc">
+                <div class="col-12 col-md-4 mb-2 mb-md-0">
+                    <button class="btn btn-warning btn-block" onclick="generateAcceptanceCriteria()">
+                        <i class="fas fa-check-circle"></i> Gerar Critérios de Aceitação
+                    </button>
+                </div>
+                <div class="col-12 col-md-4 mb-2 mb-md-0">
+                    <button class="btn btn-warning btn-block" onclick="generateCompleteDocumentation()">
+                        <i class="fas fa-book"></i> Gerar Documentação Completa
+                    </button>
+                </div>
+                <div class="col-12 col-md-4">
+                    <button id="suggestImpro" class="btn btn-primary btn-block" onclick="suggestImprovements()">
+                        <i class="fas fa-lightbulb"></i> Sugerir Melhorias
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <section class="mt-5">
@@ -123,16 +252,15 @@
                             SHEETFRENZY <b style="color: #16db6b;">BDD</b>
                         </h6>
                         <p class="text-center">
-                            Nosso site e dedicado a fornecer uma valiosa ferramenta para equipes que buscam uma maneira
+                            Nosso site é dedicado a fornecer uma valiosa ferramenta para equipes que buscam uma maneira
                             eficaz de criar, organizar e editar documentação de testes, promovendo uma colaboração mais
-                            eficiente e
-                            ágil no ciclo de desenvolvimento de software. Uma característica notável do site é a
-                            flexibilidade
-                            oferecida aos usuários, permitindo a edição ilimitada dos documentos gerados. Isso
-                            possibilita ajustes
-                            contínuos conforme as necessidades evoluem ou novos requisitos surgem. Com essa abordagem
-                            iterativa, o
-                            processo de desenvolvimento e teste se torna mais dinâmico e adaptável.
+                            eficiente e ágil no ciclo de desenvolvimento de software. Uma característica notável do site
+                            é a flexibilidade oferecida aos usuários, permitindo a edição ilimitada dos documentos
+                            gerados.
+                            Isso possibilita ajustes contínuos conforme as necessidades evoluem ou novos requisitos
+                            surgem.
+                            Com essa abordagem iterativa, o processo de desenvolvimento e teste se torna mais dinâmico e
+                            adaptável.
                         </p>
                     </div>
                 </div>
@@ -143,6 +271,13 @@
             </div>
         </footer>
     </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.0.7/pizzip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.2.0/docx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
     <script src="../js/scriptGerador.js" defer async></script>
 </body>
 
