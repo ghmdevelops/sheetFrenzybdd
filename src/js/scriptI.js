@@ -44,6 +44,7 @@ async function importExcel() {
     if (file) {
         importedFileName = file.name;
         var reader = new FileReader();
+        var fileNameWithoutExtension = importedFileName.replace(/\.[^/.]+$/, "");
 
         reader.onload = function (e) {
             var data = e.target.result;
@@ -54,6 +55,11 @@ async function importExcel() {
 
             addDataToExistingTable(importedData);
             adicionarEventosDeClique();
+
+            document.getElementById("exampleModalLabel").innerHTML = `
+                <img width="40" src="./src/img/logoPage200.png" alt="cm">
+                Dashboard<b style="color: #16db6b;"> BDD</b> - ${fileNameWithoutExtension}
+            `;
 
             const Toast = Swal.mixin({
                 toast: true,
@@ -2055,116 +2061,260 @@ function criarDashboard(data) {
     var quantidadeProgredindo = contarOcorrencias(data, "progredindo");
     var quantidadeBug = contarOcorrencias(data, "bug");
 
+    var totalCenarios = data.length;
+    var taxaCobertura = ((quantidadeOk + quantidadeNok + quantidadeBug) / totalCenarios) * 100;
+    var taxaFalhas = (quantidadeNok / totalCenarios) * 100;
+    var taxaBugs = (quantidadeBug / totalCenarios) * 100;
+
     myChart = new Chart(ctx, {
         type: "bar",
         data: {
-            labels: ["Ok", "Nok", "Desplanejado", "Progredindo", "Bug"],
-            datasets: [{
-                label: "Quantidade",
-                data: [
-                    quantidadeOk,
-                    quantidadeNok,
-                    quantidadeDesplanejado,
-                    quantidadeProgredindo,
-                    quantidadeBug
-                ],
-                backgroundColor: [
-                    "rgba(75, 192, 192, 0.6)",
-                    "rgba(255, 99, 132, 0.6)",
-                    "rgba(255, 205, 86, 0.6)",
-                    "rgba(54, 162, 235, 0.6)",
-                    "rgba(146, 110, 244, 0.6)"
-                ],
-                borderColor: [
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(255, 205, 86, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(146, 110, 244, 1)"
-                ],
-                borderWidth: 1
-            }]
+            labels: [
+                "Ok ✓",
+                "Nok ⚠️",
+                "Desplanejado ❓",
+                "Progredindo ⏳",
+                "Bug 🐞"
+            ],
+            datasets: [
+                {
+                    label: "Quantidade",
+                    data: [
+                        quantidadeOk,
+                        quantidadeNok,
+                        quantidadeDesplanejado,
+                        quantidadeProgredindo,
+                        quantidadeBug
+                    ],
+                    backgroundColor: function (context) {
+                        const colors = [
+                            { start: 'rgba(63, 191, 191, 1)', end: 'rgba(63, 191, 191, 0.6)' },
+                            { start: 'rgba(255, 79, 132, 1)', end: 'rgba(255, 79, 132, 0.6)' },
+                            { start: 'rgba(255, 205, 86, 1)', end: 'rgba(255, 205, 86, 0.6)' },
+                            { start: 'rgba(54, 162, 235, 1)', end: 'rgba(54, 162, 235, 0.6)' },
+                            { start: 'rgba(146, 110, 244, 1)', end: 'rgba(146, 110, 244, 0.6)' }
+                        ];
+                        const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                        gradient.addColorStop(0, colors[context.dataIndex].start);
+                        gradient.addColorStop(1, colors[context.dataIndex].end);
+                        return gradient;
+                    },
+                    borderColor: [
+                        "rgba(63, 191, 191, 1)",
+                        "rgba(255, 79, 132, 1)",
+                        "rgba(255, 205, 86, 1)",
+                        "rgba(54, 162, 235, 1)",
+                        "rgba(146, 110, 244, 1)"
+                    ],
+                    borderWidth: 3,
+                    hoverBorderWidth: 6,
+                    hoverBorderColor: 'rgba(0,0,0,0.9)',
+                    borderRadius: 10,
+                    barPercentage: 0.6,
+                    tension: 0.4,
+                    shadowOffsetX: 3,
+                    shadowOffsetY: 3,
+                    shadowBlur: 6,
+                    shadowColor: 'rgba(0, 0, 0, 0.3)'
+                },
+                {
+                    label: "Porcentagem (%)",
+                    data: [
+                        (quantidadeOk / totalCenarios) * 100,
+                        (quantidadeNok / totalCenarios) * 100,
+                        (quantidadeDesplanejado / totalCenarios) * 100,
+                        (quantidadeProgredindo / totalCenarios) * 100,
+                        (quantidadeBug / totalCenarios) * 100
+                    ],
+                    type: 'line',
+                    borderColor: 'rgba(231, 76, 60, 1)',
+                    backgroundColor: 'rgba(231, 76, 60, 0.4)',
+                    fill: true,
+                    yAxisID: 'y1',
+                    pointBackgroundColor: 'rgba(231, 76, 60, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverRadius: 12,
+                    pointRadius: 10,
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(231, 76, 60, 1)',
+                    tension: 0.5,
+                    borderDash: [8, 4]
+                }
+            ]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Status',
+                    text: 'Status dos Cenários',
                     font: {
-                        size: 14,
-                        weight: 'bold'
+                        size: 26,
+                        weight: 'bold',
+                        family: 'Poppins, sans-serif'
                     },
-                    color: '#333'
+                    color: '#333',
+                    padding: {
+                        top: 30,
+                        bottom: 30
+                    }
                 },
                 legend: {
                     display: true,
                     position: 'top',
                     labels: {
                         font: {
-                            size: 14
+                            size: 18,
+                            family: 'Poppins, sans-serif'
                         },
-                        color: '#333'
+                        color: '#444',
+                        boxWidth: 30,
+                        padding: 30
                     }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.95)',
+                    titleFont: {
+                        size: 22,
+                        family: 'Poppins, sans-serif'
+                    },
+                    bodyFont: {
+                        size: 18,
+                        family: 'Poppins, sans-serif'
+                    },
+                    padding: 25,
+                    caretPadding: 25,
+                    cornerRadius: 15,
+                    boxPadding: 20,
+                    multiKeyBackground: '#f3f3f3',
                     callbacks: {
                         label: function (context) {
-                            return `${context.dataset.label}: ${context.raw}`;
+                            return `${context.dataset.label}: ${context.raw.toFixed(2)}%`;
                         },
                         title: function (context) {
                             return `Status: ${context[0].label}`;
                         }
-                    },
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    titleFont: {
-                        size: 16
-                    },
-                    bodyFont: {
-                        size: 14
-                    },
-                    padding: 10
+                    }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: '#333',
+                        color: '#444',
                         font: {
-                            size: 14
+                            size: 18,
+                            family: 'Poppins, sans-serif'
                         }
                     },
                     grid: {
-                        color: 'rgba(200, 200, 200, 0.3)'
+                        color: 'rgba(200, 200, 200, 0.3)',
+                        lineWidth: 1.5
                     },
                     title: {
                         display: true,
-                        text: 'porcentagem',
+                        text: 'Quantidade',
                         color: '#333',
                         font: {
-                            size: 18
+                            size: 22,
+                            family: 'Poppins, sans-serif'
                         }
-                    }
+                    },
                 },
-                x: {
+                y1: {
+                    beginAtZero: true,
+                    position: 'right',
                     ticks: {
-                        color: '#333',
+                        color: '#444',
                         font: {
-                            size: 14
+                            size: 18,
+                            family: 'Poppins, sans-serif'
+                        },
+                        callback: function (value) {
+                            return value + '%';
                         }
                     },
                     grid: {
-                        color: 'rgba(200, 200, 200, 0.3)'
+                        drawOnChartArea: false,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Porcentagem (%)',
+                        color: '#333',
+                        font: {
+                            size: 22,
+                            family: 'Poppins, sans-serif'
+                        }
+                    },
+                },
+                x: {
+                    ticks: {
+                        color: '#444',
+                        font: {
+                            size: 18,
+                            family: 'Poppins, sans-serif'
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.3)',
+                        lineWidth: 1.5
                     }
                 }
             },
             animation: {
-                duration: 1500,
-                easing: 'easeOutBounce'
+                duration: 4000,
+                easing: 'easeInOutExpo'
             }
         }
     });
+
+    atualizarResumoBDD(
+        quantidadeOk,
+        quantidadeNok,
+        quantidadeDesplanejado,
+        quantidadeProgredindo,
+        quantidadeBug,
+        taxaCobertura,
+        taxaFalhas,
+        taxaBugs
+    );
+}
+
+function atualizarResumoBDD(quantidadeOk, quantidadeNok, quantidadeDesplanejado, quantidadeProgredindo, quantidadeBug, taxaCobertura, taxaFalhas, taxaBugs) {
+    var resumoContainer = document.getElementById('resumoBDD');
+    resumoContainer.innerHTML = `
+        <div style="padding: 25px; border-radius: 15px; background-color: #f0f0f0; border: 1px solid #ddd; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+            <div style="font-size: 26px; font-weight: bold; color: #333; font-family: 'Poppins', sans-serif;">Resumo do BDD - ${new Date().toLocaleString()}</div>
+            <div style="margin-top: 15px;">
+                <div style="margin-bottom: 15px; font-size: 18px; font-family: 'Poppins', sans-serif;">
+                    <strong>Número de Linhas BDD: </strong>${quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug}
+                </div>
+                ${renderResumoItem('Nº Ok', quantidadeOk, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(63, 191, 191, 1)')}
+                ${renderResumoItem('Nº Nok', quantidadeNok, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 79, 132, 1)')}
+                ${renderResumoItem('Nº Desplanejado', quantidadeDesplanejado, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 205, 86, 1)')}
+                ${renderResumoItem('Nº Progredindo', quantidadeProgredindo, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(54, 162, 235, 1)')}
+                ${renderResumoItem('Nº Bug', quantidadeBug, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(146, 110, 244, 1)')}
+                <div style="font-size: 20px; margin-top: 25px; font-family: 'Poppins', sans-serif;">
+                    <strong>Taxa de Cobertura:</strong> ${taxaCobertura.toFixed(2)}%<br>
+                    <!--<strong>Taxa de Falhas:</strong> ${taxaFalhas.toFixed(2)}%<br>
+                    <strong>Taxa de Bugs:</strong> ${taxaBugs.toFixed(2)}%-->
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderResumoItem(label, quantidade, total, color) {
+    return `
+        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <span style="width: 160px; display: inline-block; font-size: 18px; font-family: 'Poppins', sans-serif;">${label}:</span>
+            <div style="width: 270px; height: 20px; background-color: rgba(200, 200, 200, 0.3); position: relative; border-radius: 12px; overflow: hidden; box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div style="width: ${(quantidade / total) * 100}%; height: 100%; background-color: ${color}; border-radius: 12px;"></div>
+            </div>
+            <span style="margin-left: 12px; font-size: 18px; font-family: 'Poppins', sans-serif;">${quantidade}</span>
+        </div>
+    `;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -2374,19 +2524,83 @@ function showButtons() {
 function takeScreenshotAndDownload() {
     hideButtons();
 
-    html2canvas(document.getElementById('myModal')).then(function (canvas) {
-        var dataUrl = canvas.toDataURL();
-        var link = document.createElement('a');
+    html2canvas(document.querySelector('.modal-content'), {
+        scrollY: -window.scrollY,
+        scale: 2,
+        useCORS: true
+    }).then(function (canvas) {
+        var dataUrl = canvas.toDataURL('image/png');
 
+        var link = document.createElement('a');
         link.href = dataUrl;
-        link.download = 'screenshot-bdd.png';
+        link.download = 'dashboard-bdd.png';
 
         document.body.appendChild(link);
         link.click();
 
         document.body.removeChild(link);
+
         showButtons();
     });
+}
+
+function hideButtons() {
+    document.querySelectorAll('button').forEach(function (button) {
+        button.style.display = 'none';
+    });
+}
+
+function showButtons() {
+    document.querySelectorAll('button').forEach(function (button) {
+        button.style.display = '';
+    });
+}
+
+document.getElementById("copyButton").addEventListener("click", function () {
+    hideButtons();
+
+    const textToCopy = `
+    Observação:
+    O projeto está progredindo bem, com a maioria dos cenários funcionando como esperado.
+    No entanto, há alguns cenários que precisam de atenção adicional. 
+    A equipe deve priorizar a resolução dos cenários e continuar monitorando o progresso. 
+    Para mais detalhes, consulte o dashboard visual anexado.
+    `;
+
+    html2canvas(document.querySelector(".modal-content"), {
+        scrollY: -window.scrollY,
+        scale: 2,
+        useCORS: true
+    }).then(function (canvas) {
+        showButtons();
+
+        canvas.toBlob(function (blob) {
+            const clipboardItem = new ClipboardItem({
+                "image/png": blob,
+                "text/plain": new Blob([textToCopy], { type: "text/plain" })
+            });
+
+            navigator.clipboard.write([clipboardItem]).then(function () {
+                alert("Dados copiados com sucesso!");
+            }).catch(function (error) {
+                console.error("Erro ao copiar:", error);
+            });
+        });
+    });
+});
+
+function hideButtons() {
+    document.querySelectorAll('.modal-footer button').forEach(function (button) {
+        button.style.display = 'none';
+    });
+    document.querySelector('.modal-header button.close').style.display = 'none';
+}
+
+function showButtons() {
+    document.querySelectorAll('.modal-footer button').forEach(function (button) {
+        button.style.display = '';
+    });
+    document.querySelector('.modal-header button.close').style.display = '';
 }
 
 document.getElementById("titulo").addEventListener("click", function () {

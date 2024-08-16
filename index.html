@@ -459,8 +459,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
-                            <img width="40" src="./src/img/logoPage200.png" alt="cm"> SheetFrenzy
-                            <b style="color: #16db6b;">BDD</b> Dashboard
+                            <img width="40" src="./src/img/logoPage200.png" alt="cm">
+                            Dashboard<b style="color: #16db6b;"> BDD</b>
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
@@ -468,7 +468,8 @@
                     </div>
                     <div class="modal-body">
                         <canvas id="graficoModal" width="400" height="200"></canvas>
-                        <div id="porcentagemOK" class="mt-3"></div>
+                        <div id="resumoBDD"></div>
+                        <div id="porcentagemOK" class="d-none mt-3"></div>
                         <span id="numeroLinhas"></span>
                         <div id="progressBarContainer" class="mt-3">
                             <div class="progress">
@@ -492,6 +493,7 @@
                         <button type="button" class="btn btn-outline-primary" onclick="printPDF()">
                             <i class="fa-solid fa-file-pdf"></i>
                         </button>
+                        <button id="copyButton" class="btn btn-primary"><i class="fa-solid fa-copy"></i> Copiar</button>
                     </div>
                 </div>
             </div>

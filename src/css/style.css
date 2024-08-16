@@ -256,6 +256,14 @@ button#btn-more2:active {
   display: none;
 }
 
+#graficoModal {
+  max-width: 100%;
+  max-height: 400px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
 .grade-buttons {
   background-color: #28a745;
   border: 1px solid #16db6b;
