@@ -311,20 +311,30 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 col-sm-12 mt-md-4">
-                    <div class="d-inline-block">
-                        <button title="Adicionar Tabela" id="card-btns" class="btn btn-success"
-                            data-intro="Clique aqui para criar a tabela." data-step="12" onclick="criarTabela()">
-                            <i class="fa-solid fa-plus-circle"></i> Gerar BDD
-                        </button>
-                    </div>
-                    <div class="d-inline-block">
-                        <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
-                            onchange="importExcel()" style="display: none;">
-                        <label title="Selecionar Excel" for="importExcel" class="btn btn-success" id="customButtonEx"
-                            data-intro="Selecione um arquivo Excel para importar." data-step="13">
-                            <i class="fa-solid fa-file-circle-plus"></i> Importar BDD
-                        </label>
+                <div class="col-md-5 col-sm-12 mt-md-4">
+                    <div class="d-flex justify-content-center">
+                        <div class="d-inline-block mx-2">
+                            <button title="Adicionar Tabela" id="card-btns" class="btn btn-success btn-animated"
+                                data-intro="Clique aqui para criar a tabela." data-step="12" onclick="criarTabela()">
+                                <i class="fa-solid fa-plus-circle"></i> Gerar BDD
+                            </button>
+                        </div>
+                        <div class="d-inline-block mx-2">
+                            <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
+                                onchange="importExcel()" style="display: none;">
+                            <label title="Selecionar Excel" for="importExcel" class="btn btn-success btn-animated"
+                                id="customButtonEx" data-intro="Selecione um arquivo Excel para importar."
+                                data-step="13">
+                                <i class="fa-solid fa-file-circle-plus"></i> Importar BDD
+                            </label>
+                        </div>
+                        <div class="d-inline-block mx-2">
+                            <button title="Gerar dashboard" id="dashboardButton" type="button"
+                                class="btn btn-success btn-animated" data-toggle="modal" data-target="#myModal"
+                                data-intro="Gere um dashboard com os dados da tabela." data-step="21">
+                                <i class="fa-solid fa-chart-pie"></i> Dashboard
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -455,7 +465,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
         <div style="color: #000000;" class="modal fade text-black" id="myModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
@@ -467,7 +477,47 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <canvas id="graficoModal" width="400" height="200"></canvas>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px;">
+                            <div class="card"
+                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                                <div class="card-title">Cenários Ok</div>
+                                <div class="card-value" id="cardOk" style="color: #3fbfbf; font-size: 24px;">0</div>
+                            </div>
+                            <div class="card"
+                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                                <div class="card-title">Cenários Nok</div>
+                                <div class="card-value" id="cardNok" style="color: #ff4f84; font-size: 24px;">0
+                                </div>
+                            </div>
+                            <div class="card"
+                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                                <div class="card-title">Desplanejados</div>
+                                <div class="card-value" id="cardDesplanejado" style="color: #ffcd56; font-size: 24px;">0
+                                </div>
+                            </div>
+                            <div class="card"
+                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                                <div class="card-title">Progredindo</div>
+                                <div class="card-value" id="cardProgredindo" style="color: #36a2eb; font-size: 24px;">0
+                                </div>
+                            </div>
+                            <div class="card"
+                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                                <div class="card-title">Bugs</div>
+                                <div class="card-value" id="cardBug" style="color: #926ef4; font-size: 24px;">0
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráficos -->
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 20px;">
+                            <canvas id="graficoModal" style="flex: 1; max-width: 600px; height: 400px;"></canvas>
+                            <canvas id="graficoPizza" style="flex: 1; max-width: 400px; height: 300px;"></canvas>
+                        </div>
+
+                        <!-- Resumo e ProgressBar -->
                         <div id="resumoBDD"></div>
                         <div id="porcentagemOK" class="d-none mt-3"></div>
                         <span id="numeroLinhas"></span>
@@ -488,75 +538,76 @@
                         </button>
                         <button type="button" class="btn btn-outline-primary" id="toggleButton"
                             onclick="toggleIcon(), gerarDashboard()">
-                            <i class="fa-solid fa-chart-line"></i>
+                            <i class="fa-solid fa-chart-simple"></i>
                         </button>
                         <button type="button" class="btn btn-outline-primary" onclick="printPDF()">
                             <i class="fa-solid fa-file-pdf"></i>
                         </button>
-                        <button id="copyButton" class="btn btn-primary"><i class="fa-solid fa-copy"></i> Copiar</button>
+                        <button id="copyButton" class="btn btn-primary"><i class="fa-solid fa-copy"></i>
+                            Copiar</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let startInput = null;
-            let isDragging = false;
-            let startY = 0;
-            let startX = 0;
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let startInput = null;
+                let isDragging = false;
+                let startY = 0;
+                let startX = 0;
 
-            document.addEventListener('mousedown', function (event) {
-                if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
-                    startInput = event.target;
-                    isDragging = true;
-                    startY = event.clientY;
-                    startX = event.clientX;
-                }
-            });
+                document.addEventListener('mousedown', function (event) {
+                    if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
+                        startInput = event.target;
+                        isDragging = true;
+                        startY = event.clientY;
+                        startX = event.clientX;
+                    }
+                });
 
-            document.addEventListener('mousemove', function (event) {
-                if (isDragging && startInput) {
-                    const target = event.target;
-                    if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
-                        if (event.clientY < startY || event.clientX < startX) {
-                            target.value = '';
-                        } else {
-                            target.value = startInput.value;
+                document.addEventListener('mousemove', function (event) {
+                    if (isDragging && startInput) {
+                        const target = event.target;
+                        if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
+                            if (event.clientY < startY || event.clientX < startX) {
+                                target.value = '';
+                            } else {
+                                target.value = startInput.value;
+                            }
                         }
                     }
-                }
+                });
+
+                document.addEventListener('mouseup', function () {
+                    startInput = null;
+                    isDragging = false;
+                });
+            });
+        </script>
+
+        <script>
+            document.getElementById('convertTableButton').addEventListener('click', e => {
+                location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/swiftleft/sheetFrenzybddSwiftShiftConverter.html';
             });
 
-            document.addEventListener('mouseup', function () {
-                startInput = null;
-                isDragging = false;
+            document.getElementById('blog').addEventListener('click', e => {
+                location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/blog/sheetFrenzybddBlog.html';
             });
-        });
-    </script>
 
-    <script>
-        document.getElementById('convertTableButton').addEventListener('click', e => {
-            location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/swiftleft/sheetFrenzybddSwiftShiftConverter.html';
-        });
+            document.getElementById('storyGenerator').addEventListener('click', function () {
+                location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/storyGenerator/sheetFrenzybddgeradordeHistorias.html';
+            });
+        </script>
 
-        document.getElementById('blog').addEventListener('click', e => {
-            location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/blog/sheetFrenzybddBlog.html';
-        });
-
-        document.getElementById('storyGenerator').addEventListener('click', function () {
-            location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/storyGenerator/sheetFrenzybddgeradordeHistorias.html';
-        });
-    </script>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
-    <script src="./src/js/scriptI.js" defer async> </script>
-    <script src="./src/js/scriptFunc.js" defer async> </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+        <script src="./src/js/scriptI.js" defer async> </script>
+        <script src="./src/js/scriptFunc.js" defer async> </script>
 </body>
 
 </html>

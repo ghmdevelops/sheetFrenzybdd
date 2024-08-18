@@ -102,10 +102,11 @@ async function importExcel() {
         document.getElementById('audioButton').style.display = 'block';
     }
 
-    mostrarInformacoes();
+    //mostrarInformacoes();
     document.querySelector('.grade-buttons').classList.remove('d-none');
     document.querySelector('#audioButton').classList.remove('d-none');
-
+    document.querySelector('#dashboardButton').classList.add('d-none');
+    document.querySelector('#card-btns').classList.add('d-none');
 }
 
 function adicionarEventosDeClique() {
@@ -1889,6 +1890,32 @@ function contarOcorrencias(data, palavraChave) {
     return count;
 }
 
+document.getElementById('dashboardButton').addEventListener('click', function () {
+    var tabela = document.getElementById('tabela');
+
+    if (!tabela) {
+        Swal.fire({
+            title: 'Nenhuma tabela encontrada',
+            text: 'Para gerar o dashboard, você precisa importar uma tabela. Deseja importar uma agora?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Importar Tabela',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('importExcel').click();
+                setTimeout(function () {
+                    document.getElementById('toggleButton').click();
+                }, 6000);
+            }
+        });
+    } else {
+        gerarDashboard();
+    }
+});
+
 function gerarDashboard() {
     var tabela = document.getElementById("tabela");
 
@@ -2047,12 +2074,17 @@ function contarNumeros() {
 }
 
 var myChart;
+var myPieChart;
 
 function criarDashboard(data) {
     var ctx = document.getElementById("graficoModal").getContext("2d");
+    var pieCtx = document.getElementById("graficoPizza").getContext("2d");
 
     if (myChart) {
         myChart.destroy();
+    }
+    if (myPieChart) {
+        myPieChart.destroy();
     }
 
     var quantidadeOk = contarOcorrencias(data, "ok");
@@ -2066,6 +2098,53 @@ function criarDashboard(data) {
     var taxaFalhas = (quantidadeNok / totalCenarios) * 100;
     var taxaBugs = (quantidadeBug / totalCenarios) * 100;
 
+    var estimativaEntrega = {
+        concluido: (quantidadeOk + quantidadeProgredindo) / totalCenarios * 100,
+        restante: 100 - ((quantidadeOk + quantidadeProgredindo) / totalCenarios * 100)
+    };
+
+    var theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+
+    var colors = {
+        light: {
+            backgroundColor: [
+                'rgba(63, 191, 191, 1)',
+                'rgba(255, 79, 132, 1)',
+                'rgba(255, 205, 86, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(146, 110, 244, 1)'
+            ],
+            borderColor: [
+                'rgba(63, 191, 191, 1)',
+                'rgba(255, 79, 132, 1)',
+                'rgba(255, 205, 86, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(146, 110, 244, 1)'
+            ],
+            tooltipBackgroundColor: 'rgba(0, 0, 0, 0.8)',
+            textColor: '#333'
+        },
+        dark: {
+            backgroundColor: [
+                'rgba(63, 191, 191, 0.8)',
+                'rgba(255, 79, 132, 0.8)',
+                'rgba(255, 205, 86, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(146, 110, 244, 0.8)'
+            ],
+            borderColor: [
+                'rgba(63, 191, 191, 0.8)',
+                'rgba(255, 79, 132, 0.8)',
+                'rgba(255, 205, 86, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(146, 110, 244, 0.8)'
+            ],
+            tooltipBackgroundColor: 'rgba(255, 255, 255, 0.8)',
+            textColor: '#ddd'
+        }
+    };
+
+    // Gráfico de Barras
     myChart = new Chart(ctx, {
         type: "bar",
         data: {
@@ -2074,7 +2153,7 @@ function criarDashboard(data) {
                 "Nok ⚠️",
                 "Desplanejado ❓",
                 "Progredindo ⏳",
-                "Bug 🐞"
+                "Bug 🐜"
             ],
             datasets: [
                 {
@@ -2086,26 +2165,8 @@ function criarDashboard(data) {
                         quantidadeProgredindo,
                         quantidadeBug
                     ],
-                    backgroundColor: function (context) {
-                        const colors = [
-                            { start: 'rgba(63, 191, 191, 1)', end: 'rgba(63, 191, 191, 0.6)' },
-                            { start: 'rgba(255, 79, 132, 1)', end: 'rgba(255, 79, 132, 0.6)' },
-                            { start: 'rgba(255, 205, 86, 1)', end: 'rgba(255, 205, 86, 0.6)' },
-                            { start: 'rgba(54, 162, 235, 1)', end: 'rgba(54, 162, 235, 0.6)' },
-                            { start: 'rgba(146, 110, 244, 1)', end: 'rgba(146, 110, 244, 0.6)' }
-                        ];
-                        const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 400);
-                        gradient.addColorStop(0, colors[context.dataIndex].start);
-                        gradient.addColorStop(1, colors[context.dataIndex].end);
-                        return gradient;
-                    },
-                    borderColor: [
-                        "rgba(63, 191, 191, 1)",
-                        "rgba(255, 79, 132, 1)",
-                        "rgba(255, 205, 86, 1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(146, 110, 244, 1)"
-                    ],
+                    backgroundColor: colors[theme].backgroundColor,
+                    borderColor: colors[theme].borderColor,
                     borderWidth: 3,
                     hoverBorderWidth: 6,
                     hoverBorderColor: 'rgba(0,0,0,0.9)',
@@ -2128,7 +2189,7 @@ function criarDashboard(data) {
                     ],
                     type: 'line',
                     borderColor: 'rgba(231, 76, 60, 1)',
-                    backgroundColor: 'rgba(231, 76, 60, 0.4)',
+                    backgroundColor: 'rgba(200, 200, 200, 0.4)',
                     fill: true,
                     yAxisID: 'y1',
                     pointBackgroundColor: 'rgba(231, 76, 60, 1)',
@@ -2150,11 +2211,11 @@ function criarDashboard(data) {
                     display: true,
                     text: 'Status dos Cenários',
                     font: {
-                        size: 26,
+                        size: 23,
                         weight: 'bold',
                         family: 'Poppins, sans-serif'
                     },
-                    color: '#333',
+                    color: colors[theme].textColor,
                     padding: {
                         top: 30,
                         bottom: 30
@@ -2168,13 +2229,13 @@ function criarDashboard(data) {
                             size: 18,
                             family: 'Poppins, sans-serif'
                         },
-                        color: '#444',
+                        color: colors[theme].textColor,
                         boxWidth: 30,
                         padding: 30
                     }
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(0,0,0,0.95)',
+                    backgroundColor: colors[theme].tooltipBackgroundColor,
                     titleFont: {
                         size: 22,
                         family: 'Poppins, sans-serif'
@@ -2202,20 +2263,20 @@ function criarDashboard(data) {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: '#444',
+                        color: colors[theme].textColor,
                         font: {
                             size: 18,
                             family: 'Poppins, sans-serif'
                         }
                     },
                     grid: {
-                        color: 'rgba(200, 200, 200, 0.3)',
+                        color: colors[theme].textColor,
                         lineWidth: 1.5
                     },
                     title: {
                         display: true,
                         text: 'Quantidade',
-                        color: '#333',
+                        color: colors[theme].textColor,
                         font: {
                             size: 22,
                             family: 'Poppins, sans-serif'
@@ -2226,7 +2287,7 @@ function criarDashboard(data) {
                     beginAtZero: true,
                     position: 'right',
                     ticks: {
-                        color: '#444',
+                        color: colors[theme].textColor,
                         font: {
                             size: 18,
                             family: 'Poppins, sans-serif'
@@ -2241,7 +2302,7 @@ function criarDashboard(data) {
                     title: {
                         display: true,
                         text: 'Porcentagem (%)',
-                        color: '#333',
+                        color: colors[theme].textColor,
                         font: {
                             size: 22,
                             family: 'Poppins, sans-serif'
@@ -2250,14 +2311,14 @@ function criarDashboard(data) {
                 },
                 x: {
                     ticks: {
-                        color: '#444',
+                        color: colors[theme].textColor,
                         font: {
                             size: 18,
                             family: 'Poppins, sans-serif'
                         }
                     },
                     grid: {
-                        color: 'rgba(200, 200, 200, 0.3)',
+                        color: colors[theme].textColor,
                         lineWidth: 1.5
                     }
                 }
@@ -2265,6 +2326,79 @@ function criarDashboard(data) {
             animation: {
                 duration: 4000,
                 easing: 'easeInOutExpo'
+            }
+        }
+    });
+
+    // Gráfico de Pizza
+    myPieChart = new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Concluído', 'Restante'],
+            datasets: [{
+                data: [estimativaEntrega.concluido, estimativaEntrega.restante],
+                backgroundColor: ['rgba(78, 205, 196, 1)', 'rgba(255, 107, 107, 1)'],
+                hoverBackgroundColor: ['rgba(78, 205, 196, 0.8)', 'rgba(255, 107, 107, 0.8)'],
+                borderWidth: 2,
+                hoverBorderColor: 'rgba(0,0,0,0.9)',
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Estimativa de Entrega',
+                    font: {
+                        size: 23,
+                        weight: 'bold',
+                        family: 'Poppins, sans-serif'
+                    },
+                    color: colors[theme].textColor,
+                    padding: {
+                        top: 20,
+                        bottom: 20
+                    }
+                },
+                tooltip: {
+                    backgroundColor: colors[theme].tooltipBackgroundColor,
+                    titleFont: {
+                        size: 20,
+                        family: 'Poppins, sans-serif'
+                    },
+                    bodyFont: {
+                        size: 16,
+                        family: 'Poppins, sans-serif'
+                    },
+                    padding: 20,
+                    caretPadding: 20,
+                    cornerRadius: 15,
+                    boxPadding: 20,
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.label}: ${context.raw.toFixed(2)}%`;
+                        }
+                    }
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 16,
+                            family: 'Poppins, sans-serif'
+                        },
+                        color: colors[theme].textColor,
+                        boxWidth: 20,
+                        padding: 15
+                    }
+                }
+            },
+            animation: {
+                duration: 3000,
+                easing: 'easeOutBounce'
             }
         }
     });
@@ -2279,26 +2413,25 @@ function criarDashboard(data) {
         taxaFalhas,
         taxaBugs
     );
+    atualizarCards(quantidadeOk, quantidadeNok, quantidadeDesplanejado, quantidadeProgredindo, quantidadeBug);
 }
 
 function atualizarResumoBDD(quantidadeOk, quantidadeNok, quantidadeDesplanejado, quantidadeProgredindo, quantidadeBug, taxaCobertura, taxaFalhas, taxaBugs) {
     var resumoContainer = document.getElementById('resumoBDD');
     resumoContainer.innerHTML = `
-        <div style="padding: 25px; border-radius: 15px; background-color: #f0f0f0; border: 1px solid #ddd; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-            <div style="font-size: 26px; font-weight: bold; color: #333; font-family: 'Poppins', sans-serif;">Resumo do BDD - ${new Date().toLocaleString()}</div>
-            <div style="margin-top: 15px;">
-                <div style="margin-bottom: 15px; font-size: 18px; font-family: 'Poppins', sans-serif;">
+        <div style="padding: 30px; border-radius: 20px; background-color: #f4f4f4; border: 1px solid #ddd; margin-top: 25px; box-shadow: 0 6px 25px rgba(0,0,0,0.15);">
+            <div style="font-size: 28px; font-weight: bold; color: #333; font-family: 'Poppins', sans-serif;">Resumo do BDD - ${new Date().toLocaleString()}</div>
+            <div style="margin-top: 20px;">
+                <div style="margin-bottom: 20px; font-size: 20px; font-family: 'Poppins', sans-serif;">
                     <strong>Número de Linhas BDD: </strong>${quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug}
                 </div>
-                ${renderResumoItem('Nº Ok', quantidadeOk, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(63, 191, 191, 1)')}
-                ${renderResumoItem('Nº Nok', quantidadeNok, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 79, 132, 1)')}
-                ${renderResumoItem('Nº Desplanejado', quantidadeDesplanejado, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 205, 86, 1)')}
-                ${renderResumoItem('Nº Progredindo', quantidadeProgredindo, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(54, 162, 235, 1)')}
-                ${renderResumoItem('Nº Bug', quantidadeBug, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(146, 110, 244, 1)')}
-                <div style="font-size: 20px; margin-top: 25px; font-family: 'Poppins', sans-serif;">
+                ${renderResumoItem('Nº Ok', quantidadeOk, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(78, 205, 196, 1)')}
+                ${renderResumoItem('Nº Nok', quantidadeNok, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 107, 107, 1)')}
+                ${renderResumoItem('Nº Desplanejado', quantidadeDesplanejado, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 234, 167, 1)')}
+                ${renderResumoItem('Nº Progredindo', quantidadeProgredindo, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(116, 185, 255, 1)')}
+                ${renderResumoItem('Nº Bug', quantidadeBug, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(162, 155, 254, 1)')}
+                <div style="font-size: 22px; margin-top: 30px; font-family: 'Poppins', sans-serif;">
                     <strong>Taxa de Cobertura:</strong> ${taxaCobertura.toFixed(2)}%<br>
-                    <!--<strong>Taxa de Falhas:</strong> ${taxaFalhas.toFixed(2)}%<br>
-                    <strong>Taxa de Bugs:</strong> ${taxaBugs.toFixed(2)}%-->
                 </div>
             </div>
         </div>
@@ -2307,14 +2440,22 @@ function atualizarResumoBDD(quantidadeOk, quantidadeNok, quantidadeDesplanejado,
 
 function renderResumoItem(label, quantidade, total, color) {
     return `
-        <div style="display: flex; align-items: center; margin-bottom: 15px;">
-            <span style="width: 160px; display: inline-block; font-size: 18px; font-family: 'Poppins', sans-serif;">${label}:</span>
-            <div style="width: 270px; height: 20px; background-color: rgba(200, 200, 200, 0.3); position: relative; border-radius: 12px; overflow: hidden; box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);">
-                <div style="width: ${(quantidade / total) * 100}%; height: 100%; background-color: ${color}; border-radius: 12px;"></div>
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <span style="width: 170px; display: inline-block; font-size: 20px; font-family: 'Poppins', sans-serif;">${label}:</span>
+            <div style="width: 280px; height: 25px; background-color: rgba(200, 200, 200, 0.3); position: relative; border-radius: 15px; overflow: hidden; box-shadow: inset 0 6px 8px rgba(0, 0, 0, 0.1);">
+                <div style="width: ${(quantidade / total) * 100}%; height: 100%; background-color: ${color}; border-radius: 15px;"></div>
             </div>
-            <span style="margin-left: 12px; font-size: 18px; font-family: 'Poppins', sans-serif;">${quantidade}</span>
+            <span style="margin-left: 15px; font-size: 20px; font-family: 'Poppins', sans-serif;">${quantidade}</span>
         </div>
     `;
+}
+
+function atualizarCards(quantidadeOk, quantidadeNok, quantidadeDesplanejado, quantidadeProgredindo, quantidadeBug) {
+    document.getElementById("cardOk").textContent = quantidadeOk;
+    document.getElementById("cardNok").textContent = quantidadeNok;
+    document.getElementById("cardDesplanejado").textContent = quantidadeDesplanejado;
+    document.getElementById("cardProgredindo").textContent = quantidadeProgredindo;
+    document.getElementById("cardBug").textContent = quantidadeBug;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
