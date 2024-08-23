@@ -513,12 +513,18 @@ button:active {
 
 /* Cards */
 .card {
-  background: #fff;
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  margin: 1rem;
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(240, 240, 240, 1) 100%
+  );
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
@@ -571,6 +577,170 @@ button:active {
 
 .navbar a:hover {
   color: #ddd;
+}
+
+#modalBody {
+  color: #2c3e50; /* Texto em um tom de cinza escuro */
+  font-family: "Poppins", sans-serif; /* Tipografia moderna */
+  font-size: 18px; /* Tamanho de fonte */
+  line-height: 1.8; /* Linha de altura confortável */
+  padding: 25px; /* Espaçamento interno */
+  background: linear-gradient(
+    135deg,
+    #fdfbfb 0%,
+    #ebedee 100%
+  ); /* Gradiente de fundo suave */
+  border-radius: 20px; /* Cantos bem arredondados */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); /* Sombra mais pronunciada para profundidade */
+  transition: all 0.4s ease; /* Transição suave para todas as propriedades */
+  margin-top: 30px; /* Espaçamento superior */
+  position: relative; /* Para adicionar efeitos de paralaxe */
+  overflow: hidden; /* Para garantir que efeitos se mantenham dentro do container */
+}
+
+#modalBody::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  opacity: 0.5;
+  z-index: 0;
+  transform: scale(1.5);
+  transition: all 0.6s ease;
+}
+
+#modalBody:hover::before {
+  transform: scale(1.8);
+}
+
+#modalBody p {
+  margin-bottom: 20px; /* Mais espaço entre parágrafos */
+  position: relative; /* Para garantir que o texto fique sobre os efeitos */
+  z-index: 1; /* Garantir que o texto fique acima dos efeitos de fundo */
+}
+
+#modalBody h2,
+#modalBody h3 {
+  color: #16db6b; /* Destaque para títulos */
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+#modalBody a {
+  color: #3498db; /* Cor de link suave */
+  text-decoration: none;
+  border-bottom: 2px solid #3498db;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+#modalBody a:hover {
+  color: #2980b9; /* Cor de link ao passar o mouse */
+  border-bottom: 2px solid #2980b9;
+}
+
+#modalBody .highlight {
+  background-color: #fff9c4; /* Fundo claro de destaque */
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 8px solid #ffeb3b; /* Barra lateral de destaque */
+  font-weight: bold;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Sombra leve */
+  animation: slideInLeft 0.8s ease; /* Animação de slide-in */
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+#modalBody .parallax-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("path/to/your/background-image.jpg") no-repeat center center;
+  background-size: cover;
+  transform: translateZ(-1px) scale(2);
+  z-index: 0;
+  opacity: 0.3;
+  animation: parallaxScroll 20s infinite linear;
+}
+
+@keyframes parallaxScroll {
+  from {
+    transform: translateY(0) translateZ(-1px) scale(2);
+  }
+  to {
+    transform: translateY(-100px) translateZ(-1px) scale(2);
+  }
+}
+
+#modalBody .animation {
+  animation: fadeInUp 1s ease-in-out; /* Animação de fade-in com efeito de subida */
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Container da barra de progresso */
+#progressBarContainer {
+  margin-top: 20px;
+  background-color: #e6e6e6;
+  border-radius: 20px;
+  padding: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Barra de progresso */
+#progressBar {
+  height: 15px;
+  background: linear-gradient(90deg, #36a2eb, #5cb85c);
+  border-radius: 20px;
+  transition: width 1s ease, background-color 0.6s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  position: relative;
+}
+
+/* Número dentro da barra */
+#progressBar span {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  font-size: 14px;
+  white-space: nowrap; /* Evita quebra de linha e assegura que o texto seja exibido corretamente */
+  overflow: visible; /* Certifica que o texto não seja cortado */
+  width: max-content; /* Garante que o texto ocupe o espaço necessário */
+  padding: 0 5px; /* Adiciona espaçamento para evitar cortes */
 }
 
 #progm-init {

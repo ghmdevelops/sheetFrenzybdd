@@ -1966,6 +1966,8 @@ function gerarDashboard() {
     progressBar.style.width = porcentagemOK + "%";
     progressBar.setAttribute("aria-valuenow", porcentagemOK);
 
+    progressBar.innerHTML = "<span>" + porcentagemOK.toFixed(2) + "%</span>";
+
     var showBugScenariosBtn = document.getElementById("showBugScenariosBtn");
     showBugScenariosBtn.addEventListener("click", function () {
         mostrarCenariosBug();
