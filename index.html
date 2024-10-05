@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SheetFrenzy BDD | Gherkin</title>
+    <title>SheetFrenzy BDD - Gherkin</title>
     <link rel="manifest" href="./manifest.json">
     <meta name="author" content="@gehaim" />
     <meta name="creator" content="@Gehaim" />
@@ -110,7 +110,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
     <script src="https://cdn.webrtc-experiment.com/MediaStreamRecorder.js"></script>
     <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
@@ -166,7 +167,7 @@
 
 <body>
     <script>
-        window.onbeforeunload = function () {
+        /*window.onbeforeunload = function () {
             return "e possível que as alterações feitas não sejam salvas.";
         };
 
@@ -203,50 +204,81 @@
                     document.querySelector('.grade-buttons').classList.remove('d-none');
                     document.querySelector('#audioButton').classList.remove('d-none');
                 }
-            });
+            }); 
         });
 
         function iniciarTour() {
             introJs().start();
-        }
+        }*/
     </script>
 
-    <div class="container mt-1">
-        <div class="row justify-content-center align-items-center text-center">
-            <div class="col-md-6 col-sm-12 text-center text-md-start">
-                <h1 id="titulo" onclick="location.reload();">
-                    <img src="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/sslogo1.png" alt="Logo"
-                        loading="lazy">
-                </h1>
-            </div>
+    <div id="loader">
+        <div class="loader-circle">
+            <span id="loading-text">SheetFrenzy</span>
+            <span id="loading-percentage">0%</span>
+        </div>
+    </div>
 
-            <div class="col-md-6 col-sm-12" id="vitu-oen">
-                <div class="group-item-btn m-5 mt-4 d-flex justify-content-center flex-wrap">
-                    <button title="Acessar Blog Compartilhado" id="blog" type="button"
+    <script>
+        let progress = 0;
+        const loadingText = document.getElementById('loading-percentage');
+        const interval = setInterval(() => {
+            progress += 1;
+            loadingText.textContent = `${progress}%`;
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                document.getElementById('loader').style.transition = 'opacity 1s ease-in-out';
+                document.getElementById('loader').style.opacity = '0';
+
+                // Após o loader sumir, mostramos o conteúdo
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                    const content = document.getElementById('content');
+                    content.style.display = 'block';
+                    content.classList.add('show'); // Aplica a classe 'show' para a animação de entrada
+                }, 1000); // Espera 1 segundo para garantir que o loader sumiu completamente
+            }
+        }, 14);
+    </script>
+
+    <div id="content">
+        <div class="container mt-1">
+            <div class="row justify-content-center align-items-center text-center">
+                <div class="col-md-6 col-sm-12 text-center text-md-start">
+                    <h1 id="titulo" onclick="location.reload();">
+                        <img src="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/sslogo1.png" alt="Logo"
+                            loading="lazy">
+                    </h1>
+                </div>
+
+                <div class="col-md-6 col-sm-12" id="vitu-oen">
+                    <div class="group-item-btn m-5 mt-4 d-flex justify-content-center flex-wrap">
+                        <!--<button title="Acessar Blog Compartilhado" id="blog" type="button"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Use este botão para acessar nosso blog compartilhado." data-step="1">
                         <i class="fas fa-blog"></i>
-                    </button>
-                    <button title="Fazer uma busca" id="btn-sear" type="button"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg" onclick="alternarVisibilidade()"
-                        data-intro="Use este botão para buscar informações na página." data-step="2">
-                        <i class="fa-solid fa-magnifying-glass-arrow-right"></i>
-                    </button>
-                    <button title="Temas" id="themeButton" class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
+                    </button>-->
+                        <button title="Fazer uma busca" id="btn-sear" type="button"
+                            class="btn btn-outline-light m-2 btn-sm btn-md btn-lg" onclick="alternarVisibilidade()"
+                            data-intro="Use este botão para buscar informações na página." data-step="2">
+                            <i class="fa-solid fa-magnifying-glass-arrow-right"></i> Buscar
+                        </button>
+                        <!--<button title="Temas" id="themeButton" class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Clique aqui para alterar o tema da página." data-step="3">
                         <i class="fa-solid fa-circle-half-stroke"></i>
-                    </button>
-                    <button title="Documentação" id="doc-book" type="button"
+                    </button>-->
+                        <!-- <button title="Documentação" id="doc-book" type="button"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Acesse a documentação clicando neste botão." data-step="4">
                         <i class="fa-solid fa-book"></i>
-                    </button>
-                    <button id="convertTableButton" title="Conversor octane excel" type="button"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Converta a tabela para um formato Excel específico." data-step="5">
-                        <i class="fa-solid fa-s"></i>
-                    </button>
-                    <button title="Gravar uma página" id="recordingButton" type="button"
+                    </button>-->
+                        <button id="convertTableButton" title="Conversor octane excel" type="button"
+                            class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
+                            data-intro="Converta a tabela para um formato Excel específico." data-step="5">
+                            <i class="fa-brands fa-squarespace"></i> Swift Shift Converter Octane
+                        </button>
+                        <!--<button title="Gravar uma página" id="recordingButton" type="button"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Clique aqui para iniciar uma gravação." data-step="6">
                         <i class="fa-solid fa-video"></i>
@@ -265,350 +297,371 @@
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Clique aqui para gerador de Historias." data-step="9">
                         <i class="fa-solid fa-book-open"></i>
+                    </button>-->
+                        <button id="installButton" style="border: 2px solid #16db6b;cursor: pointer; display: none;"
+                            class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"><i style="color: #16db6b;"
+                                class="fa-regular fa-circle-down"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <video class="d-none" id="recordedVideo" controls></video>
+
+        <div class="container col-md-10">
+            <div class="container py-3">
+                <div id="qtd-lne" class="row justify-content-center">
+                    <div class="col-md-5 col-sm-12 mx-auto mb-3">
+                        <label for="rows" class="modern-label"><i class="fa-solid fa-grip-lines"></i> Definir quantidade
+                            de
+                            linhas</label>
+                        <div class="d-flex align-items-center justify-content-center modern-input-group">
+                            <button title="Diminuir número de linhas" id="btn-more1" class="btn modern-btn-decrement"
+                                onmousedown="startDecrement1()" onmouseup="stopDecrement1()">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <input data-intro="Aqui você pode definir o número de linhas para a tabela." data-step="11"
+                                type="text" id="rows" value="1" class="form-control text-center modern-input">
+                            <button title="Adicionar número de linhas" id="btn-less1" class="btn modern-btn-increment"
+                                onmousedown="startIncrement1()" onmouseup="stopIncrement1()">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 mb-3 d-none">
+                        <label for="cols"><i class="fa-solid fa-grip-lines-vertical"></i> Qtd de Colunas</label>
+                        <div class="d-flex">
+                            <button title="Diminuir número de linhas" id="btn-more2" class="btn btn-secondary"
+                                onmousedown="startDecrement2()" onmouseup="stopDecrement2()">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <input type="text" id="cols" min="1" value="12"
+                                class="form-control text-center font-weight-bold">
+                            <button title="Adicionar número de linhas" id="btn-less2" class="btn btn-secondary"
+                                onmousedown="startIncrement2()" onmouseup="stopIncrement2()">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 col-sm-12 mt-md-4">
+                        <div class="d-flex justify-content-center flex-wrap">
+                            <div class="d-inline-block mx-2">
+                                <button title="Adicionar Tabela" id="card-btns"
+                                    class="btn modern-btn btn-animated btn-responsive"
+                                    data-intro="Clique aqui para criar a tabela." data-step="12"
+                                    onclick="criarTabela()">
+                                    <i class="fa-solid fa-file-invoice"></i> Gerar BDD
+                                </button>
+                            </div>
+                            <div class="d-inline-block mx-2">
+                                <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
+                                    onchange="importExcel()" style="display: none;">
+                                <label title="Selecionar Excel" for="importExcel"
+                                    class="btn modern-btn btn-animated btn-responsive" id="customButtonEx"
+                                    data-intro="Selecione um arquivo Excel para importar." data-step="13">
+                                    <i class="fa-solid fa-file-import"></i> Importar BDD
+                                </label>
+                            </div>
+                            <div class="d-inline-block mx-2">
+                                <button title="Gerar dashboard" id="dashboardButton" type="button"
+                                    class="btn modern-btn btn-animated btn-responsive" data-toggle="modal"
+                                    data-target="#myModal" data-intro="Gere um dashboard com os dados da tabela."
+                                    data-step="21">
+                                    <i class="fa-solid fa-chart-simple"></i> Dashboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="py-2 table-responsive text-center" data-intro="Opções adicionais para manipular a tabela."
+                data-step="14">
+                <div class="grade-buttons col-md-12 d-none">
+                    <div id="myDiv-cards" class="botoes-container">
+                        <button title="Apagar Linha" id="lsmns" class="btn btn-success" onclick="apagarLinha()"
+                            data-intro="Apague a linha selecionada clicando aqui." data-step="14">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <label class="mt-2">Linha</label>
+                        <button title="Adicionar Linha" id="lsdty" class="btn btn-success" onclick="adicionarLinha()"
+                            data-intro="Adicione uma nova linha clicando aqui." data-step="15">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <button title="Adicionar Coluna" class="btn btn-success" onclick="adicionarColuna()"
+                        data-intro="Adicione uma nova coluna clicando aqui." data-step="16">
+                        <i class="fa-solid fa-table-columns"></i> Coluna
                     </button>
-                    <button id="installButton" style="border: 2px solid #16db6b;cursor: pointer; display: none;"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"><i style="color: #16db6b;"
-                            class="fa-regular fa-circle-down"></i></button>
+                    <button title="Baixar EXCEL, JSON, XML e YAML" class="btn btn-success" onclick="baixarExcel()"
+                        data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="17">
+                        <i class="fa-solid fa-file-arrow-up"></i> Exportar BDD
+                    </button>
+                    <br>
+
+                    <div class="btn-group" role="group" aria-label="Opções">
+                        <button title="Selecionar todos os radios" style="display: none;" id="selectAllRadios"
+                            class="btn btn-success mt-2"><i class="fa fa-check-circle mr-2"></i>
+                        </button>
+                        <button title="Gerar Features" id="featuresBtn" class="btn btn-success mt-2"
+                            onclick="adicionarColunaFeature(); toggleButtons('featuresBtn');"
+                            data-intro="Gere cenários de teste (features) com este botão." data-step="18">
+                            <img style="width: 18px;" src="./src/img/cucumber.png" alt="cm"> Features
+                        </button>
+                        <button title="Baixar Features" id="baixarBtn" class="btn btn-success mt-2 hide"
+                            onclick="baixarSelecionados(); toggleButtons('baixarBtn');">
+                            <img style="width: 18px;" src="./src/img/cucumber.png" alt="cm"> Baixar
+                        </button>
+                        <button title="Voltar para baixar" id="voltarBtn" class="btn btn-success mt-2 hide"
+                            onclick="toggleButtons('featuresBtn');">
+                            <i class="fa-solid fa-angles-left"></i>
+                        </button>
+                    </div>
+                    <button title="Visualizar Features" id="viewFeaturesBtn" class="btn btn-success mt-2"
+                        data-intro="Visualize como ficaria o Excel em formato Gherkin." data-step="19"
+                        aria-label="Visualizar Features">
+                        <i class="fa-solid fa-eye"></i> Visualizar features
+                    </button>
+                    <button title="Copiar para outras linhas" class="btn btn-success mt-2" onclick="copiarParaTodos()"
+                        data-intro="Copie o conteúdo de uma célula para todas as linhas." data-step="20">
+                        <i class="fa-solid fa-copy"></i> Copiar
+                    </button>
+                    <button title="Gerar dashboard" type="button" class="btn btn-success mt-2" data-toggle="modal"
+                        data-target="#myModal" data-intro="Gere um dashboard com os dados da tabela." data-step="21">
+                        <i class="fa-solid fa-chart-pie"></i> Dashboard
+                    </button>
+                </div>
+                <div id="aud-in" class="d-flex justify-content-center mt-2">
+                    <button title="Ativar Reconhecimento de Voz" id="audioButton" class="btn btn-warning d-none"
+                        data-target="#myModal" data-intro="Ativar reconhecimento de voz, para preenchimento da tabela."
+                        data-step="22" onclick="ativarReconhecimentoDeVoz()">
+                        <i class="fas fa-microphone"></i> Ativar reconhecimento de voz
+                    </button>
+                </div>
+            </div>
+            <div id="saveButtonContainer" style="display: none; margin: auto; text-align: center;">
+                <button id="saveButton" class="btn btn-primary" onclick="saveTable()"><i
+                        class="fa-solid fa-file-excel"></i>
+                    Salvar no mesmo excel</button>
+            </div>
+
+            <div class="table-responsive text-center py-3">
+                <div class="col-sm-6 mx-auto d-flex justify-content-between">
+                    <input style="display: none;" class="form-control" type="search" id="filtroCT" name="filtroCT"
+                        placeholder="filtrar por cenário ex: CT0001">
+                    <button style="display: none;" type="button" class="btn btn-success" id="segundoBotao"
+                        onclick="filtrarPorCT()" data-intro="Filtre os cenários da tabela." data-step="23">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <video class="d-none" id="recordedVideo" controls></video>
+    <button class="btn btn-primary" id="scrollToTopBtn"><i class="fa fa-arrow-up"></i></button>
+    <script>
+        var scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
-    <div class="container col-md-10">
-        <div class="container py-3">
-            <div id="qtd-lne" class="row justify-content-center">
-                <div class="col-md-5 col-sm-12 mx-auto mb-3">
-                    <label for="rows"><i class="fa-solid fa-grip-lines"></i> Qtd de Linhas</label>
-                    <div class="d-flex">
-                        <button title="Diminuir número de linhas" id="btn-more1" class="btn btn-secondary"
-                            onmousedown="startDecrement1()" onmouseup="stopDecrement1()">
-                            <i class="fa-solid fa-minus"></i>
-                        </button>
-                        <input data-intro="Aqui você pode definir o número de linhas para a tabela." data-step="11"
-                            type="text" id="rows" value="1" class="form-control text-center font-weight-bold">
-                        <button title="Adicionar número de linhas" id="btn-less1" class="btn btn-secondary"
-                            onmousedown="startIncrement1()" onmouseup="stopIncrement1()">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
+        window.addEventListener('scroll', function () {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.style.display = 'block';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
 
-                <div class="col-md-4 col-sm-12 mb-3 d-none">
-                    <label for="cols"><i class="fa-solid fa-grip-lines-vertical"></i> Qtd de Colunas</label>
-                    <div class="d-flex">
-                        <button title="Diminuir número de linhas" id="btn-more2" class="btn btn-secondary"
-                            onmousedown="startDecrement2()" onmouseup="stopDecrement2()">
-                            <i class="fa-solid fa-minus"></i>
-                        </button>
-                        <input type="text" id="cols" min="1" value="12"
-                            class="form-control text-center font-weight-bold">
-                        <button title="Adicionar número de linhas" id="btn-less2" class="btn btn-secondary"
-                            onmousedown="startIncrement2()" onmouseup="stopIncrement2()">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
+        if (scrollToTopBtn) {
+            scrollToTopBtn.addEventListener('click', function () {
+                scrollToTop();
+            });
+        }
 
-                <div class="col-md-5 col-sm-12 mt-md-4">
-                    <div class="d-flex justify-content-center">
-                        <div class="d-inline-block mx-2">
-                            <button title="Adicionar Tabela" id="card-btns" class="btn btn-success btn-animated"
-                                data-intro="Clique aqui para criar a tabela." data-step="12" onclick="criarTabela()">
-                                <i class="fa-solid fa-plus-circle"></i> Gerar BDD
-                            </button>
-                        </div>
-                        <div class="d-inline-block mx-2">
-                            <input type="file" name="file-input" id="importExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
-                                onchange="importExcel()" style="display: none;">
-                            <label title="Selecionar Excel" for="importExcel" class="btn btn-success btn-animated"
-                                id="customButtonEx" data-intro="Selecione um arquivo Excel para importar."
-                                data-step="13">
-                                <i class="fa-solid fa-file-circle-plus"></i> Importar BDD
-                            </label>
-                        </div>
-                        <div class="d-inline-block mx-2">
-                            <button title="Gerar dashboard" id="dashboardButton" type="button"
-                                class="btn btn-success btn-animated" data-toggle="modal" data-target="#myModal"
-                                data-intro="Gere um dashboard com os dados da tabela." data-step="21">
-                                <i class="fa-solid fa-chart-pie"></i> Dashboard
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        function scrollToTop() {
+            var scrollDuration = 2000;
+            var startTime = null;
 
-        <div class="py-2 table-responsive text-center" data-intro="Opções adicionais para manipular a tabela."
-            data-step="14">
-            <div class="grade-buttons col-md-12 d-none">
-                <div id="myDiv-cards" class="botoes-container">
-                    <button title="Apagar Linha" id="lsmns" class="btn btn-success" onclick="apagarLinha()"
-                        data-intro="Apague a linha selecionada clicando aqui." data-step="14">
-                        <i class="fa-solid fa-minus"></i>
-                    </button>
-                    <label class="mt-2">Linha</label>
-                    <button title="Adicionar Linha" id="lsdty" class="btn btn-success" onclick="adicionarLinha()"
-                        data-intro="Adicione uma nova linha clicando aqui." data-step="15">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                </div>
-                <button title="Adicionar Coluna" class="btn btn-success" onclick="adicionarColuna()"
-                    data-intro="Adicione uma nova coluna clicando aqui." data-step="16">
-                    <i class="fa-solid fa-plus"></i> Coluna
-                </button>
-                <button title="Baixar EXCEL, JSON, XML e YAML" class="btn btn-success" onclick="baixarExcel()"
-                    data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="17">
-                    <i class="fa-solid fa-file-download"></i> Exportar BDD
-                </button>
-                <br>
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                var timeElapsed = currentTime - startTime;
+                var scrollY = window.scrollY;
+                var scrollStep = scrollY * (timeElapsed / scrollDuration);
 
-                <div class="btn-group" role="group" aria-label="Opções">
-                    <button title="Selecionar todos os radios" style="display: none;" id="selectAllRadios"
-                        class="btn btn-success mt-2"><i class="fa fa-check-circle mr-2"></i>
-                    </button>
-                    <button title="Gerar Features" id="featuresBtn" class="btn btn-success mt-2"
-                        onclick="adicionarColunaFeature(); toggleButtons('featuresBtn');"
-                        data-intro="Gere cenários de teste (features) com este botão." data-step="18">
-                        <img style="width: 18px;" src="./src/img/cucumber.png" alt="cm"> Features
-                    </button>
-                    <button title="Baixar Features" id="baixarBtn" class="btn btn-success mt-2 hide"
-                        onclick="baixarSelecionados(); toggleButtons('baixarBtn');">
-                        <img style="width: 18px;" src="./src/img/cucumber.png" alt="cm"> Baixar
-                    </button>
-                    <button title="Voltar para baixar" id="voltarBtn" class="btn btn-success mt-2 hide"
-                        onclick="toggleButtons('featuresBtn');">
-                        <i class="fa-solid fa-angles-left"></i>
-                    </button>
-                </div>
-                <button title="Visualizar Features" id="viewFeaturesBtn" class="btn btn-success mt-2"
-                    data-intro="Visualize como ficaria o Excel em formato Gherkin." data-step="19"
-                    aria-label="Visualizar Features">
-                    <i class="fa-solid fa-eye"></i> Visualizar features
-                </button>
-                <button title="Copiar para outras linhas" class="btn btn-success mt-2" onclick="copiarParaTodos()"
-                    data-intro="Copie o conteúdo de uma célula para todas as linhas." data-step="20">
-                    <i class="fa-solid fa-copy"></i> Copiar
-                </button>
-                <button title="Gerar dashboard" type="button" class="btn btn-success mt-2" data-toggle="modal"
-                    data-target="#myModal" data-intro="Gere um dashboard com os dados da tabela." data-step="21">
-                    <i class="fa-solid fa-chart-pie"></i> Dashboard
-                </button>
-            </div>
-            <div id="aud-in" class="d-flex justify-content-center mt-2">
-                <button title="Ativar Reconhecimento de Voz" id="audioButton" class="btn btn-warning d-none"
-                    data-target="#myModal" data-intro="Ativar reconhecimento de voz, para preenchimento da tabela."
-                    data-step="22" onclick="ativarReconhecimentoDeVoz()">
-                    <i class="fas fa-microphone"></i> Ativar Reconhecimento de Voz
-                </button>
-            </div>
-        </div>
-        <div id="saveButtonContainer" style="display: none; margin: auto; text-align: center;">
-            <button id="saveButton" class="btn btn-primary" onclick="saveTable()">Salvar no mesmo excel <i
-                    class="fa-solid fa-file-excel"></i></button>
-        </div>
+                window.scrollTo(0, scrollY - scrollStep);
 
-        <div class="table-responsive text-center py-3">
-            <div class="col-sm-6 mx-auto d-flex justify-content-between">
-                <input style="display: none;" class="form-control" type="search" id="filtroCT" name="filtroCT"
-                    placeholder="filtrar por cenário ex: CT0001">
-                <button style="display: none;" type="button" class="btn btn-success" id="segundoBotao"
-                    onclick="filtrarPorCT()" data-intro="Filtre os cenários da tabela." data-step="23">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-        </div>
-
-        <button class="btn btn-primary" id="scrollToTopBtn"><i class="fa fa-arrow-up"></i></button>
-        <script>
-            var scrollToTopBtn = document.getElementById('scrollToTopBtn');
-
-            window.addEventListener('scroll', function () {
-                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                    scrollToTopBtn.style.display = 'block';
+                if (timeElapsed < scrollDuration && scrollY > 0) {
+                    requestAnimationFrame(animation);
                 } else {
-                    scrollToTopBtn.style.display = 'none';
+                    window.scrollTo(0, 0);
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+    </script>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gaugeJS"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <div style="color: #000000;" class="modal fade text-black" id="myModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <img width="40" src="./src/img/logoPage200.png" alt="cm">
+                        Dashboard<b style="color: #16db6b;"> BDD</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px;">
+                        <div class="card" style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                            <div class="card-title">Cenários Ok</div>
+                            <div class="card-value" id="cardOk" style="color: #3fbfbf; font-size: 24px;">0</div>
+                        </div>
+                        <div class="card" style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                            <div class="card-title">Testes não iniciados</div>
+                            <div class="card-value" id="cardNok" style="color: #ff4f84; font-size: 24px;">0
+                            </div>
+                        </div>
+                        <div class="card" style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                            <div class="card-title">Desplanejados</div>
+                            <div class="card-value" id="cardDesplanejado" style="color: #ffcd56; font-size: 24px;">0
+                            </div>
+                        </div>
+                        <div class="card" style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                            <div class="card-title">Progredindo</div>
+                            <div class="card-value" id="cardProgredindo" style="color: #36a2eb; font-size: 24px;">0
+                            </div>
+                        </div>
+                        <div class="card" style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
+                            <div class="card-title">Bugs</div>
+                            <div class="card-value" id="cardBug" style="color: #926ef4; font-size: 24px;">0
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráficos -->
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 20px;">
+                        <canvas id="graficoModal" style="flex: 1; max-width: 600px; height: 400px;"></canvas>
+                        <canvas id="graficoPizza" style="flex: 1; max-width: 400px; height: 300px;"></canvas>
+                    </div>
+
+                    <!-- Resumo e ProgressBar -->
+                    <div id="resumoBDD"></div>
+                    <div id="porcentagemOK" class="d-none mt-3"></div>
+                    <span id="numeroLinhas"></span>
+                    <div id="progressBarContainer" class="mt-3">
+                        <div class="progress">
+                            <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;"
+                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div style="color: #000000;" id="modalBody"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" id="showBugScenariosBtn">
+                        <i class="fa-solid fa-bug"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="takeScreenshotAndDownload()">
+                        <i class="fa-solid fa-camera-retro"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" id="toggleButton"
+                        onclick="toggleIcon(), gerarDashboard()">
+                        <i class="fa-solid fa-chart-simple"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="printPDF()">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </button>
+                    <button id="copyButton" class="btn btn-primary"><i class="fa-solid fa-copy"></i>
+                        Copiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="infoCard" class="info-card">
+        <div class="info-content">
+            <h4>Informações Importantes</h4>
+            <ul class="const-import">
+                <li><strong>1. Foco no cenário:</strong> Identifique e descreva claramente o cenário específico
+                    a
+                    ser testado.</li>
+                <li><strong>2. Especificação do cenário:</strong> Use a linguagem Gherkin para definir o
+                    comportamento esperado com "Dado", "Quando" e "Então".</li>
+                <li><strong>3. Especificação das unidades:</strong> Quebre o cenário em unidades menores e
+                    específicas de teste.</li>
+                <li><strong>4. Fazer o teste passar:</strong> Implemente o código necessário para passar nos
+                    testes
+                    e refatore conforme necessário.</li>
+            </ul>
+            <button onclick="fecharCard()" class="close-btn">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let startInput = null;
+            let isDragging = false;
+            let startY = 0;
+            let startX = 0;
+
+            document.addEventListener('mousedown', function (event) {
+                if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
+                    startInput = event.target;
+                    isDragging = true;
+                    startY = event.clientY;
+                    startX = event.clientX;
                 }
             });
 
-            if (scrollToTopBtn) {
-                scrollToTopBtn.addEventListener('click', function () {
-                    scrollToTop();
-                });
-            }
-
-            function scrollToTop() {
-                var scrollDuration = 2000;
-                var startTime = null;
-
-                function animation(currentTime) {
-                    if (startTime === null) startTime = currentTime;
-                    var timeElapsed = currentTime - startTime;
-                    var scrollY = window.scrollY;
-                    var scrollStep = scrollY * (timeElapsed / scrollDuration);
-
-                    window.scrollTo(0, scrollY - scrollStep);
-
-                    if (timeElapsed < scrollDuration && scrollY > 0) {
-                        requestAnimationFrame(animation);
-                    } else {
-                        window.scrollTo(0, 0);
-                    }
-                }
-
-                requestAnimationFrame(animation);
-            }
-        </script>
-
-        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/gaugeJS"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-        <div style="color: #000000;" class="modal fade text-black" id="myModal" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            <img width="40" src="./src/img/logoPage200.png" alt="cm">
-                            Dashboard<b style="color: #16db6b;"> BDD</b>
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div
-                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px;">
-                            <div class="card"
-                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
-                                <div class="card-title">Cenários Ok</div>
-                                <div class="card-value" id="cardOk" style="color: #3fbfbf; font-size: 24px;">0</div>
-                            </div>
-                            <div class="card"
-                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
-                                <div class="card-title">Cenários Nok</div>
-                                <div class="card-value" id="cardNok" style="color: #ff4f84; font-size: 24px;">0
-                                </div>
-                            </div>
-                            <div class="card"
-                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
-                                <div class="card-title">Desplanejados</div>
-                                <div class="card-value" id="cardDesplanejado" style="color: #ffcd56; font-size: 24px;">0
-                                </div>
-                            </div>
-                            <div class="card"
-                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
-                                <div class="card-title">Progredindo</div>
-                                <div class="card-value" id="cardProgredindo" style="color: #36a2eb; font-size: 24px;">0
-                                </div>
-                            </div>
-                            <div class="card"
-                                style="flex: 1; text-align: center; padding: 20px; border: 1px solid #ddd;">
-                                <div class="card-title">Bugs</div>
-                                <div class="card-value" id="cardBug" style="color: #926ef4; font-size: 24px;">0
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Gráficos -->
-                        <div
-                            style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 20px;">
-                            <canvas id="graficoModal" style="flex: 1; max-width: 600px; height: 400px;"></canvas>
-                            <canvas id="graficoPizza" style="flex: 1; max-width: 400px; height: 300px;"></canvas>
-                        </div>
-
-                        <!-- Resumo e ProgressBar -->
-                        <div id="resumoBDD"></div>
-                        <div id="porcentagemOK" class="d-none mt-3"></div>
-                        <span id="numeroLinhas"></span>
-                        <div id="progressBarContainer" class="mt-3">
-                            <div class="progress">
-                                <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;"
-                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div style="color: #000000;" id="modalBody"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary" id="showBugScenariosBtn">
-                            <i class="fa-solid fa-bug"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-primary" onclick="takeScreenshotAndDownload()">
-                            <i class="fa-solid fa-camera-retro"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-primary" id="toggleButton"
-                            onclick="toggleIcon(), gerarDashboard()">
-                            <i class="fa-solid fa-chart-simple"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-primary" onclick="printPDF()">
-                            <i class="fa-solid fa-file-pdf"></i>
-                        </button>
-                        <button id="copyButton" class="btn btn-primary"><i class="fa-solid fa-copy"></i>
-                            Copiar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                let startInput = null;
-                let isDragging = false;
-                let startY = 0;
-                let startX = 0;
-
-                document.addEventListener('mousedown', function (event) {
-                    if (event.target.tagName === 'INPUT' && event.target.type === 'text') {
-                        startInput = event.target;
-                        isDragging = true;
-                        startY = event.clientY;
-                        startX = event.clientX;
-                    }
-                });
-
-                document.addEventListener('mousemove', function (event) {
-                    if (isDragging && startInput) {
-                        const target = event.target;
-                        if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
-                            if (event.clientY < startY || event.clientX < startX) {
-                                target.value = '';
-                            } else {
-                                target.value = startInput.value;
-                            }
+            document.addEventListener('mousemove', function (event) {
+                if (isDragging && startInput) {
+                    const target = event.target;
+                    if (target.tagName === 'INPUT' && target.type === 'text' && target !== startInput) {
+                        if (event.clientY < startY || event.clientX < startX) {
+                            target.value = '';
+                        } else {
+                            target.value = startInput.value;
                         }
                     }
-                });
-
-                document.addEventListener('mouseup', function () {
-                    startInput = null;
-                    isDragging = false;
-                });
-            });
-        </script>
-
-        <script>
-            document.getElementById('convertTableButton').addEventListener('click', e => {
-                location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/swiftleft/sheetFrenzybddSwiftShiftConverter.html';
+                }
             });
 
-            document.getElementById('blog').addEventListener('click', e => {
-                location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/blog/sheetFrenzybddBlog.html';
+            document.addEventListener('mouseup', function () {
+                startInput = null;
+                isDragging = false;
             });
+        });
+    </script>
 
-            document.getElementById('storyGenerator').addEventListener('click', function () {
-                location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/storyGenerator/sheetFrenzybddgeradordeHistorias.html';
-            });
-        </script>
+    <script>
+        document.getElementById('convertTableButton').addEventListener('click', e => {
+            location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/swiftleft/sheetFrenzybddSwiftShiftConverter.html';
+        });
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
-        <script src="./src/js/scriptI.js" defer async> </script>
-        <script src="./src/js/scriptFunc.js" defer async> </script>
+        document.getElementById('blog').addEventListener('click', e => {
+            location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/blog/sheetFrenzybddBlog.html';
+        });
+
+        document.getElementById('storyGenerator').addEventListener('click', function () {
+            location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/src/storyGenerator/sheetFrenzybddgeradordeHistorias.html';
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script src="./src/js/scriptI.js" defer async> </script>
+    <script src="./src/js/scriptFunc.js" defer async> </script>
 </body>
 
 </html>

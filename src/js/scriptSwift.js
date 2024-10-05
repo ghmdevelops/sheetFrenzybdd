@@ -8,7 +8,16 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
         Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Por favor, preencha todos os campos.",
+            html: `
+            <p style="
+        font-family: Arial, sans-serif; 
+        font-size: 16px; 
+        color: #fff; 
+        margin-bottom: 10px;
+    ">
+        Por favor, preencha todos os campos.
+    </p>
+                  `,
             confirmButtonColor: "#0f4178",
             confirmButtonText: "OK",
         });
@@ -20,7 +29,16 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
         Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Por favor, escolha um arquivo Excel.",
+            html: `
+            <p style="
+        font-family: Arial, sans-serif; 
+        font-size: 16px; 
+        color: #fff; 
+        margin-bottom: 10px;
+    ">
+Por favor, escolha um arquivo Excel.
+    </p>
+                  `,
             confirmButtonColor: "#0f4178",
             confirmButtonText: "OK",
         });
@@ -65,12 +83,17 @@ document.getElementById('converterForm').addEventListener('submit', function (e)
                         message += `Os seguintes títulos estão faltando no arquivo: ${missingHeaders.join(', ')}. `;
                     }
                     if (extraHeaders.length > 0) {
-                        message += `Os seguintes títulos são extras ou diferentes: ${extraHeaders.join(', ')}. por favor retirar.`;
+                        message += `Os seguintes títulos são extras ou diferentes: ${extraHeaders.join(', ')}.por favor retirar.`;
                     }
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: message,
+                        html: `<p style="
+            font-family: Arial, sans-serif; 
+            font-size: 16px; 
+            color: #fff; 
+            margin-bottom: 10px;
+        ">${message}</p>`,
                         confirmButtonColor: "#0f4178",
                         confirmButtonText: "OK",
                     });

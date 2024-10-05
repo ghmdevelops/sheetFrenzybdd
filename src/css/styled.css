@@ -25,6 +25,7 @@ body.dark-theme h1 {
 
 .sidebar a:hover {
     background-color: #c8f5e2;
+    border-radius: 4px;
 }
 
 .nav {
