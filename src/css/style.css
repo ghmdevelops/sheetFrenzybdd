@@ -798,6 +798,11 @@ select:focus {
 
 .responsive-popup #progm-init li {
   margin-bottom: 10px;
+  border: 1px solid transparent;
+}
+
+.div-cont-pag p {
+  color: #13c495;
 }
 
 .modern-label {
