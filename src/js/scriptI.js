@@ -401,6 +401,50 @@ let isRecognitionActive = false;
 
 var linhasSublinhadas = [];
 async function criarTabela() {
+    const { value: definirQtdLinhas } = await Swal.fire({
+        title: 'Deseja definir a quantidade de linhas?',
+        text: "Se escolher não, será utilizada a quantidade padrão.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+    });
+
+    let numRows; // Variável para armazenar a quantidade de linhas
+    if (definirQtdLinhas) {
+        const { value: qtdLinhas } = await Swal.fire({
+            title: 'Informe a quantidade de linhas:',
+            input: 'number',
+            inputAttributes: {
+                min: 1,
+                step: 1
+            },
+            inputPlaceholder: 'Digite a quantidade de linhas',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            preConfirm: (inputValue) => {
+                if (inputValue <= 0) {
+                    Swal.showValidationMessage('Informe um número válido de linhas.');
+                    return false;
+                }
+                return inputValue;
+            }
+        });
+
+        if (qtdLinhas) {
+            numRows = qtdLinhas; // Define a quantidade de linhas escolhida pelo usuário
+        } else {
+            return; // Cancela a operação se o usuário não confirmar
+        }
+    } else {
+        numRows = document.getElementById("rows").value; // Pega a quantidade de linhas padrão
+    }
+
     var tabelaExistente = document.getElementById("tabela");
     if (tabelaExistente) {
         tabelaExistente.remove();
@@ -527,7 +571,7 @@ async function criarTabela() {
         }
     }
 
-    for (var i = 0; i < rows; i++) {
+    for (var i = 0; i < numRows; i++) {
         var row = tabela.insertRow(i + 1);
         var ctValue = "CT" + (i + 1).toString().padStart(4, '0');
         var cellCT = row.insertCell(0);
@@ -1192,7 +1236,7 @@ async function baixarExcel() {
         inputPlaceholder: 'Selecione um formato',
         showCancelButton: true,
         confirmButtonText: 'Exportar',
-        confirmButtonColor: '#006400',
+        confirmButtonColor: "#3085d6",
         cancelButtonText: 'Cancelar',
         inputValidator: (value) => {
             if (!value) {

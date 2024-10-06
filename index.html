@@ -214,6 +214,11 @@
 
     <div id="loader">
         <div class="loader-circle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
             <span id="loading-text">SheetFrenzy</span>
             <span id="loading-percentage">0%</span>
         </div>
@@ -259,11 +264,6 @@
                         data-intro="Use este botão para acessar nosso blog compartilhado." data-step="1">
                         <i class="fas fa-blog"></i>
                     </button>-->
-                        <button title="Fazer uma busca" id="btn-sear" type="button"
-                            class="btn btn-outline-light m-2 btn-sm btn-md btn-lg" onclick="alternarVisibilidade()"
-                            data-intro="Use este botão para buscar informações na página." data-step="2">
-                            <i class="fa-solid fa-magnifying-glass-arrow-right"></i> Buscar
-                        </button>
                         <!--<button title="Temas" id="themeButton" class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Clique aqui para alterar o tema da página." data-step="3">
                         <i class="fa-solid fa-circle-half-stroke"></i>
@@ -311,7 +311,7 @@
         <div class="container col-md-10">
             <div class="container py-3">
                 <div id="qtd-lne" class="row justify-content-center">
-                    <div class="col-md-5 col-sm-12 mx-auto mb-3">
+                    <div class="col-md-5 col-sm-12 mx-auto mb-3 d-none">
                         <label for="rows" class="modern-label"><i class="fa-solid fa-grip-lines"></i> Definir quantidade
                             de
                             linhas</label>
@@ -399,8 +399,11 @@
                         data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="17">
                         <i class="fa-solid fa-file-arrow-up"></i> Exportar BDD
                     </button>
-                    <br>
-
+                    <button title="Fazer uma busca" id="btn-sear" type="button" class="btn btn-success"
+                        onclick="alternarVisibilidade()" data-intro="Use este botão para buscar informações na página."
+                        data-step="2">
+                        <i class="fa-solid fa-magnifying-glass-arrow-right"></i> Buscar
+                    </button> <br>
                     <div class="btn-group" role="group" aria-label="Opções">
                         <button title="Selecionar todos os radios" style="display: none;" id="selectAllRadios"
                             class="btn btn-success mt-2"><i class="fa fa-check-circle mr-2"></i>

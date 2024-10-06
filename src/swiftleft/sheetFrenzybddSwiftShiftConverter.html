@@ -68,54 +68,54 @@
             <img id="logoInit" width="60" src="../img/logoPage200.png" alt="swiftl"> Swift Shift <b
                 style="color: #16db6b;">Converter</b>
         </div>
-        <form id="converterForm" class="mt-4">
+        <div id="progressContainer" class="progress-bar" style="display: none;">
+            <div id="progressBar" class="progress-bar-inner"></div>
+        </div>
+        <form id="converterForm" class="mt-5">
             <div class="form-row">
-                <div class="form-group col-md-12">
-                    <input type="text" class="form-control floating-input" id="name1" name="name1" placeholder=" ">
-                    <label class="floating-label" for="name1"><i class="fas fa-vial"></i> Digite o título do
-                        teste</label>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <input list="serviceOptions" class="form-control floating-input" id="name4" name="name4"
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control floating-input" autocomplete="off" id="name1" name="name1"
                         placeholder=" ">
-                    <label class="floating-label" for="name4"><i class="fas fa-server"></i> Adicione o nome do serviço
-                        Ex: camel_example_service</label>
+                    <label class="floating-label" for="name1"><i class="fa fa-pencil"></i> título do teste</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <input list="serviceOptions" class="form-control floating-input" autocomplete="off" id="name4"
+                        name="name4" placeholder=" ">
+                    <label class="floating-label" for="name4">serviço ex: camel_example_service</label>
                     <datalist id="serviceOptions">
                         <option value="SHARED">
                     </datalist>
                 </div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control floating-input" id="name5" autocomplete="off" name="name5"
+                        placeholder=" ">
+                    <label class="floating-label" for="name5">ID do octane referente as stories</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control floating-input" id="name6" autocomplete="off" name="name6"
+                        placeholder=" ">
+                    <label class="floating-label" for="name6">T ou o X do usuário</label>
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <input type="text" class="form-control floating-input" id="name5" name="name5" placeholder=" ">
-                    <label class="floating-label" for="name5"><i class="fas fa-id-badge"></i> Inserir nesse campo o ID
-                        do Octane referente das stories</label>
+                    <input type="text" class="form-control floating-input" autocomplete="off" id="name8" name="name8"
+                        placeholder=" ">
+                    <label class="floating-label" for="name8">chave Jira do time ou número da sprint</label>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <input type="text" class="form-control floating-input" id="name6" name="name6" placeholder=" ">
-                    <label class="floating-label" for="name6"><i class="fas fa-key"></i> Inserir o T ou o X do usuário
-                        que criou o teste</label>
+                    <textarea class="form-control floating-input" autocomplete="off" id="name7" name="name7"
+                        placeholder=" "></textarea>
+                    <label class="floating-label" for="name7">breve descrição do seu projeto</label>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <input type="text" class="form-control floating-input" id="name8" name="name8" placeholder=" ">
-                    <label class="floating-label" for="name8"><i class="fas fa-tasks"></i> Deve conter a chave Jira do
-                        time</label>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <textarea class="form-control floating-input" id="name7" name="name7" placeholder=" "></textarea>
-                    <label class="floating-label" for="name7"><i class="fas fa-file-alt"></i> Digite a descrição do
-                        projeto</label>
-                </div>
-            </div>
-            <div class="form-group text-center" id="excel-file">
+            <div class="form-group text-center" id="excel-file" style="display:none;">
                 <div class="file-upload-wrapper">
                     <label class="file-upload-label" for="excelFile" id="file-label">
                         <img src="https://img.icons8.com/color/38/000000/microsoft-excel-2019--v1.png" alt="Excel Icon">
@@ -124,14 +124,11 @@
                     <input type="file" class="form-control-file" id="excelFile" name="excelFile" accept=".xlsx, .xls">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="convert-button" style="display: none;">
                 <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-exchange-alt"></i>
                     Converter</button>
             </div>
         </form>
-        <div id="progressContainer" class="progress-bar" style="display: none;">
-            <div id="progressBar" class="progress-bar-inner"></div>
-        </div>
     </div>
 
     <script>
@@ -161,6 +158,37 @@
                 }
             });
         });
+
+        function checkFormFields() {
+            var fields = ['name1', 'name4', 'name5', 'name6', 'name7', 'name8'];
+            var allFilled = fields.every(function (fieldId) {
+                return document.getElementById(fieldId).value.trim() !== "";
+            });
+
+            var excelFile = document.getElementById("excelFile");
+            var excelFileDiv = document.getElementById("excel-file");
+            var convertButton = document.getElementById("convert-button");
+
+            if (allFilled) {
+                excelFileDiv.style.display = "block"; // Exibe o campo de upload se todos os campos forem preenchidos
+            } else {
+                excelFileDiv.style.display = "none";  // Oculta o campo de upload se algum campo estiver vazio
+                convertButton.style.display = "none"; // Oculta o botão "Converter"
+            }
+
+            if (allFilled && excelFile.files.length > 0) {
+                convertButton.style.display = "block"; // Exibe o botão "Converter" quando tudo está preenchido e o arquivo foi escolhido
+            } else {
+                convertButton.style.display = "none"; // Oculta o botão "Converter" se o arquivo não foi escolhido
+            }
+        }
+
+        document.querySelectorAll('#converterForm input, #converterForm textarea').forEach(function (input) {
+            input.addEventListener('input', checkFormFields);
+        });
+
+        document.getElementById("excelFile").addEventListener('change', checkFormFields);
+        document.addEventListener('DOMContentLoaded', checkFormFields);
     </script>
 
     <section class="mt-5">

@@ -188,15 +188,36 @@ function processExcelData(rows, fileName) {
 
             Swal.fire({
                 icon: "success",
-                text: "O arquivo Excel foi criado com sucesso!",
+                html: `<p style="font-family: Arial, sans-serif; font-size: 16px; color: #fff; margin-bottom: 10px;">
+                O arquivo Excel foi criado com sucesso!</p>`,
                 confirmButtonColor: "#0f4178",
                 confirmButtonText: "OK",
                 timer: 1900,
                 showConfirmButton: false,
                 position: 'center',
                 timerProgressBar: true,
+            }).then(() => {
+                // Mostrar o modal de confirmação após o sucesso
+                Swal.fire({
+                    title: 'Deseja limpar todos os campos?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim, limpar',
+                    cancelButtonText: 'Não',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Aqui você pode limpar os campos
+                        document.querySelector('form').reset(); // Exemplo de limpar todos os campos em um form
+                        Swal.fire(
+                            'Campos limpos!',
+                            'Todos os campos foram resetados.',
+                            'success'
+                        );
+                    }
+                });
+                progressContainer.style.display = 'none';
             });
-            progressContainer.style.display = 'none';
         }
     }, 100);
 }
@@ -209,6 +230,21 @@ function saveAs(blob, fileName) {
     link.click();
     document.body.removeChild(link);
 }
+
+const body = document.body;
+
+function setDarkThemeWithGradient() {
+    body.classList.add('dark-theme');
+    body.style.background = `
+        linear-gradient(to bottom, #050407, #050407 10%, #050407),
+        radial-gradient(at top left, #33558a, transparent 40%),
+        radial-gradient(at top right, #1a2851, transparent 70%)`;
+    body.style.backgroundBlendMode = 'screen, overlay';
+    body.style.webkitUserSelect = 'none';
+    body.style.userSelect = 'none';
+}
+
+setDarkThemeWithGradient();
 
 document.getElementById('logoInit').addEventListener('click', function () {
     window.location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/';
