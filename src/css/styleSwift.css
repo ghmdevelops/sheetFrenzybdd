@@ -166,7 +166,7 @@ body::-webkit-scrollbar-thumb:hover {
 .floating-input {
   background-color: transparent;
   width: 100%;
-  border: 2px solid #1abc9c;
+  border: 1px solid #1abc9c;
   color: #ffffff;
   font-weight: 500;
   font-size: 14px;
