@@ -1,17 +1,10 @@
-document.addEventListener('dblclick', function (event) {
-    var target = event.target;
+document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('dblclick', function (event) {
+        var target = event.target;
 
-    if (target.tagName === 'INPUT' && target.type === 'text') {
-        Swal.fire({
-            html: `
-                <p style="
-            font-family: Arial, sans-serif; 
-            font-size: 16px; 
-            color: #fff; 
-            margin-bottom: 10px;
-        ">
-            Continue digitando no campo abaixo:
-        </p>
+        if (target.tagName === 'INPUT' && target.type === 'text') {
+            Swal.fire({
+                html: `
                     <textarea id="swal-input1" style="
                         height: 130px; 
                         width: 340px; 
@@ -25,20 +18,21 @@ document.addEventListener('dblclick', function (event) {
                         resize: none;
                     ">${target.value}</textarea>
                 `,
-            icon: "info",
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "Adicionar",
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            preConfirm: () => {
-                return document.getElementById('swal-input1').value;
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                target.value = result.value;
-            }
-        });
-    }
+                icon: "info",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK",
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                preConfirm: () => {
+                    return document.getElementById('swal-input1').value;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    target.value = result.value;
+                }
+            });
+        }
+    });
 });
 
 let importedFileName = '';
@@ -52,57 +46,37 @@ async function importExcel() {
         var reader = new FileReader();
         var fileNameWithoutExtension = importedFileName.replace(/\.[^/.]+$/, "");
 
-        reader.onload = async function (e) {
+        reader.onload = function (e) {
             var data = e.target.result;
             var workbook = XLSX.read(data, { type: 'binary' });
             var sheetName = workbook.SheetNames[0];
             var worksheet = workbook.Sheets[sheetName];
             var importedData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-            var titulosPadrao = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de teste", "Teste de campo", "Status"];
-
-            if (importedData.length > 0) {
-                var primeirosTitulos = importedData[0];
-
-                if (!titulosEstaoCorretos(primeirosTitulos, titulosPadrao)) {
-                    await Swal.fire({
-                        title: 'Arquivo desatualizado!',
-                        html: 'O arquivo está fora do padrão atual. <br> Iniciando conversão para o novo padrão...',
-                        icon: 'info',
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        },
-                        timer: 3000
-                    });
-
-                    importedData[0] = titulosPadrao;
-                }
-            }
-
-            var filteredData = importedData.filter((linha, index) => {
-                if (index === 0) return true;
-                return linha.some((cell) => cell !== undefined && cell !== null && cell.trim() !== "");
-            });
-
-            filteredData.forEach((linha, index) => {
-                if (index > 0) {
-                    linha[7] = "Web";
-                    linha[9] = "Acceptance";
-                    linha[10] = "Positivo";
-                    linha[11] = "N/A";
-                }
-            });
-
-            addDataToExistingTable(filteredData);
+            addDataToExistingTable(importedData);
             adicionarEventosDeClique();
 
             document.getElementById("exampleModalLabel").innerHTML = `
                 <img width="40" src="./src/img/logoPage200.png" alt="cm">
                 Dashboard<b style="color: #16db6b;"> BDD</b> - ${fileNameWithoutExtension}
             `;
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+            Toast.fire({
+                icon: "success",
+                title: "Arquivo '" + file.name + "' importado!"
+            });
 
             document.getElementById("saveButtonContainer").style.display = "block";
         };
@@ -128,22 +102,11 @@ async function importExcel() {
         document.getElementById('audioButton').style.display = 'block';
     }
 
+    //mostrarInformacoes();
     document.querySelector('.grade-buttons').classList.remove('d-none');
     document.querySelector('#audioButton').classList.remove('d-none');
     document.querySelector('#dashboardButton').classList.add('d-none');
     document.querySelector('#card-btns').classList.add('d-none');
-}
-
-function titulosEstaoCorretos(titulosAtuais, titulosPadrao) {
-    if (titulosAtuais.length !== titulosPadrao.length) {
-        return false;
-    }
-    for (var i = 0; i < titulosAtuais.length; i++) {
-        if (titulosAtuais[i].trim().toLowerCase() !== titulosPadrao[i].trim().toLowerCase()) {
-            return false;
-        }
-    }
-    return true;
 }
 
 function adicionarEventosDeClique() {
@@ -300,7 +263,7 @@ function ativarReconhecimentoDeVoz() {
 
         recognition.onstart = function () {
             Swal.fire('Reconhecimento de voz ativado', 'Você pode começar a falar.', 'success');
-            document.getElementById('audioButton').innerHTML = '<i class="fas fa-microphone-slash"></i> Desativar reconhecimento de voz';
+            document.getElementById('audioButton').innerHTML = '<i class="fas fa-microphone-slash"></i> Desativar Reconhecimento de Voz';
         };
 
         recognition.onerror = function (event) {
@@ -401,50 +364,6 @@ let isRecognitionActive = false;
 
 var linhasSublinhadas = [];
 async function criarTabela() {
-    const { value: definirQtdLinhas } = await Swal.fire({
-        title: 'Deseja definir a quantidade de linhas?',
-        text: "Se escolher não, será utilizada a quantidade padrão.",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sim',
-        cancelButtonText: 'Não',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-    });
-
-    let numRows; // Variável para armazenar a quantidade de linhas
-    if (definirQtdLinhas) {
-        const { value: qtdLinhas } = await Swal.fire({
-            title: 'Informe a quantidade de linhas:',
-            input: 'number',
-            inputAttributes: {
-                min: 1,
-                step: 1
-            },
-            inputPlaceholder: 'Digite a quantidade de linhas',
-            showCancelButton: true,
-            confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            preConfirm: (inputValue) => {
-                if (inputValue <= 0) {
-                    Swal.showValidationMessage('Informe um número válido de linhas.');
-                    return false;
-                }
-                return inputValue;
-            }
-        });
-
-        if (qtdLinhas) {
-            numRows = qtdLinhas; // Define a quantidade de linhas escolhida pelo usuário
-        } else {
-            return; // Cancela a operação se o usuário não confirmar
-        }
-    } else {
-        numRows = document.getElementById("rows").value; // Pega a quantidade de linhas padrão
-    }
-
     var tabelaExistente = document.getElementById("tabela");
     if (tabelaExistente) {
         tabelaExistente.remove();
@@ -571,7 +490,7 @@ async function criarTabela() {
         }
     }
 
-    for (var i = 0; i < numRows; i++) {
+    for (var i = 0; i < rows; i++) {
         var row = tabela.insertRow(i + 1);
         var ctValue = "CT" + (i + 1).toString().padStart(4, '0');
         var cellCT = row.insertCell(0);
@@ -607,10 +526,7 @@ async function criarTabela() {
 
             cell.appendChild(input);
         }
-        row.cells[7].querySelector("input").value = "Web";
-        row.cells[9].querySelector("input").value = "Acceptance";
-        row.cells[10].querySelector("input").value = "Positivo";
-        row.cells[11].querySelector("input").value = "N/A";
+        row.cells[11].querySelector("input").value = "Pendente";
     }
     document.body.appendChild(tabela);
 
@@ -781,17 +697,20 @@ function openSwalForColumnTesteCampo(inputElement) {
 }
 
 function mostrarInformacoes() {
-    const infoCard = document.getElementById('infoCard');
-    infoCard.classList.add('show');
-
-    setTimeout(() => {
-        infoCard.classList.remove('show');
-    }, 10000);
-}
-
-function fecharCard() {
-    const infoCard = document.getElementById('infoCard');
-    infoCard.classList.remove('show');
+   /* Swal.fire({
+        title: 'Informações Importantes',
+        html: `
+           <ul class="const-import">
+                <li><strong>1. Foco no cenário:</strong> Identifique e descreva claramente o cenário específico a ser testado.</li>
+                <li><strong>2. Especificação do cenário:</strong> Use a linguagem Gherkin para definir o comportamento esperado com "Dado", "Quando" e "Então".</li>
+                <li><strong>3. Especificação das unidades:</strong> Quebre o cenário em unidades menores e específicas de teste.</li>
+                <li><strong>4. Fazer o teste passar:</strong> Implemente o código necessário para passar nos testes e refatore conforme necessário.</li>
+            </ul>
+        `,
+        icon: 'info',
+        confirmButtonText: 'OK',
+        confirmButtonColor: "#3085d6",
+    });*/
 }
 
 function atualizarEstiloLinhasSublinhadas() {
@@ -868,10 +787,7 @@ function adicionarLinha() {
                 cell.appendChild(input);
             }
         }
-        newRow.cells[7].querySelector("input").value = "Web";
-        newRow.cells[9].querySelector("input").value = "Acceptance";
-        newRow.cells[10].querySelector("input").value = "Positivo";
-        newRow.cells[11].querySelector("input").value = "N/A";
+        newRow.cells[11].querySelector("input").value = "Pendente";
     }
 }
 
@@ -1236,7 +1152,7 @@ async function baixarExcel() {
         inputPlaceholder: 'Selecione um formato',
         showCancelButton: true,
         confirmButtonText: 'Exportar',
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: '#006400',
         cancelButtonText: 'Cancelar',
         inputValidator: (value) => {
             if (!value) {
@@ -1379,7 +1295,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var suggestionList = [
         "ok",
         "bug",
-        "nok",
+        "Pendente",
         "desplanejado",
         "progredindo",
         "manual",
@@ -2040,7 +1956,7 @@ function gerarDashboard() {
         "<h5>Resumo do BDD - " + dataFormatada + "</h5>" +
         "<p><span class='label'>Número de Linhas BDD:</span> " + numeroLinhas + "</p>" +
         "<p><span class='label'>Nº Ok:</span> " + numeroOK + "</p>" +
-        "<p><span class='label'>Nº Testes não iniciados:</span> " + numeroNOK + "</p>" +
+        "<p><span class='label'>Nº Pendente:</span> " + numeroNOK + "</p>" +
         "<p><span class='label'>Nº Desplanejado:</span> " + numeroDesplanejado + "</p>" +
         "<p><span class='label'>Nº Progredindo:</span> " + numeroProgredindo + "</p>" +
         "<p><span class='label'>Nº Bug:</span> " + numeroBug + "</p>" +
@@ -2139,7 +2055,7 @@ function contarNumeros() {
                 numeroBug++;
             } else if (valor === "ok") {
                 numeroOK++;
-            } else if (valor === "N/A") {
+            } else if (valor === "Pendente") {
                 numeroNOK++;
             } else if (valor === "desplanejado") {
                 numeroDesplanejado++;
@@ -2174,7 +2090,7 @@ function criarDashboard(data) {
     }
 
     var quantidadeOk = contarOcorrencias(data, "ok");
-    var quantidadeNok = contarOcorrencias(data, "N/A");
+    var quantidadeNok = contarOcorrencias(data, "Pendente");
     var quantidadeDesplanejado = contarOcorrencias(data, "desplanejado");
     var quantidadeProgredindo = contarOcorrencias(data, "progredindo");
     var quantidadeBug = contarOcorrencias(data, "bug");
@@ -2236,7 +2152,7 @@ function criarDashboard(data) {
         data: {
             labels: [
                 "Ok ✓",
-                "Testes não realizados ⚠️",
+                "Nok ⚠️",
                 "Desplanejado ❓",
                 "Progredindo ⏳",
                 "Bug 🐜"
@@ -2511,11 +2427,11 @@ function atualizarResumoBDD(quantidadeOk, quantidadeNok, quantidadeDesplanejado,
                 <div style="margin-bottom: 20px; font-size: 20px; font-family: 'Poppins', sans-serif;">
                     <strong>Número de Linhas BDD: </strong>${quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug}
                 </div>
-                ${renderResumoItem('Nº Ok', quantidadeOk, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(78, 205, 196, 1)')}
-                ${renderResumoItem('Nº Testes não iniciados', quantidadeNok, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 107, 107, 1)')}
-                ${renderResumoItem('Nº Desplanejado', quantidadeDesplanejado, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 234, 167, 1)')}
-                ${renderResumoItem('Nº Progredindo', quantidadeProgredindo, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(116, 185, 255, 1)')}
-                ${renderResumoItem('Nº Bug', quantidadeBug, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(162, 155, 254, 1)')}
+                ${renderResumoItem('Nº Cenários Feitos', quantidadeOk, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(78, 205, 196, 1)')}
+                ${renderResumoItem('Nº Cenários Pedentes', quantidadeNok, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 107, 107, 1)')}
+                ${renderResumoItem('Nº Cenários Desplanejado', quantidadeDesplanejado, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(255, 234, 167, 1)')}
+                ${renderResumoItem('Nº Cenários em Progresso', quantidadeProgredindo, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(116, 185, 255, 1)')}
+                ${renderResumoItem('Nº Cenários com Bug', quantidadeBug, quantidadeOk + quantidadeNok + quantidadeDesplanejado + quantidadeProgredindo + quantidadeBug, 'rgba(162, 155, 254, 1)')}
                 <div style="font-size: 22px; margin-top: 30px; font-family: 'Poppins', sans-serif;">
                     <strong>Taxa de Cobertura:</strong> ${taxaCobertura.toFixed(2)}%<br>
                 </div>
@@ -2543,21 +2459,6 @@ function atualizarCards(quantidadeOk, quantidadeNok, quantidadeDesplanejado, qua
     document.getElementById("cardProgredindo").textContent = quantidadeProgredindo;
     document.getElementById("cardBug").textContent = quantidadeBug;
 }
-
-const body = document.body;
-
-function setDarkThemeWithGradient() {
-    body.classList.add('dark-theme');
-    body.style.background = `
-        linear-gradient(to bottom, #050407, #050407 10%, #050407),
-        radial-gradient(at top left, #33558a, transparent 40%),
-        radial-gradient(at top right, #1a2851, transparent 70%)`;
-    body.style.backgroundBlendMode = 'screen, overlay';
-    body.style.webkitUserSelect = 'none';
-    body.style.userSelect = 'none';
-}
-
-setDarkThemeWithGradient();
 
 var incrementInterval1;
 var decrementInterval1;
