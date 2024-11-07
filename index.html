@@ -167,13 +167,13 @@
 
 <body>
     <script>
-        window.onbeforeunload = function () {
-            return "e possível que as alterações feitas não sejam salvas.";
-        };
-
-        document.addEventListener('contextmenu', function (event) {
-            event.preventDefault();
-        });
+        /* window.onbeforeunload = function () {
+             return "e possível que as alterações feitas não sejam salvas.";
+         };
+ 
+         document.addEventListener('contextmenu', function (event) {
+             event.preventDefault();
+         });*/
 
         /*document.addEventListener('DOMContentLoaded', function () {
            Swal.fire({
@@ -289,6 +289,58 @@
 
     <video class="d-none" id="recordedVideo" controls></video>
 
+    <style>
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 0.7rem;
+            background-color: #07ba43;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-animated:hover {
+            background-color: #388E3C;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #1E88E5;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #1565C0;
+            transform: scale(1.1);
+        }
+
+        .btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.5);
+        }
+
+        .btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i {
+            transform: scale(1.1);
+        }
+    </style>
     <div class="container col-md-10">
         <div class="container py-3">
             <div id="qtd-lne" class="row justify-content-center">
@@ -323,33 +375,6 @@
                         </button>
                     </div>
                 </div>
-
-                <style>
-                    .div-buttons button,
-                    #customButtonEx {
-                        background-color: #0063a4;
-                        border: 2px solid #0063a4;
-                        padding: 15px 10px;
-                        border-radius: 2rem;
-                        font-size: 0.7rem;
-                    }
-
-                    .div-buttons button:hover,
-                    #customButtonEx:hover {
-                        background-color: transparent;
-                        border: 2px solid #36a2eb;
-                    }
-
-                    .div-btns-lines003 input {
-                        border-radius: 2rem;
-                        padding: 10px 10px;
-                    }
-
-                    .div-btns-lines003 button {
-                        border-radius: 10rem;
-                        padding: 10px 15px;
-                    }
-                </style>
 
                 <div class="col-md-5 col-sm-12 mt-md-4 div-buttons">
                     <div class="d-flex justify-content-center">
@@ -518,9 +543,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center">
-                            <h5>Nº Cenários</h5>
-                        </div>
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px;">
                             <div class="card"
@@ -587,12 +609,23 @@
                         <button type="button" class="btn btn-outline-primary" onclick="printPDF()">
                             <i class="fa-solid fa-file-pdf"></i>
                         </button>
-                        <button id="copyButton" class="btn btn-primary"><i class="fa-solid fa-copy"></i>
+                        <button onclick="copyDashEmail()" id="copyButton" class="btn btn-primary"><i
+                                class="fa-solid fa-copy"></i>
                             Copiar</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            const myModal = document.getElementById('myModal');
+
+            myModal.addEventListener('shown.bs.modal', function () {
+                setTimeout(() => {
+                    document.getElementById('toggleButton').click();
+                }, 100);
+            });
+        </script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {

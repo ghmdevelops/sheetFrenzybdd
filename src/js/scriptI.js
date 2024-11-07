@@ -107,6 +107,9 @@ async function importExcel() {
     document.querySelector('#audioButton').classList.remove('d-none');
     document.querySelector('#dashboardButton').classList.add('d-none');
     document.querySelector('#card-btns').classList.add('d-none');
+    document.querySelector('.div-btns-lines003').classList.add('d-none');
+    document.querySelector('#customButtonEx').classList.add('d-none');
+
 }
 
 function adicionarEventosDeClique() {
@@ -575,6 +578,7 @@ function openSwalForColumnAplicacao(inputElement) {
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
+                    color: #fff;
                 }
                 .swal2-container .swal2-popup .swal2-html-container div input {
                     margin-right: 10px;
@@ -620,6 +624,7 @@ function openSwalForColumnTipoTeste(inputElement) {
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
+                    color: #fff;
                 }
                 .swal2-container .swal2-popup .swal2-html-container div input {
                     margin-right: 10px;
@@ -667,6 +672,7 @@ function openSwalForColumnTesteCampo(inputElement) {
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
+                    color: #fff;
                 }
                 .swal2-container .swal2-popup .swal2-html-container div input {
                     margin-right: 10px;
@@ -697,20 +703,20 @@ function openSwalForColumnTesteCampo(inputElement) {
 }
 
 function mostrarInformacoes() {
-   /* Swal.fire({
-        title: 'Informações Importantes',
-        html: `
-           <ul class="const-import">
-                <li><strong>1. Foco no cenário:</strong> Identifique e descreva claramente o cenário específico a ser testado.</li>
-                <li><strong>2. Especificação do cenário:</strong> Use a linguagem Gherkin para definir o comportamento esperado com "Dado", "Quando" e "Então".</li>
-                <li><strong>3. Especificação das unidades:</strong> Quebre o cenário em unidades menores e específicas de teste.</li>
-                <li><strong>4. Fazer o teste passar:</strong> Implemente o código necessário para passar nos testes e refatore conforme necessário.</li>
-            </ul>
-        `,
-        icon: 'info',
-        confirmButtonText: 'OK',
-        confirmButtonColor: "#3085d6",
-    });*/
+    /* Swal.fire({
+         title: 'Informações Importantes',
+         html: `
+            <ul class="const-import">
+                 <li><strong>1. Foco no cenário:</strong> Identifique e descreva claramente o cenário específico a ser testado.</li>
+                 <li><strong>2. Especificação do cenário:</strong> Use a linguagem Gherkin para definir o comportamento esperado com "Dado", "Quando" e "Então".</li>
+                 <li><strong>3. Especificação das unidades:</strong> Quebre o cenário em unidades menores e específicas de teste.</li>
+                 <li><strong>4. Fazer o teste passar:</strong> Implemente o código necessário para passar nos testes e refatore conforme necessário.</li>
+             </ul>
+         `,
+         icon: 'info',
+         confirmButtonText: 'OK',
+         confirmButtonColor: "#3085d6",
+     });*/
 }
 
 function atualizarEstiloLinhasSublinhadas() {
@@ -2609,7 +2615,7 @@ function showButtons() {
     });
 }
 
-document.getElementById("copyButton").addEventListener("click", function () {
+function copyDashEmail() {
     hideButtons();
 
     const textToCopy = `
@@ -2625,22 +2631,47 @@ document.getElementById("copyButton").addEventListener("click", function () {
         scale: 2,
         useCORS: true
     }).then(function (canvas) {
+        const context = canvas.getContext("2d");
+        context.fillStyle = "black";
+        context.font = "16px Arial";
+        context.fillText(textToCopy, 20, canvas.height - 60);
+
         showButtons();
 
         canvas.toBlob(function (blob) {
             const clipboardItem = new ClipboardItem({
-                "image/png": blob,
-                "text/plain": new Blob([textToCopy], { type: "text/plain" })
+                "image/png": blob
             });
 
             navigator.clipboard.write([clipboardItem]).then(function () {
-                alert("Dados copiados com sucesso!");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Copiado!',
+                    text: 'Imagem copiada com o texto adicionado!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        content: 'swal-custom-text'
+                    }
+                });
             }).catch(function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao copiar',
+                    text: 'Ocorreu um problema ao copiar os dados. Por favor, tente novamente.',
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        content: 'swal-custom-text'
+                    }
+                });
                 console.error("Erro ao copiar:", error);
             });
         });
     });
-});
+}
 
 function hideButtons() {
     document.querySelectorAll('.modal-footer button').forEach(function (button) {
