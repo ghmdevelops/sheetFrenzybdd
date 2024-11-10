@@ -246,20 +246,6 @@
                     data-intro="Converta a tabela para um formato Excel específico." data-step="5">
                     Swift Shift Converter
                 </button>
-
-                <style>
-                    #convertTableButton {
-                        padding: 10px 10px;
-                        border-radius: 1rem;
-                        background-color: transparent;
-                        border: 2px solid #16db6b;
-                    }
-
-                    #convertTableButton:hover {
-                        background-color: #16db6b;
-                        font-weight: 700;
-                    }
-                </style>
                 <!--<button title="Gravar uma página" id="recordingButton" type="button"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Clique aqui para iniciar uma gravação." data-step="6">
@@ -289,62 +275,10 @@
 
     <video class="d-none" id="recordedVideo" controls></video>
 
-    <style>
-        .btn-animated {
-            position: relative;
-            overflow: hidden;
-            color: #ffffff;
-            font-weight: bold;
-            border-radius: 8px;
-            padding: 12px 24px;
-            font-size: 0.7rem;
-            background-color: #07ba43;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-        }
-
-        .btn-animated:hover {
-            background-color: #388E3C;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: #1E88E5;
-            color: #ffffff;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn-secondary:hover {
-            background-color: #1565C0;
-            transform: scale(1.1);
-        }
-
-        .btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.5);
-        }
-
-        .btn i {
-            transition: transform 0.3s ease;
-        }
-
-        .btn:hover i {
-            transform: scale(1.1);
-        }
-    </style>
     <div class="container col-md-10">
         <div class="container py-3">
             <div id="qtd-lne" class="row justify-content-center">
-                <div class="col-md-3 col-sm-12 mx-auto mb-3 div-btns-lines003">
+                <div class="col-md-3 col-sm-12 mx-auto mb-3 div-btns-lines003 d-none">
                     <label for="rows"><i class="fa-solid fa-grip-lines"></i> Qtd de Linhas</label>
                     <div class="d-flex">
                         <button title="Diminuir número de linhas" id="btn-more1" class="btn btn-secondary"
@@ -376,12 +310,24 @@
                     </div>
                 </div>
 
+                <style>
+                    .div-buttons button,
+                    #customButtonEx {
+                        width: 8rem;
+                        padding: 10px 10px;
+                        border-radius: 10px;
+                        border: 3px solid #16db6b;
+                        font-size: 15px;
+                        background: linear-gradient(135deg, #1abc9c, #16db6b);
+                    }
+                </style>
+
                 <div class="col-md-5 col-sm-12 mt-md-4 div-buttons">
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center align-items-center flex-nowrap">
                         <div class="d-inline-block mx-2">
                             <button title="Adicionar Tabela" id="card-btns" class="btn btn-success btn-animated"
                                 data-intro="Clique aqui para criar a tabela." data-step="12" onclick="criarTabela()">
-                                <i class="fa-solid fa-plus-circle"></i> Gerar BDD
+                                Gerar BDD
                             </button>
                         </div>
                         <div class="d-inline-block mx-2">
@@ -390,14 +336,14 @@
                             <label title="Selecionar Excel" for="importExcel" class="btn btn-success btn-animated"
                                 id="customButtonEx" data-intro="Selecione um arquivo Excel para importar."
                                 data-step="13">
-                                <i class="fa-solid fa-file-circle-plus"></i> Importar BDD
+                                Importar BDD
                             </label>
                         </div>
                         <div class="d-inline-block mx-2">
                             <button title="Gerar dashboard" id="dashboardButton" type="button"
                                 class="btn btn-success btn-animated" data-toggle="modal" data-target="#myModal"
                                 data-intro="Gere um dashboard com os dados da tabela." data-step="21">
-                                <i class="fa-solid fa-chart-pie"></i> Dashboard
+                                Dashboard
                             </button>
                         </div>
                     </div>
