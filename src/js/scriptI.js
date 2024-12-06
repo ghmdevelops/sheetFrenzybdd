@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (target.tagName === 'INPUT' && target.type === 'text') {
             Swal.fire({
+                title: 'Texto Digitado',
                 html: `
                     <textarea id="swal-input1" style="
                         height: 130px; 
@@ -391,7 +392,7 @@ async function criarTabela() {
     btnSublinhar.appendChild(textNode);
     btnSublinhar.addEventListener('click', function () {
         Swal.fire({
-            title: 'Informe o índice da linha:',
+            title: 'Informe o índice da linha',
             input: 'text',
             inputAttributes: {
                 autocapitalize: 'off'
@@ -436,19 +437,23 @@ async function criarTabela() {
         Swal.fire({
             title: 'Selecione a cor de fundo, a cor da fonte e a fonte:',
             html: `
-                <label>Cor de fundo:</label>
-                <input type="color" id="bgColorInput" value="#ffffff" style="margin-bottom: 10px;"><br>
-                <label>Cor da fonte:</label>
-                <input type="color" id="fontColorInput" value="#000000" style="margin-bottom: 10px;"><br>
-                <label>Fonte:</label>
-                <select id="fontInput">
-                    <option value="Arial">Arial</option>
-                    <option value="Verdana">Verdana</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Courier New">Courier New</option>
-                    <option value="Georgia">Georgia</option>
-                </select>
-            `,
+            <div style="text-align: center;">
+            <label style="color: #fff;">Cor de fundo:</label>
+            <input type="color" id="bgColorInput" value="#ffffff" style="margin-bottom: 10px;"><br>
+            <label style="color: #fff;">Cor da fonte:</label>
+            <input type="color" id="fontColorInput" value="#000000" style="margin-bottom: 10px;"><br>
+            <label style="color: #fff;">Fonte</label>
+            <div>
+            <select id="fontInput">
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            </select>
+            </div>
+            </div>
+        `,
             showCancelButton: true,
             confirmButtonText: 'Aplicar',
             confirmButtonColor: "#1589FF",
@@ -827,11 +832,12 @@ function adicionarColuna() {
 
     Swal.fire({
         icon: 'question',
-        text: 'Digite o índice da nova coluna (começando de 0):',
+        html: '<b style="color: #fff">Digite o índice da nova coluna (começando de 0)</b>',
         input: 'text',
         inputAttributes: {
             autocapitalize: 'off'
         },
+
         showCancelButton: true,
         confirmButtonText: 'Adicionar',
         confirmButtonColor: "#1589FF",
@@ -851,7 +857,8 @@ function adicionarColuna() {
             novoIndice = result.value;
 
             Swal.fire({
-                text: 'Digite o título da nova coluna:',
+                icon: 'question',
+                html: '<b style="color: #fff">Digite o título da nova coluna</b>',
                 input: 'text',
                 inputAttributes: {
                     autocapitalize: 'off'
@@ -942,7 +949,7 @@ function adicionarColunaFeature() {
 
     Swal.fire({
         icon: 'info',
-        html: "Selecione os itens desejados e clique no botão Baixar.",
+        html: "<b style='color: #fff;'>Selecione os itens desejados e clique no botão Baixar</b>",
         confirmButtonText: 'OK',
         confirmButtonColor: "#1589FF",
     });
@@ -955,7 +962,7 @@ function baixarSelecionados() {
     if (radiosSelecionados.length === 0) {
         Swal.fire({
             icon: 'warning',
-            html: "Por favor, selecione pelo menos um item.",
+            html: "<b style='color: #fff;'>Por favor, selecione pelo menos um item</b>",
             confirmButtonText: 'OK',
             confirmButtonColor: "#FF8C00",
         });
@@ -1639,82 +1646,89 @@ document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
                     title: 'Adicionar informações de Bug',
                     width: '80%',
-                    html:
-                        '<div style="max-height: 400px; overflow-y: auto;">' +
-                        '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="bugNumber" style="margin-bottom: 5px;"><i class="fa-solid fa-bugs"></i> Número do Bug</label>' +
-                        '<input type="text" id="bugNumber" class="swal2-input" placeholder="INC00000000" style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="aplicacaoName" style="margin-bottom: 5px;"><i class="fa-solid fa-globe"></i> Nome da Aplicação</label>' +
-                        '<input type="text" id="aplicacaoName" class="swal2-input" placeholder="aplicação..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="torreName" style="margin-bottom: 5px;"><i class="fa-solid fa-circle-info"></i> Descrição resumida</label>' +
-                        '<input type="text" id="torreName" class="swal2-input" placeholder="descrição resumida..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="abertoPor" style="margin-bottom: 5px;"><i class="fa-solid fa-user"></i> Aberto por</label>' +
-                        '<input type="text" id="abertoPor" class="swal2-input" placeholder="aberto por..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="tipo" style="margin-bottom: 5px;"><i class="fa-solid fa-list"></i> Tipo</label>' +
-                        '<input type="text" id="tipo" class="swal2-input" placeholder="tipo..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="categoria" style="margin-bottom: 5px;"><i class="fa-solid fa-tags"></i> Categoria</label>' +
-                        '<input type="text" id="categoria" class="swal2-input" placeholder="categoria..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="ambiente" style="margin-bottom: 5px;"><i class="fa-solid fa-cloud"></i> Ambiente</label>' +
-                        '<input type="text" id="ambiente" class="swal2-input" placeholder="ambiente..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="servico" style="margin-bottom: 5px;"><i class="fa-solid fa-cogs"></i> Serviço</label>' +
-                        '<input type="text" id="servico" class="swal2-input" placeholder="serviço..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="estado" style="margin-bottom: 5px;"><i class="fa-solid fa-clipboard-check"></i> Estado</label>' +
-                        '<input type="text" id="estado" class="swal2-input" placeholder="estado..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="impacto" style="margin-bottom: 5px;"><i class="fa-solid fa-exclamation-triangle"></i> Impacto</label>' +
-                        '<input type="text" id="impacto" class="swal2-input" placeholder="impacto..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="urgencia" style="margin-bottom: 5px;"><i class="fa-solid fa-bolt"></i> Urgência</label>' +
-                        '<input type="text" id="urgencia" class="swal2-input" placeholder="urgência..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="prioridade" style="margin-bottom: 5px;"><i class="fa-solid fa-arrow-up"></i> Prioridade</label>' +
-                        '<input type="text" id="prioridade" class="swal2-input" placeholder="prioridade..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="grupoAtribuicao" style="margin-bottom: 5px;"><i class="fa-solid fa-users"></i> Grupo de Atribuição</label>' +
-                        '<input type="text" id="grupoAtribuicao" class="swal2-input" placeholder="grupo de atribuição..." style="width: 100%;">' +
-                        '</div>' +
-
-                        '<div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">' +
-                        '<label for="criadoEm" style="margin-bottom: 5px;"><i class="fa-solid fa-calendar"></i> Criado em</label>' +
-                        '<input type="date" id="criadoEm" class="swal2-input" style="width: 100%;">' +
-                        '</div>' +
-
-                        '</div>' +
-                        '</div>',
+                    html: `
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="bugNumber" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-bugs"></i> Número do Bug</label>
+                                <input type="text" id="bugNumber" class="swal2-input" placeholder="INC00000000" style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="aplicacaoName" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-globe"></i> Nome da Aplicação</label>
+                                <input type="text" id="aplicacaoName" class="swal2-input" placeholder="aplicação..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="torreName" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-circle-info"></i> Descrição resumida</label>
+                                <input type="text" id="torreName" class="swal2-input" placeholder="descrição resumida..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="abertoPor" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-user"></i> Aberto por</label>
+                                <input type="text" id="abertoPor" class="swal2-input" placeholder="aberto por..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="tipo" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-list"></i> Tipo</label>
+                                <input type="text" id="tipo" class="swal2-input" placeholder="tipo..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="categoria" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-tags"></i> Categoria</label>
+                                <input type="text" id="categoria" class="swal2-input" placeholder="categoria..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="ambiente" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-cloud"></i> Ambiente</label>
+                                <input type="text" id="ambiente" class="swal2-input" placeholder="ambiente..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="servico" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-cogs"></i> Serviço</label>
+                                <input type="text" id="servico" class="swal2-input" placeholder="serviço..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="estado" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-clipboard-check"></i> Estado</label>
+                                <input type="text" id="estado" class="swal2-input" placeholder="estado..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="impacto" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-exclamation-triangle"></i> Impacto</label>
+                                <input type="text" id="impacto" class="swal2-input" placeholder="impacto..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="urgencia" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-bolt"></i> Urgência</label>
+                                <input type="text" id="urgencia" class="swal2-input" placeholder="urgência..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="prioridade" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-arrow-up"></i> Prioridade</label>
+                                <input type="text" id="prioridade" class="swal2-input" placeholder="prioridade..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="grupoAtribuicao" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-users"></i> Grupo de Atribuição</label>
+                                <input type="text" id="grupoAtribuicao" class="swal2-input" placeholder="grupo de atribuição..." style="width: 100%;">
+                            </div>
+            
+                            <div style="flex: 1 1 45%; min-width: 200px; max-width: 45%;">
+                                <label for="criadoEm" style="margin-bottom: 5px; color: white;"><i class="fa-solid fa-calendar"></i> Criado em</label>
+                                <input type="date" id="criadoEm" class="swal2-input" style="width: 100%;">
+                            </div>
+            
+                        </div>
+                    </div>
+                `,
+                    customClass: {
+                        content: 'custom-swal-content',
+                    },
+                    didOpen: () => {
+                        document.querySelector('.swal2-content').style.color = 'white';
+                    },
                     showCancelButton: true,
                     confirmButtonText: 'Adicionar',
                     confirmButtonColor: "#1589FF",
@@ -1798,13 +1812,31 @@ function copiarParaTodos() {
     }
 
     Swal.fire({
-        html: '<b>Escolha a coluna e o intervalo de linhas</b><br>' +
-            '<p><label for="colIndex"><i class="fa-solid fa-list-ul"></i> Índice da Coluna</label>' +
-            '<input type="text" id="colIndex" class="swal2-input" placeholder="0"></p>' +
-            '<p><label for="rowRange"><i class="fa-solid fa-arrow-down-up-across-line"></i> Intervalo de Linhas</label>' +
-            '<input type="text" id="rowRange" class="swal2-input" placeholder="1 a ' + (tabela.rows.length - 1) + '"></p>' +
-            '<i class="fa-solid fa-signature"></i> Texto a ser inserido<br>' +
-            '<input type="text" id="textToInsert" class="swal2-input" placeholder="Texto">',
+        title: 'Escolha a coluna e o intervalo de linhas',
+        html: `
+        <b>Escolha a coluna e o intervalo de linhas</b><br>
+        <div class="mb-3">
+            <label for="colIndex" style="color: white;" class="form-label"><i class="fa-solid fa-list-ul"></i> Índice da Coluna</label>
+            <input type="text" id="colIndex" class="form-control swal2-input" placeholder="0">
+        </div>
+        <div class="mb-3">
+            <label for="rowRange" style="color: white;" class="form-label"><i class="fa-solid fa-arrow-down-up-across-line"></i> Intervalo de Linhas</label>
+            <input type="text" id="rowRange" class="form-control swal2-input" placeholder="1 a ${tabela.rows.length - 1}">
+        </div>
+        <div class="mb-3">
+            <label for="textToInsert" style="color: white;" class="form-label"><i class="fa-solid fa-signature"></i> Texto a ser inserido</label>
+            <input type="text" id="textToInsert" class="form-control swal2-input" placeholder="Texto">
+        </div>
+    `,
+        customClass: {
+            content: 'custom-swal-content',
+            input: 'custom-swal-input'
+        },
+        didOpen: () => {
+            document.querySelector('.swal2-content').style.color = 'white';
+            // Adiciona mais estilo personalizado
+            document.querySelector('.swal2-input').style.borderRadius = '10px';
+        },
         showCancelButton: true,
         confirmButtonText: 'Copiar',
         confirmButtonColor: "#1589FF",

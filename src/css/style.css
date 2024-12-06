@@ -17,6 +17,10 @@ body {
   animation: gradientShift 15s ease infinite;
 }
 
+#featuresText{
+  color: #f3f2f2;
+}
+
 @keyframes backgroundMove {
   0% {
     background-position: 0% 50%;
@@ -589,11 +593,6 @@ button#scrollToTopBtn:hover {
 button#scrollToTopBtn i {
   margin: 0;
   padding: 0;
-}
-
-#colIndex {
-  width: 60px;
-  text-align: center;
 }
 
 #lsdty:active,

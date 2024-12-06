@@ -167,13 +167,13 @@
 
 <body>
     <script>
-        /* window.onbeforeunload = function () {
-             return "e possível que as alterações feitas não sejam salvas.";
-         };
- 
-         document.addEventListener('contextmenu', function (event) {
-             event.preventDefault();
-         });*/
+        window.onbeforeunload = function () {
+            return "e possível que as alterações feitas não sejam salvas.";
+        };
+
+        document.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+        });
 
         /*document.addEventListener('DOMContentLoaded', function () {
            Swal.fire({
@@ -242,10 +242,30 @@
                         <i class="fa-solid fa-book"></i>
                     </button>-->
                 <button id="convertTableButton" title="Conversor octane excel" type="button"
-                    class="btn btn-primary btn-sm btn-md btn-lg"
+                    class="btn btn-primary btn-lg btn-block custom-btn"
                     data-intro="Converta a tabela para um formato Excel específico." data-step="5">
                     Swift Shift Converter
                 </button>
+                <style>
+                    .custom-btn {
+                        font-weight: bold;
+                        font-size: 18px;
+                        padding: 15px 30px;
+                        border-radius: 50px;
+                        background-color: transparent;
+                        color: #fff;
+                        border: 2px solid #00ff7b;
+                        box-shadow: 0 4px 15px #1ed577;
+                        transition: all 0.3s ease, transform 0.2s ease;
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    .custom-btn:hover {
+                        background-color: #1ed577;
+                        border: 3px solid #1ed577;
+                    }
+                </style>
                 <!--<button title="Gravar uma página" id="recordingButton" type="button"
                         class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
                         data-intro="Clique aqui para iniciar uma gravação." data-step="6">
