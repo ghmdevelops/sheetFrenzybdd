@@ -7,17 +7,13 @@ body {
   background: linear-gradient(to bottom, #0d1f3b, #0b0c1b 70%, #050407),
     radial-gradient(at top left, #33558a, transparent 70%),
     radial-gradient(at top right, #1a2851, transparent 70%);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   font-family: "Noto Sans", sans-serif;
   font-optical-sizing: auto;
   transition: all 0.2s ease-in-out;
   animation: gradientShift 15s ease infinite;
 }
 
-#featuresText{
+#featuresText {
   color: #f3f2f2;
 }
 
@@ -165,7 +161,6 @@ body {
   }
 }
 
-/* Reflexo Dinâmico no Loader */
 #loader:after {
   content: "";
   position: absolute;
@@ -255,7 +250,7 @@ body {
 }
 
 .autocomplete-dropdown li:hover {
-  background-color: #4dc26c;
+  background-color: #387b4a;
   color: #ffffff;
   font-weight: 600;
 }
@@ -335,7 +330,7 @@ body.new-color-theme {
 }
 
 body::-webkit-scrollbar {
-  width: 8px;
+  width: 13px;
 }
 
 body::-webkit-scrollbar-track {
@@ -344,8 +339,8 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
   background-color: #050407;
-  border-radius: 5px;
-  border: 2px solid #1abc9c;
+  border-radius: 3px;
+  border: 2px solid #2b544c;
   transition: background-color 0.3s ease;
 }
 
@@ -383,9 +378,9 @@ table {
 table,
 th,
 td {
-  outline: 2px solid rgb(17, 116, 115); /* Contorno mais intenso ao focar */
-  box-shadow: 0px 4px 8px rgb(0, 255, 251); /* Adiciona sombra ao input */
-  border-radius: 5px;
+  outline: 2px solid rgb(17, 116, 115);
+  box-shadow: 0px 4px 8px rgb(0, 255, 251);
+  border-radius: 1px;
   color: #fff;
 }
 
@@ -408,26 +403,26 @@ table input {
   max-height: 100%;
   max-width: 100%;
   border: none;
-  border-radius: 1rem;
+  border-radius: 1px;
   color: #000000;
   font-weight: 600;
   background-color: transparent;
-  outline: 2px solid rgb(0, 255, 251); /* Contorno mais intenso ao focar */
-  box-shadow: 0px 4px 8px rgb(0, 255, 251); /* Adiciona sombra ao input */
-  padding: 0.5rem; /* Adiciona espaçamento interno */
-  transition: box-shadow 0.3s ease; /* Suaviza a sombra ao interagir */
+  outline: 2px solid rgb(0, 255, 251);
+  box-shadow: 0px 4px 8px rgb(0, 255, 251);
+  padding: 0.5rem;
+  transition: box-shadow 0.3s ease;
   color: #fff;
 }
 
 table input:focus {
-  outline: 3px solid rgb(0, 255, 251); /* Contorno mais intenso ao focar */
-  box-shadow: 0px 4px 12px rgba(0, 255, 251, 0.5); /* Sombra mais destacada */
+  outline: 3px solid rgb(0, 255, 251);
+  box-shadow: 0px 4px 12px rgba(0, 255, 251, 0.5);
 }
 
 table tr td:hover {
-  border-radius: 1rem;
+  border-radius: 5px;
   outline: 3px solid rgb(0, 255, 251);
-  box-shadow: 0px 4px 12px rgba(11, 228, 225, 0.897); /* Sombra mais destacada */
+  box-shadow: 0px 4px 12px rgba(11, 228, 225, 0.897);
   cursor: pointer;
 }
 
@@ -570,12 +565,12 @@ button#scrollToTopBtn {
   position: fixed;
   border: 2px solid #00ffcc;
   display: none;
-  border-radius: 50%;
+  border-radius: 10%;
   bottom: 10px;
   right: 10px;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, #047ff2, #04cc8d);
+  width: 45px;
+  height: 50px;
+  background: linear-gradient(135deg, #1d5084, #095050);
   color: white;
   font-size: 20px;
   cursor: pointer;
@@ -1284,4 +1279,37 @@ button:active {
 
 #vitu-oen.btn-lg i {
   font-size: 1.4em;
+}
+
+.div-buttons button,
+#customButtonEx {
+  width: 8rem;
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: 3px solid #16db6b;
+  font-size: 15px;
+  background: linear-gradient(135deg, #1abc9c, #16db6b);
+}
+
+.custom-btn {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 15px 30px;
+  border-radius: 50px;
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #00ff7b;
+  box-shadow: 0 4px 15px #1ed577;
+  transition: all 0.3s ease, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-btn:hover {
+  background-color: #1ed577;
+  border: 3px solid #1ed577;
+}
+
+.linha-selecionada {
+  background-color: rgba(63, 191, 191, 0.2);
 }

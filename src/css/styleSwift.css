@@ -26,8 +26,8 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
   background-color: #050407;
-  border-radius: 5px;
-  border: 2px solid #1abc9c;
+  border-radius: 2px;
+  border: 2px solid #2d554d;
   transition: background-color 0.3s ease;
 }
 
@@ -389,7 +389,6 @@ textarea.floating-input:not(:placeholder-shown)
 /* Rodapé */
 .footer-modern {
   background: linear-gradient(135deg, #0a0b0d, #161819);
-  border-top: 2px solid #16db6b;
   box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.5);
   padding: 40px 0;
   font-family: "Noto Sans", sans-serif;
@@ -402,27 +401,17 @@ textarea.floating-input:not(:placeholder-shown)
   color: #16db6b;
 }
 
-.footer-logo {
-  animation: rotate-logo 6s infinite alternate ease-in-out;
-}
-
 .footer-description {
-  font-size: 1rem;
+  font-size: 13px;
   color: #cccccc;
   line-height: 1.6;
-  text-align: justify;
-  margin: 20px auto;
+  text-align: center;
+  margin: 10px auto;
   max-width: 700px;
 }
 
-.footer-description::first-letter {
-  color: #16db6b;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
 .footer-copyright {
-  background: rgba(22, 219, 107, 0.15);
+  background: rgba(22, 219, 107, 0.047);
   font-size: 0.9rem;
   padding: 15px 0;
   margin-top: 20px;

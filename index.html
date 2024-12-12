@@ -5,40 +5,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SheetFrenzy BDD - Gherkin</title>
-    <link rel="manifest" href="./manifest.json">
-    <meta name="author" content="@gehaim" />
-    <meta name="creator" content="@Gehaim" />
-    <meta name="description"
-        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação." />
-    <meta name="keywords"
-        content="Geração Automática de Cenários, Linguagem Gherkin, Padrões Claros com Gherkin, Aceleração de Testes, Personalização de Cenários, Integração Contínua, Colaboração Eficiente, Clareza nos Requisitos, Engajamento das Partes Interessadas, Redução de Erros na Implementação, Entrega Contínua, BDD, Automação" />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
-    <meta property="og:description"
-        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
-    <meta property="og:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage.png">
-    <meta property="og:url" content="https://ghmdevelops.github.io/sheetFrenzybdd/index.html">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
-    <meta name="twitter:description"
-        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
-    <meta name="twitter:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage.png">
-    <link rel="canonical" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
-    <link rel="shortcut icon" href="./src/favicon.ico" type="image/x-icon">
-    <meta name="csrf-token" content="<%= csrfToken %>">
-    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta name="referrer" content="strict-origin">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
-    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
-    <meta name="geo.region" content="BR-SP">
-    <meta name="geo.placename" content="Avenida Paulista, São Paulo, Brazil">
-    <meta name="geo.position" content="-23.5637;-46.6549">
-    <meta name="ICBM" content="-23.5637, -46.6549">
-    <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
+    <title>SheetFrenzy BDD</title>
+
+    <link rel="shortcut icon" href="./src/img/logoPage.png" type="image/x-icon">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
         integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
@@ -47,64 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
-
-    <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "name": "Weather Full Speed",
-                "url": "https://ghmdevelops.github.io/sheetFrenzybdd/",
-                "logo": "https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage.png",
-                "sameAs": [
-                    "https://www.facebook.com/sheetFrenzybdd",
-                    "https://www.twitter.com/sheetFrenzybdd",
-                    "https://www.instagram.com/sheetFrenzybdd"
-                ],
-                "contactPoint": {
-                    "@type": "ContactPoint",
-                    "telephone": "+55-11-1234-5678",
-                    "contactType": "Customer Service",
-                    "areaServed": "BR",
-                    "availableLanguage": ["Portuguese", "English"]
-                }
-            }
-            </script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./src/js/serviceWork.js').then(function (registration) {
-                console.log('Service Worker registrado com sucesso:', registration.scope);
-            }).catch(function (error) {
-                console.log('Falha ao registrar o Service Worker:', error);
-            });
-        }
-
-        let deferredPrompt;
-
-        window.addEventListener('beforeinstallprompt', (event) => {
-            event.preventDefault();
-            deferredPrompt = event;
-            showInstallPromotion();
-        });
-
-        function showInstallPromotion() {
-            const installButton = document.getElementById('installButton');
-            installButton.style.display = 'block';
-
-            installButton.addEventListener('click', () => {
-                installButton.style.display = 'none';
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('Usuário aceitou o prompt de instalação');
-                    } else {
-                        console.log('Usuário recusou o prompt de instalação');
-                    }
-                    deferredPrompt = null;
-                });
-            });
-        }
-    </script>
 
     <script src="https://kit.fontawesome.com/dc28592b31.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -117,99 +29,17 @@
     <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
     <link rel="stylesheet" href="./src/css/style.css">
-    <script>
-        let idleTime = 0;
-
-        function resetIdleTime() {
-            idleTime = 0;
-        }
-
-        function startIdleTimer() {
-            setInterval(timerIncrement, 1000);
-            window.onmousemove = resetIdleTime;
-            window.onkeypress = resetIdleTime;
-        }
-
-        function timerIncrement() {
-            idleTime += 1;
-            if (idleTime > 600) {
-                Swal.fire({
-                    title: 'Você está inativo!',
-                    text: 'Você está inativo há mais de 1 minuto. Precisa de ajuda?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sim',
-                    confirmButtonColor: "#1589FF",
-                    cancelButtonText: 'Não',
-                    cancelButtonColor: "red",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire(
-                            '',
-                            '<b>Clique em contato <i class="fa-solid fa-phone"></i>.</b>',
-                            'success',
-                        );
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire(
-                            'Ação Cancelada',
-                            '',
-                            'error'
-                        );
-                    }
-                });
-                idleTime = 0;
-            }
-        }
-
-        window.onload = startIdleTimer;
-    </script>
 </head>
 
 <body>
     <script>
-        window.onbeforeunload = function () {
-            return "e possível que as alterações feitas não sejam salvas.";
-        };
-
-        document.addEventListener('contextmenu', function (event) {
-            event.preventDefault();
-        });
-
-        /*document.addEventListener('DOMContentLoaded', function () {
-           Swal.fire({
-               title: '<strong><img id="img-popinit" src="./src/img/logoPage200.png" alt="Icon">SheetFrenzy <b style="color: #12ca1e;">BDD</b></strong>',
-               html: `
-   <div style="text-align: center;">
-       <p>Bem-vindo ao <strong>SheetFrenzy BDD</strong>! Otimize seu desenvolvimento com cenários BDD automatizados e personalizados.</p>
-       <ul id="progm-init">
-           <li><strong>Geração Automática:</strong> Crie cenários BDD com um clique.</li>
-           <li><strong>Personalização:</strong> Ajuste os cenários conforme suas necessidades.</li>
-           <li><strong>Integração Contínua:</strong> Integre em pipelines CI/CD para testes automatizados.</li>
-           <li><strong>Colaboração:</strong> Facilite a colaboração entre equipes.</li>
-           <li><strong>Redução de Erros:</strong> Minimize erros com requisitos claros.</li>
-           <li><strong>Aceleração de Testes:</strong> Acelere seu ciclo de testes.</li>
-       </ul>
-       <p>Gostaria de fazer um tour pela página?</p>
-   </div>`,
-               showCancelButton: true,
-               confirmButtonText: 'Sim',
-               confirmButtonColor: "#0d6efd",
-               cancelButtonText: 'Não',
-               customClass: {
-                   popup: 'responsive-popup'
-               }
-           }).then((result) => {
-               if (result.isConfirmed) {
-                   iniciarTour();
-                   document.querySelector('.grade-buttons').classList.remove('d-none');
-                   document.querySelector('#audioButton').classList.remove('d-none');
-               }
-           });
-       });
-
-       function iniciarTour() {
-           introJs().start();
-       }*/
+        /* window.onbeforeunload = function () {
+             return "e possível que as alterações feitas não sejam salvas.";
+         };
+ 
+         document.addEventListener('contextmenu', function (event) {
+             event.preventDefault();
+         });       }*/
     </script>
 
     <div class="container">
@@ -221,74 +51,11 @@
                 </h1>
             </div>
             <div class="col-md-6 col-sm-12" id="vitu-oen">
-                <!--<div class="group-item-btn m-5 mt-4 d-flex justify-content-center flex-wrap">
-                    <button title="Acessar Blog Compartilhado" id="blog" type="button"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Use este botão para acessar nosso blog compartilhado." data-step="1">
-                        <i class="fas fa-blog"></i>
-                    </button>
-                    <button title="Fazer uma busca" id="btn-sear" type="button"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg" onclick="alternarVisibilidade()"
-                        data-intro="Use este botão para buscar informações na página." data-step="2">
-                        <i class="fa-solid fa-magnifying-glass-arrow-right"></i>
-                    </button>
-                    <button title="Temas" id="themeButton" class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Clique aqui para alterar o tema da página." data-step="3">
-                        <i class="fa-solid fa-circle-half-stroke"></i>
-                    </button>
-                    <button title="Documentação" id="doc-book" type="button"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Acesse a documentação clicando neste botão." data-step="4">
-                        <i class="fa-solid fa-book"></i>
-                    </button>-->
                 <button id="convertTableButton" title="Conversor octane excel" type="button"
                     class="btn btn-primary btn-lg btn-block custom-btn"
                     data-intro="Converta a tabela para um formato Excel específico." data-step="5">
                     Swift Shift Converter
                 </button>
-                <style>
-                    .custom-btn {
-                        font-weight: bold;
-                        font-size: 18px;
-                        padding: 15px 30px;
-                        border-radius: 50px;
-                        background-color: transparent;
-                        color: #fff;
-                        border: 2px solid #00ff7b;
-                        box-shadow: 0 4px 15px #1ed577;
-                        transition: all 0.3s ease, transform 0.2s ease;
-                        position: relative;
-                        overflow: hidden;
-                    }
-
-                    .custom-btn:hover {
-                        background-color: #1ed577;
-                        border: 3px solid #1ed577;
-                    }
-                </style>
-                <!--<button title="Gravar uma página" id="recordingButton" type="button"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Clique aqui para iniciar uma gravação." data-step="6">
-                        <i class="fa-solid fa-video"></i>
-                    </button>
-                    <button title="Exportar para PDF" id="exportarPDFBtn"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Exporte a tabela para PDF usando este botão." data-step="7">
-                        <i class="fa-solid fa-file-pdf"></i>
-                    </button>
-                    <button title="Entrar em contato" id="contact"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Clique aqui para entrar em contato." data-step="8">
-                        <i class="fa-solid fa-phone"></i>
-                    </button>
-                    <button title="Gerador de Historias" id="storyGenerator"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"
-                        data-intro="Clique aqui para gerador de Historias." data-step="9">
-                        <i class="fa-solid fa-book-open"></i>
-                    </button>
-                    <button id="installButton" style="border: 2px solid #16db6b;cursor: pointer; display: none;"
-                        class="btn btn-outline-light m-2 btn-sm btn-md btn-lg"><i style="color: #16db6b;"
-                            class="fa-regular fa-circle-down"></i></button>-->
             </div>
         </div>
     </div>
@@ -329,18 +96,6 @@
                         </button>
                     </div>
                 </div>
-
-                <style>
-                    .div-buttons button,
-                    #customButtonEx {
-                        width: 8rem;
-                        padding: 10px 10px;
-                        border-radius: 10px;
-                        border: 3px solid #16db6b;
-                        font-size: 15px;
-                        background: linear-gradient(135deg, #1abc9c, #16db6b);
-                    }
-                </style>
 
                 <div class="col-md-5 col-sm-12 mt-md-4 div-buttons">
                     <div class="d-flex justify-content-center align-items-center flex-nowrap">
@@ -393,6 +148,86 @@
                     data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="17">
                     <i class="fa-solid fa-file-download"></i> Exportar BDD
                 </button>
+                <button title="Selecionar Linhas" type="button" class="btn btn-success mt-2"
+                    id="selecionarLinhasBtn">Selecionar Linhas</button>
+                <script>
+                    let linhasSelecionadas = [];
+
+                    document.getElementById("selecionarLinhasBtn").addEventListener("click", async function () {
+                        const { value: linhas } = await Swal.fire({
+                            title: 'Selecione as Linhas',
+                            input: 'text',
+                            inputLabel: 'Informe as linhas (ex: 1,2,3 ou 1-5)',
+                            inputPlaceholder: 'Digite as linhas...',
+                            showCancelButton: true,
+                            confirmButtonText: 'Selecionar',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonText: 'Cancelar',
+                            inputValidator: (value) => {
+                                if (!value.match(/^(\d+|\d+-\d+)(,(\d+|\d+-\d+))*$/)) {
+                                    return 'Formato inválido! Use "1,2,3" ou "1-5".';
+                                }
+                            }
+                        });
+
+                        if (linhas) {
+                            linhasSelecionadas = parseLinhas(linhas);
+                            marcarLinhasSelecionadas();
+                            ativarEdicaoAutomatica();
+                        }
+                    });
+
+                    function parseLinhas(linhasStr) {
+                        const linhas = new Set();
+
+                        linhasStr.split(',').forEach((parte) => {
+                            if (parte.includes('-')) {
+                                const [inicio, fim] = parte.split('-').map(Number);
+                                for (let i = inicio; i <= fim; i++) {
+                                    linhas.add(i);
+                                }
+                            } else {
+                                linhas.add(Number(parte));
+                            }
+                        });
+
+                        return Array.from(linhas).sort((a, b) => a - b);
+                    }
+
+                    function marcarLinhasSelecionadas() {
+                        const tabela = document.getElementById("tabela");
+                        for (let i = 1; i < tabela.rows.length; i++) {
+                            tabela.rows[i].classList.remove("linha-selecionada");
+                        }
+                        linhasSelecionadas.forEach((linha) => {
+                            if (linha > 0 && linha < tabela.rows.length) {
+                                tabela.rows[linha].classList.add("linha-selecionada");
+                            }
+                        });
+                    }
+
+                    function ativarEdicaoAutomatica() {
+                        const tabela = document.getElementById("tabela");
+                        tabela.addEventListener("input", function (event) {
+                            if (
+                                event.target.tagName === "INPUT" &&
+                                linhasSelecionadas.includes(event.target.parentElement.parentElement.rowIndex)
+                            ) {
+                                const colIndex = event.target.parentElement.cellIndex;
+                                const novoValor = event.target.value;
+
+                                linhasSelecionadas.forEach((linha) => {
+                                    if (linha !== event.target.parentElement.parentElement.rowIndex) {
+                                        const celula = tabela.rows[linha].cells[colIndex].querySelector("input");
+                                        if (celula) {
+                                            celula.value = novoValor;
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                </script>
                 <br>
 
                 <div class="btn-group" role="group" aria-label="Opções">
@@ -452,6 +287,7 @@
         </div>
 
         <button class="btn btn-primary" id="scrollToTopBtn"><i class="fa fa-arrow-up"></i></button>
+
         <script>
             var scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
