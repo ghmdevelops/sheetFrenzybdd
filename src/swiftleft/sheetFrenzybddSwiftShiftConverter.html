@@ -170,16 +170,16 @@
             var convertButton = document.getElementById("convert-button");
 
             if (allFilled) {
-                excelFileDiv.style.display = "block"; // Exibe o campo de upload se todos os campos forem preenchidos
+                excelFileDiv.style.display = "block"; 
             } else {
-                excelFileDiv.style.display = "none";  // Oculta o campo de upload se algum campo estiver vazio
-                convertButton.style.display = "none"; // Oculta o botão "Converter"
+                excelFileDiv.style.display = "none"; 
+                convertButton.style.display = "none";
             }
 
             if (allFilled && excelFile.files.length > 0) {
-                convertButton.style.display = "block"; // Exibe o botão "Converter" quando tudo está preenchido e o arquivo foi escolhido
+                convertButton.style.display = "block";
             } else {
-                convertButton.style.display = "none"; // Oculta o botão "Converter" se o arquivo não foi escolhido
+                convertButton.style.display = "none";
             }
         }
 

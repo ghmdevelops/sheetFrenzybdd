@@ -378,8 +378,7 @@ table {
 table,
 th,
 td {
-  outline: 2px solid rgb(17, 116, 115);
-  box-shadow: 0px 4px 8px rgb(0, 255, 251);
+  outline: 2.2px solid rgb(82, 151, 108);
   border-radius: 1px;
   color: #fff;
 }
@@ -407,26 +406,26 @@ table input {
   color: #000000;
   font-weight: 600;
   background-color: transparent;
-  outline: 2px solid rgb(0, 255, 251);
-  box-shadow: 0px 4px 8px rgb(0, 255, 251);
+  outline: 2px solid rgb(54, 169, 98);
+  box-shadow: 0px 4px 8px rgb(102, 178, 131);
   padding: 0.5rem;
   transition: box-shadow 0.3s ease;
   color: #fff;
 }
 
 table input:focus {
-  outline: 3px solid rgb(0, 255, 251);
-  box-shadow: 0px 4px 12px rgba(0, 255, 251, 0.5);
+  outline: 3px solid rgb(50, 143, 81);
+  box-shadow: 0px 4px 12px rgba(60, 111, 59, 0.5);
 }
 
 table tr td:hover {
   border-radius: 5px;
-  outline: 3px solid rgb(0, 255, 251);
-  box-shadow: 0px 4px 12px rgba(11, 228, 225, 0.897);
+  outline: 3px solid rgb(0, 255, 85);
+  box-shadow: 0px 4px 12px rgba(11, 228, 163, 0.897);
   cursor: pointer;
 }
 
-input[type="number"] {
+input[type="number"] {  
   width: 100%;
   max-width: 80px;
 }

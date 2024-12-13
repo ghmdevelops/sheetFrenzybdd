@@ -148,16 +148,18 @@
                     data-intro="Exporte a tabela para diferentes formatos (EXCEL, JSON, XML e YAML)" data-step="17">
                     <i class="fa-solid fa-file-download"></i> Exportar BDD
                 </button>
-                <button title="Selecionar Linhas" type="button" class="btn btn-success mt-2"
-                    id="selecionarLinhasBtn">Selecionar Linhas</button>
+                <button title="Selecionar Linhas" type="button" class="btn btn-success" id="selecionarLinhasBtn">
+                    <i class="fas fa-check"></i> Selecionar Linhas
+                </button>
                 <script>
                     let linhasSelecionadas = [];
 
                     document.getElementById("selecionarLinhasBtn").addEventListener("click", async function () {
                         const { value: linhas } = await Swal.fire({
+                            icon: 'info',
                             title: 'Selecione as Linhas',
                             input: 'text',
-                            inputLabel: 'Informe as linhas (ex: 1,2,3 ou 1-5)',
+                            html: '<b style="color: #fff;">Informe as linhas (ex: 1,2,3 ou 1-5)</b>',
                             inputPlaceholder: 'Digite as linhas...',
                             showCancelButton: true,
                             confirmButtonText: 'Selecionar',

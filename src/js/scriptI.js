@@ -1775,14 +1775,14 @@ function criarDashboard(data) {
         light: {
             backgroundColor: [
                 'rgba(63, 191, 191, 1)',
-                'rgba(255, 79, 132, 1)',
+                'rgba(249, 8, 8)',
                 'rgba(255, 205, 86, 1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(146, 110, 244, 1)'
             ],
             borderColor: [
                 'rgba(63, 191, 191, 1)',
-                'rgba(255, 79, 132, 1)',
+                'rgba(249, 8, 8)',
                 'rgba(255, 205, 86, 1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(146, 110, 244, 1)'
@@ -1815,11 +1815,11 @@ function criarDashboard(data) {
         type: "bar",
         data: {
             labels: [
-                "Ok ✓",
-                "Nok ⚠️",
-                "Desplanejado ❓",
-                "Progredindo ⏳",
-                "Bug 🐜"
+                "Realizados",
+                "Pendente",
+                "Desplanejado",
+                "Progredindo",
+                "Bug"
             ],
             datasets: [
                 {
@@ -2003,8 +2003,8 @@ function criarDashboard(data) {
             labels: ['Concluído', 'Restante'],
             datasets: [{
                 data: [estimativaEntrega.concluido, estimativaEntrega.restante],
-                backgroundColor: ['rgba(78, 205, 196, 1)', 'rgba(255, 107, 107, 1)'],
-                hoverBackgroundColor: ['rgba(78, 205, 196, 0.8)', 'rgba(255, 107, 107, 0.8)'],
+                backgroundColor: ['rgba(78, 205, 196, 1)', 'rgb(249, 8, 8)'],
+                hoverBackgroundColor: ['rgba(78, 205, 196, 0.8)', 'rgba(238, 12, 12, 0.8)'],
                 borderWidth: 2,
                 hoverBorderColor: 'rgba(0,0,0,0.9)',
                 borderRadius: 5
