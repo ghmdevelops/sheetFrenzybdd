@@ -5,10 +5,40 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SheetFrenzy BDD</title>
-
-    <link rel="shortcut icon" href="./src/img/logoPage.png" type="image/x-icon">
-
+    <title>SheetFrenzy BDD - Gherkin</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="author" content="@gehaim" />
+    <meta name="creator" content="@Gehaim" />
+    <meta name="description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação." />
+    <meta name="keywords"
+        content="Geração Automática de Cenários, Linguagem Gherkin, Padrões Claros com Gherkin, Aceleração de Testes, Personalização de Cenários, Integração Contínua, Colaboração Eficiente, Clareza nos Requisitos, Engajamento das Partes Interessadas, Redução de Erros na Implementação, Entrega Contínua, BDD, Automação" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta property="og:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta property="og:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage.png">
+    <meta property="og:url" content="https://ghmdevelops.github.io/sheetFrenzybdd/index.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SheetFrenzy BDD - Gherkin BDD">
+    <meta name="twitter:description"
+        content="Otimize seu ciclo de desenvolvimento integrando de maneira eficaz o Desenvolvimento Orientado a Comportamento (BDD) à sua prática. Simplifique o processo ao adotar a geração de BDD pré-prontos com a linguagem de especificação Gherkin, proporcionando uma transição suave do conceito à implementação.">
+    <meta name="twitter:image" content="https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage.png">
+    <link rel="canonical" href="https://ghmdevelops.github.io/sheetFrenzybdd/">
+    <link rel="shortcut icon" href="./src/favicon.ico" type="image/x-icon">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+    <meta name="geo.region" content="BR-SP">
+    <meta name="geo.placename" content="Avenida Paulista, São Paulo, Brazil">
+    <meta name="geo.position" content="-23.5637;-46.6549">
+    <meta name="ICBM" content="-23.5637, -46.6549">
+    <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
         integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
@@ -17,6 +47,64 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
+
+    <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Weather Full Speed",
+                "url": "https://ghmdevelops.github.io/sheetFrenzybdd/",
+                "logo": "https://ghmdevelops.github.io/sheetFrenzybdd/src/img/logoPage.png",
+                "sameAs": [
+                    "https://www.facebook.com/sheetFrenzybdd",
+                    "https://www.twitter.com/sheetFrenzybdd",
+                    "https://www.instagram.com/sheetFrenzybdd"
+                ],
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+55-11-1234-5678",
+                    "contactType": "Customer Service",
+                    "areaServed": "BR",
+                    "availableLanguage": ["Portuguese", "English"]
+                }
+            }
+            </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./src/js/serviceWork.js').then(function (registration) {
+                console.log('Service Worker registrado com sucesso:', registration.scope);
+            }).catch(function (error) {
+                console.log('Falha ao registrar o Service Worker:', error);
+            });
+        }
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredPrompt = event;
+            showInstallPromotion();
+        });
+
+        function showInstallPromotion() {
+            const installButton = document.getElementById('installButton');
+            installButton.style.display = 'block';
+
+            installButton.addEventListener('click', () => {
+                installButton.style.display = 'none';
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou o prompt de instalação');
+                    } else {
+                        console.log('Usuário recusou o prompt de instalação');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        }
+    </script>
 
     <script src="https://kit.fontawesome.com/dc28592b31.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -29,17 +117,63 @@
     <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
     <link rel="stylesheet" href="./src/css/style.css">
+    <script>
+        let idleTime = 0;
+
+        function resetIdleTime() {
+            idleTime = 0;
+        }
+
+        function startIdleTimer() {
+            setInterval(timerIncrement, 1000);
+            window.onmousemove = resetIdleTime;
+            window.onkeypress = resetIdleTime;
+        }
+
+        function timerIncrement() {
+            idleTime += 1;
+            if (idleTime > 600) {
+                Swal.fire({
+                    title: 'Você está inativo!',
+                    text: 'Você está inativo há mais de 1 minuto. Precisa de ajuda?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim',
+                    confirmButtonColor: "#1589FF",
+                    cancelButtonText: 'Não',
+                    cancelButtonColor: "red",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            '',
+                            '<b>Clique em contato <i class="fa-solid fa-phone"></i>.</b>',
+                            'success',
+                        );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                            'Ação Cancelada',
+                            '',
+                            'error'
+                        );
+                    }
+                });
+                idleTime = 0;
+            }
+        }
+
+        window.onload = startIdleTimer;
+    </script>
 </head>
 
 <body>
     <script>
-        /* window.onbeforeunload = function () {
-             return "e possível que as alterações feitas não sejam salvas.";
-         };
- 
-         document.addEventListener('contextmenu', function (event) {
-             event.preventDefault();
-         });       }*/
+        window.onbeforeunload = function () {
+            return "e possível que as alterações feitas não sejam salvas.";
+        };
+
+        document.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+        });  
     </script>
 
     <div class="container">
