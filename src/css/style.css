@@ -7,6 +7,10 @@ body {
   background: linear-gradient(to bottom, #0d1f3b, #0b0c1b 70%, #050407),
     radial-gradient(at top left, #33558a, transparent 70%),
     radial-gradient(at top right, #1a2851, transparent 70%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   font-family: "Noto Sans", sans-serif;
   font-optical-sizing: auto;
   transition: all 0.2s ease-in-out;
@@ -425,7 +429,7 @@ table tr td:hover {
   cursor: pointer;
 }
 
-input[type="number"] {  
+input[type="number"] {
   width: 100%;
   max-width: 80px;
 }
