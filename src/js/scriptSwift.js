@@ -274,21 +274,6 @@ function saveAs(blob, fileName) {
     document.body.removeChild(link);
 }
 
-const body = document.body;
-
-function setDarkThemeWithGradient() {
-    body.classList.add('dark-theme');
-    body.style.background = `
-        linear-gradient(to bottom, #050407, #050407 10%, #050407),
-        radial-gradient(at top left, #33558a, transparent 40%),
-        radial-gradient(at top right, #1a2851, transparent 70%)`;
-    body.style.backgroundBlendMode = 'screen, overlay';
-    body.style.webkitUserSelect = 'none';
-    body.style.userSelect = 'none';
-}
-
-setDarkThemeWithGradient();
-
 document.getElementById('logoInit').addEventListener('click', function () {
     window.location.href = 'https://ghmdevelops.github.io/sheetFrenzybdd/';
 });

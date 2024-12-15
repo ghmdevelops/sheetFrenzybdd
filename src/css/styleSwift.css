@@ -35,7 +35,6 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: #1abc9c;
 }
 
-/* Contêiner Principal */
 .container {
   max-width: 700px;
   margin: 5px auto;
@@ -62,7 +61,6 @@ body::-webkit-scrollbar-thumb:hover {
   color: #555;
 }
 
-/* Logo e Título */
 #logoInit {
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -93,15 +91,14 @@ body::-webkit-scrollbar-thumb:hover {
   }
 }
 
-/* Barra de Progresso */
 .progress-bar {
   width: 100%;
-  background-color: #1e1e1e; /* Fundo mais escuro para contraste */
+  background-color: #1e1e1e;
   border-radius: 12px;
   overflow: hidden;
   margin-top: 20px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3),
-    0 0 15px rgba(0, 255, 255, 0.4); /* Sombra mais intensa e brilho externo */
+    0 0 15px rgba(0, 255, 255, 0.4);
   position: relative;
 }
 
@@ -115,9 +112,9 @@ body::-webkit-scrollbar-thumb:hover {
     #007cff
   ); /* Efeito de gradiente futurista */
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.6),
-    inset 0 0 10px rgba(0, 255, 255, 0.6); /* Luzes internas e externas */
+    inset 0 0 10px rgba(0, 255, 255, 0.6);
   border-radius: 12px;
-  animation: progress 2s ease-in-out forwards, glow 1.5s infinite alternate; /* Animação de progresso e brilho contínuo */
+  animation: progress 2s ease-in-out forwards, glow 1.5s infinite alternate;
 }
 
 @keyframes progress {
@@ -147,7 +144,6 @@ body::-webkit-scrollbar-thumb:hover {
   }
 }
 
-/* Estilo do Formulário */
 .form-group {
   position: relative;
   margin-bottom: 1.5rem;
@@ -289,7 +285,6 @@ textarea.floating-input:not(:placeholder-shown)
   transform: rotate(360deg);
 }
 
-/* Luzes Pulsantes */
 .btn-primary::after {
   content: "";
   position: absolute;
@@ -333,7 +328,6 @@ textarea.floating-input:not(:placeholder-shown)
   }
 }
 
-/* Brilho ao Redor do Botão */
 .btn-primary:hover {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(26, 219, 107, 0.7);
 }
@@ -361,7 +355,6 @@ textarea.floating-input:not(:placeholder-shown)
   width: 100%;
 }
 
-/* Animações de Pulso e Brilho */
 @keyframes pulseGlow {
   0% {
     box-shadow: 0 0 10px #007bff, 0 0 20px rgba(26, 219, 107, 0.5);
@@ -378,7 +371,6 @@ textarea.floating-input:not(:placeholder-shown)
   animation: pulseGlow 2s infinite alternate;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .btn-primary {
     font-size: 14px;
@@ -386,7 +378,6 @@ textarea.floating-input:not(:placeholder-shown)
   }
 }
 
-/* Rodapé */
 .footer-modern {
   background: linear-gradient(135deg, #0a0b0d, #161819);
   box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.5);
@@ -418,7 +409,6 @@ textarea.floating-input:not(:placeholder-shown)
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Animações */
 @keyframes rotate-logo {
   0% {
     transform: rotate(0deg);
@@ -429,14 +419,12 @@ textarea.floating-input:not(:placeholder-shown)
   }
 }
 
-/* Hover Effects */
 .footer-modern:hover .footer-title,
 .footer-modern:hover .footer-copyright {
   color: #16db6b;
   transition: all 0.3s ease-in-out;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .footer-title {
     font-size: 1.2rem;
@@ -452,7 +440,6 @@ textarea.floating-input:not(:placeholder-shown)
   }
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .container {
     padding: 20px;
@@ -472,7 +459,6 @@ textarea.floating-input:not(:placeholder-shown)
   }
 }
 
-/* Animações Extras */
 @keyframes glow {
   0% {
     box-shadow: 0 0 5px #007bff;
@@ -499,11 +485,10 @@ label#file-label {
   color: #ffffff;
 }
 
-/* Estilo do botão customizado */
 .file-upload-wrapper {
   display: inline-block;
   position: relative;
-  max-width: 100%; /* Garante que o botão não ultrapasse os limites da tela */
+  max-width: 100%; 
 }
 
 .file-upload-label {
@@ -519,7 +504,7 @@ label#file-label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%; /* Limita a largura do texto ao tamanho do botão */
+  max-width: 100%; 
   box-sizing: border-box;
 }
 
