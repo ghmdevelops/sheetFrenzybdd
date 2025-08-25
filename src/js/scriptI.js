@@ -2479,56 +2479,111 @@
 
     function gerarResumoJira() {
         const t = document.getElementById('tabela');
-        if (!t) { Swal.fire({ icon: 'info', title: 'Nenhuma tabela encontrada', text: 'Gere ou importe um BDD primeiro.' }); return; }
-        const header = t.rows[0]; if (!header) { Swal.fire({ icon: 'info', title: 'Cabeçalho ausente' }); return; }
+        if (!t) {
+            Swal.fire({ icon: 'info', title: 'Nenhuma tabela encontrada', text: 'Gere ou importe um BDD primeiro.' });
+            return;
+        }
+
+        const header = t.rows[0];
+        if (!header) {
+            Swal.fire({ icon: 'info', title: 'Cabeçalho ausente' });
+            return;
+        }
+
+        const norm = s => (s || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+
         const map = {};
-        for (let i = 0; i < header.cells.length; i++) { map[header.cells[i].textContent.trim().toLowerCase()] = i; }
-        const idx = n => map[n.toLowerCase()];
+        for (let i = 0; i < header.cells.length; i++) {
+            map[norm(header.cells[i].textContent)] = i;
+        }
+        const idx = (name) => map[norm(name)];
+
+        // pega valor da célula (input ou texto)
         const getVal = (tr, name) => {
-            const j = idx(name); if (j == null) return "";
+            const j = idx(name);
+            if (j == null) return "";
             const inp = tr.cells[j]?.querySelector('input');
             return (inp ? inp.value : tr.cells[j]?.textContent || "").trim();
         };
-        const selecionadas = Array.from(t.rows).slice(1).map((tr, i) => tr.classList.contains('linha-selecionada') ? i + 1 : null).filter(Boolean);
-        const linhas = selecionadas.length ? selecionadas : Array.from({ length: t.rows.length - 1 }, (_, k) => k + 1);
+
+        // linhas selecionadas (se houver) ou todas
+        const selecionadas = Array.from(t.rows)
+            .slice(1)
+            .map((tr, i) => tr.classList.contains('linha-selecionada') ? i + 1 : null)
+            .filter(Boolean);
+
+        const linhas = selecionadas.length
+            ? selecionadas
+            : Array.from({ length: t.rows.length - 1 }, (_, k) => k + 1);
+
+        // agrupa por História
         const grupos = {};
         linhas.forEach(r => {
             const tr = t.rows[r];
-            const historia = getVal(tr, 'História') || 'EMPC';
-            const funcionalidade = getVal(tr, 'Funcionalidade') || getVal(tr, 'Cenário') || 'Funcionalidade';
+
+            const ct = getVal(tr, 'Nº Cenário') || tr.cells[0]?.textContent?.trim() || `CT${String(r).padStart(4, '0')}`;
+            const cenario = getVal(tr, 'Cenário') || `Cenário ${r}`;
             const contexto = getVal(tr, 'Contexto');
+            const funcionalidade = getVal(tr, 'Funcionalidade') || cenario;
+            const dado = getVal(tr, 'Dado') || `Resumo do cenário: ${cenario}`;
+            const quando = getVal(tr, 'Quando') || `Resumo do cenário: ${cenario}`;
+            const entao = getVal(tr, 'Então') || `Resumo do cenário: ${cenario}`;
             const aplicacao = getVal(tr, 'Aplicação') || 'Web';
             const tipo = getVal(tr, 'Tipo de teste') || 'Acceptance';
             const campo = getVal(tr, 'Teste de campo') || 'Positivo';
-            const dado = getVal(tr, 'Dado');
-            const quando = getVal(tr, 'Quando');
-            const entao = getVal(tr, 'Então');
+            const historia = getVal(tr, 'História') || 'EMPC';
             const status = (getVal(tr, 'Status') || 'OK').toUpperCase();
-            if (!grupos[historia]) grupos[historia] = { funcionalidade, aplicacao, tipo, campo, contexto, criterios: [], statusSet: new Set() };
-            grupos[historia].criterios.push(`Dado ${dado}; Quando ${quando}; Então ${entao}${status !== 'OK' ? ` [${status}]` : ''}.`);
-            grupos[historia].statusSet.add(status);
-            if (!grupos[historia].funcionalidade && funcionalidade) grupos[historia].funcionalidade = funcionalidade;
-            if (!grupos[historia].contexto && contexto) grupos[historia].contexto = contexto;
+
+            if (!grupos[historia]) {
+                grupos[historia] = {
+                    meta: { aplicacao, tipo, campo, funcionalidade, contexto },
+                    itens: [],
+                    status: new Set()
+                };
+            }
+            grupos[historia].itens.push({ ct, cenario, dado, quando, entao, status });
+            grupos[historia].status.add(status);
+
+            const g = grupos[historia];
+            if (!g.meta.funcionalidade && funcionalidade) g.meta.funcionalidade = funcionalidade;
+            if (!g.meta.contexto && contexto) g.meta.contexto = contexto;
         });
-        let texto = "";
-        const hs = Object.keys(grupos);
-        hs.forEach((h, gi) => {
+
+        const now = new Date().toLocaleString('pt-BR');
+        let md = `# Resumo BDD — ${now}\n\n`;
+
+        const historias = Object.keys(grupos);
+        historias.forEach((h, gi) => {
             const g = grupos[h];
-            const st = Array.from(g.statusSet).join(", ");
-            texto += `Título: ${h} - ${g.funcionalidade}\n`;
-            texto += `Resumo: Como usuário do ${g.aplicacao}, quero ${g.funcionalidade} para atender ao objetivo descrito.\n`;
-            if (g.contexto) texto += `Contexto: ${g.contexto}\n`;
-            texto += `Aplicação: ${g.aplicacao}\n`;
-            texto += `Tipo de teste: ${g.tipo} | Campo: ${g.campo}\n`;
-            texto += `Status: ${st}\n`;
-            texto += `Critérios de Aceite:\n`;
-            g.criterios.forEach(c => texto += `- ${c}\n`);
-            texto += `Definição de Pronto:\n- Cenários principais cobertos\n- Critérios de aceite verificados\n- Sem regressões conhecidas\n`;
-            if (gi < hs.length - 1) texto += `\n-----\n\n`;
+            const statusGeral = Array.from(g.status).join(", ");
+
+            md += `## ${h} — ${g.meta.funcionalidade || 'Funcionalidade'}\n\n`;
+
+            if (g.meta.contexto) {
+                md += `**Contexto**\n${g.meta.contexto}\n\n`;
+            }
+
+            md += `**Aplicação:** ${g.meta.aplicacao} &nbsp;&nbsp; **Tipo de teste:** ${g.meta.tipo} &nbsp;&nbsp; **Teste de campo:** ${g.meta.campo}\n\n`;
+            md += `**Status geral:** ${statusGeral}\n\n`;
+            md += `### Critérios de Aceite (Gherkin)\n`;
+
+            g.itens.forEach(it => {
+                const bugTag = /\bBUG\b/i.test(it.status) ? ' **[BUG]**' : '';
+                md += `- [ ] **${it.ct} — ${it.cenario}**${bugTag}\n`;
+                md += `\n\`\`\`gherkin\nDado ${it.dado}\nQuando ${it.quando}\nEntão ${it.entao}\n\`\`\`\n\n`;
+            });
+
+            md += `**Definição de Pronto**\n`;
+            md += `- Cenários principais cobertos\n`;
+            md += `- Critérios de aceite verificados\n`;
+            md += `- Sem regressões conhecidas\n`;
+
+            if (gi < historias.length - 1) md += `\n---\n\n`;
         });
+
         Swal.fire({
             title: "Resumo para JIRA",
-            html: `<textarea id="jiraResumo" style="width:100%;height:340px;white-space:pre; font-family:monospace">${texto}</textarea>`,
+            html: `<textarea id="jiraResumo" style="width:100%;height:360px;white-space:pre; font-family:monospace">${md.replace(/</g, '&lt;')}</textarea>`,
             width: "70%",
             showCancelButton: true,
             showDenyButton: true,
@@ -2548,12 +2603,15 @@
                 const blob = new Blob([ta.value], { type: "text/markdown;charset=utf-8" });
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
-                a.download = "resumo_jira.md";
-                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                a.download = "resumo_bdd_jira.md";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             }
         });
     }
-    document.addEventListener('click', function (e) {
+
+     document.addEventListener('click', function (e) {
         if (e.target && e.target.id === 'jiraSummaryBtn') { gerarResumoJira(); }
     });
 
