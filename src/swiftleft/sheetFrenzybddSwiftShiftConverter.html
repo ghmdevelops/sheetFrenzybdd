@@ -55,11 +55,6 @@
 </head>
 
 <body>
-    <script>
-        window.onbeforeunload = function () {
-            return "e possível que as alterações feitas não sejam salvas.";
-        };
-    </script>
     <div class="container">
         <div class="title">
             <img id="logoInit" width="70" src="../img/logoPage200.png" alt="swiftl"> Swift Shift <b
@@ -112,7 +107,7 @@
                     <label class="floating-label" for="name7">breve descrição do seu projeto</label>
                 </div>
             </div>
-            <div class="form-group text-center" id="excel-file" style="display:none;">
+            <div class="form-group text-center" id="excel-file">
                 <div class="file-upload-wrapper">
                     <label class="file-upload-label" for="excelFile" id="file-label">
                         <img src="https://img.icons8.com/color/38/000000/microsoft-excel-2019--v1.png" alt="Excel Icon">
@@ -121,72 +116,12 @@
                     <input type="file" class="form-control-file" id="excelFile" name="excelFile" accept=".xlsx, .xls">
                 </div>
             </div>
-            <div class="form-group" id="convert-button" style="display: none;">
+            <div class="form-group" id="convert-button">
                 <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-exchange-alt"></i>
                     Converter</button>
             </div>
         </form>
     </div>
-
-    <script>
-        document.getElementById('excelFile').addEventListener('change', function () {
-            var fileLabel = document.getElementById('file-label');
-            var fileName = this.files[0] ? this.files[0].name : 'Escolher arquivo';
-            fileLabel.innerHTML = '<img src="https://img.icons8.com/color/38/000000/microsoft-excel-2019--v1.png" alt="Excel Icon"> ' + fileName;
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const inputs = document.querySelectorAll(".floating-input");
-
-            inputs.forEach(input => {
-                input.addEventListener("focus", function () {
-                    this.parentNode.querySelector(".floating-label").classList.add("active");
-                });
-
-                input.addEventListener("blur", function () {
-                    if (this.value === "") {
-                        this.parentNode.querySelector(".floating-label").classList.remove("active");
-                    }
-                });
-
-                // Check on page load
-                if (input.value !== "") {
-                    input.parentNode.querySelector(".floating-label").classList.add("active");
-                }
-            });
-        });
-
-        function checkFormFields() {
-            var fields = ['name1', 'name4', 'name5', 'name6', 'name7', 'name8'];
-            var allFilled = fields.every(function (fieldId) {
-                return document.getElementById(fieldId).value.trim() !== "";
-            });
-
-            var excelFile = document.getElementById("excelFile");
-            var excelFileDiv = document.getElementById("excel-file");
-            var convertButton = document.getElementById("convert-button");
-
-            if (allFilled) {
-                excelFileDiv.style.display = "block"; 
-            } else {
-                excelFileDiv.style.display = "none"; 
-                convertButton.style.display = "none";
-            }
-
-            if (allFilled && excelFile.files.length > 0) {
-                convertButton.style.display = "block";
-            } else {
-                convertButton.style.display = "none";
-            }
-        }
-
-        document.querySelectorAll('#converterForm input, #converterForm textarea').forEach(function (input) {
-            input.addEventListener('input', checkFormFields);
-        });
-
-        document.getElementById("excelFile").addEventListener('change', checkFormFields);
-        document.addEventListener('DOMContentLoaded', checkFormFields);
-    </script>
 
     <section class="mt-5">
         <footer class="footer-modern bg-black text-white text-center text-md-start">
