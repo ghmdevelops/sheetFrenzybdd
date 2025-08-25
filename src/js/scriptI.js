@@ -2312,98 +2312,144 @@
         }
     };
 
-    const normalizarBDD = (dados) => {
-        const padrao = TITULOS_PADRAO.slice();
-        const norm = s => (s || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+    function normalizarBDD(dados) {
+        const PADRAO = TITULOS_PADRAO.slice();
+        const OBRIGATORIAS = ["Cenário", "Dado", "Quando", "Então"];
+
+        const norm = (s) => (s || "")
+            .toString()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .trim().toLowerCase();
+
         const sinonimos = {
             "nº cenário": ["nº cenario", "numero cenario", "numero do cenario", "ct", "id", "id cenario", "n cenario", "cenario id"],
             "cenário": ["cenario", "nome do cenario", "scenario", "titulo", "titulo do cenario"],
-            "contexto": ["context", "ctx"],
+            "contexto": ["context", "ctx", "background", "bg"],
             "funcionalidade": ["feature", "funcao", "funcionalidade/feature"],
-            "dado": ["given", "dados", "precondicao", "pré-condição", "pre-condicao", "precondição"],
+            "dado": ["given", "dados", "precondicao", "pre-condicao", "pré-condição", "precondição"],
             "quando": ["when"],
-            "então": ["entao", "then"],
+            "então": ["then", "entao"],
             "aplicação": ["aplicacao", "application", "aplication", "app"],
-            "história": ["historia", "story", "jira"],
+            "história": ["historia", "story", "jira", "epic", "feature id"],
             "tipo de teste": ["tipo teste", "test type", "tipo"],
             "teste de campo": ["campo", "field test", "campo de teste", "positivo/negativo"],
             "status": ["resultado", "result", "estado", "situacao", "situação"]
         };
-        const mapHeaderToPadrao = (h) => {
+
+        const toPadrao = (h) => {
             const n = norm(h);
-            for (const alvo of padrao) {
+            for (const alvo of PADRAO) {
                 if (norm(alvo) === n) return alvo;
-                const sins = sinonimos[alvo.toLowerCase()] || sinonimos[alvo] || [];
+                const sins = sinonimos[alvo.toLowerCase()] || [];
                 if (sins.some(s => norm(s) === n)) return alvo;
             }
             return null;
         };
-        let headerProv = Array.isArray(dados[0]) ? dados[0] : [];
-        let temCabecalho = headerProv && headerProv.some(c => typeof c === "string") && headerProv.map(mapHeaderToPadrao).filter(Boolean).length >= 2;
-        let startIndex = temCabecalho ? 1 : 0;
+
+        const primeiraLinha = Array.isArray(dados?.[0]) ? dados[0] : [];
+        const mapeamentoTentativo = primeiraLinha.map(toPadrao);
+        const temCabecalho = mapeamentoTentativo.filter(Boolean).length >= 2;
+
         const mapa = {};
         if (temCabecalho) {
-            headerProv.forEach((h, idx) => {
-                const k = mapHeaderToPadrao(h);
-                if (k && mapa[k] == null) mapa[k] = idx;
+            primeiraLinha.forEach((h, i) => {
+                const k = toPadrao(h);
+                if (k != null && !(k in mapa)) mapa[k] = i;
             });
         }
-        const naoPadrao = !temCabecalho || padrao.some(col => mapa[col] == null);
-        const out = [padrao];
-        for (let i = startIndex; i < dados.length; i++) {
-            const row = dados[i] || [];
-            let numero = mapa["Nº Cenário"] != null ? row[mapa["Nº Cenário"]] : "";
-            if (!numero) numero = buildCT(out.length);
-            let cenario = mapa["Cenário"] != null ? row[mapa["Cenário"]] : "";
-            if (!cenario) cenario = `Cenário ${String(out.length).padStart(2, "0")}`;
+
+        const faltantes = OBRIGATORIAS.filter(k => mapa[k] == null);
+        const foiNormalizado = !temCabecalho || faltantes.length > 0 || PADRAO.some(k => !(k in mapa));
+
+        const out = [PADRAO];
+        const start = temCabecalho ? 1 : 0;
+
+        for (let r = start; r < dados.length; r++) {
+            const row = dados[r] || [];
+
+            const get = (nome) => {
+                const idx = mapa[nome];
+                return (idx != null ? row[idx] : "");
+            };
+
+            let numero = get("Nº Cenário");
+            if (!numero) numero = `CT${String(out.length).padStart(4, "0")}`;
+
+            let cenario = get("Cenário");
+            if (!cenario) cenario = `Cenário ${String(out.length - 0).padStart(2, "0")}`;
+
             const resumo = `Resumo do cenário: ${cenario}`;
-            const contexto = mapa["Contexto"] != null ? (row[mapa["Contexto"]] || resumo) : resumo;
-            const funcionalidade = mapa["Funcionalidade"] != null ? (row[mapa["Funcionalidade"]] || resumo) : resumo;
-            const dado = mapa["Dado"] != null ? (row[mapa["Dado"]] || resumo) : resumo;
-            const quando = mapa["Quando"] != null ? (row[mapa["Quando"]] || resumo) : resumo;
-            const entao = mapa["Então"] != null ? (row[mapa["Então"]] || resumo) : resumo;
-            const aplicacao = mapa["Aplicação"] != null ? (row[mapa["Aplicação"]] || "Web") : "Web";
-            const historia = mapa["História"] != null ? (row[mapa["História"]] || "EMPC") : "EMPC";
-            const tipoTeste = mapa["Tipo de teste"] != null ? (row[mapa["Tipo de teste"]] || "Acceptance") : "Acceptance";
-            const testeCampo = mapa["Teste de campo"] != null ? (row[mapa["Teste de campo"]] || "Positivo") : "Positivo";
-            let status = mapa["Status"] != null ? (row[mapa["Status"]] || "OK") : "OK";
+
+            const contexto = get("Contexto") || resumo;
+            const funcionalidade = get("Funcionalidade") || resumo;
+            const dado = get("Dado") || resumo;
+            const quando = get("Quando") || resumo;
+            const entao = get("Então") || resumo;
+            const aplicacao = get("Aplicação") || "Web";
+            const historia = get("História") || "EMPC";
+            const tipoTeste = get("Tipo de teste") || "Acceptance";
+            const testeCampo = get("Teste de campo") || "Positivo";
+            let status = get("Status") || "OK";
+
             out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
         }
-        return { dados: out, foiNormalizado: naoPadrao };
-    };
 
-    const importExcel = async () => {
-        const input = $("#importExcel");
+        return { dados: out, foiNormalizado, faltantes, mapeamento: mapa };
+    }
+
+    async function importExcel() {
+        const input = document.querySelector("#importExcel");
         const file = input?.files?.[0];
-        if (file) {
-            importedFileName = file.name;
-            const reader = new FileReader();
-            const fileNameWithoutExtension = importedFileName.replace(/\.[^/.]+$/, "");
-            reader.onload = e => {
-                const data = e.target.result;
-                const workbook = XLSX.read(data, { type: "binary" });
-                const sheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[sheetName];
-                const importedData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                const { dados: normalizados, foiNormalizado } = normalizarBDD(importedData);
-                updateTable(normalizados);
-                const lbl = $("#exampleModalLabel");
-                if (lbl) lbl.innerHTML = `<img width="40" src="./src/img/logoPage200.png" alt="cm"> Dashboard<b style="color:#16db6b"> BDD</b> - ${fileNameWithoutExtension}`;
-                swalToast("success", `Arquivo '${file.name}' importado!`);
-                if (foiNormalizado) {
-                    Swal.fire({
-                        icon: "info",
-                        title: "BDD ajustado para o padrão",
-                        html: "<p style='color:#fff'>O BDD importado não estava no padrão. Organizamos as colunas e preenchemos valores padrão para facilitar a subida no Octane:<br><br>• Aplicação = <b>Web</b><br>• Tipo de teste = <b>Acceptance</b><br>• Teste de campo = <b>Positivo</b><br>• História = <b>EMPC</b><br>• Status = <b>OK</b><br>• Campos Cenário/Contexto/Funcionalidade/Dado/Quando/Então receberam um <b>resumo do cenário</b>.</p>",
-                        confirmButtonColor: "#3085d6"
-                    });
-                }
-                $("#saveButtonContainer") && ($("#saveButtonContainer").style.display = "block");
-            };
-            reader.readAsBinaryString(file);
-        } else {
-            alert("Por favor, selecione um arquivo Excel para importar.");
+        if (!file) {
+            Swal.fire({ icon: "info", title: "Selecione um arquivo Excel", confirmButtonColor: "#3085d6" });
+            return;
         }
+
+        importedFileName = file.name;
+        const reader = new FileReader();
+        const fileNameWithoutExtension = importedFileName.replace(/\.[^/.]+$/, "");
+
+        reader.onload = (e) => {
+            const data = e.target.result;
+            const wb = XLSX.read(data, { type: "binary" });
+            const sheetName = wb.SheetNames[0];
+            const ws = wb.Sheets[sheetName];
+            const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+            const { dados: normalizados, foiNormalizado, faltantes } = normalizarBDD(importedData);
+            updateTable(normalizados);
+
+            const lbl = document.querySelector("#exampleModalLabel");
+            if (lbl) {
+                lbl.innerHTML = `<img width="40" src="./src/img/logoPage200.png" alt="cm"> Dashboard<b style="color:#16db6b"> BDD</b> - ${fileNameWithoutExtension}`;
+            }
+            swalToast("success", `Arquivo '${file.name}' importado!`);
+
+            if (foiNormalizado) {
+                const falt = (faltantes && faltantes.length)
+                    ? `<br><br><b>Colunas obrigatórias ausentes:</b> ${faltantes.join(", ")} (foram adicionadas com valores padrão).`
+                    : "";
+                Swal.fire({
+                    icon: "info",
+                    title: "BDD ajustado para o padrão",
+                    html:
+                        `<p style='color:#fff'>
+            Organizamos cabeçalho/ordem e preenchemos o que faltava:
+            <br>• Aplicação = <b>Web</b>
+            <br>• Tipo de teste = <b>Acceptance</b>
+            <br>• Teste de campo = <b>Positivo</b>
+            <br>• História = <b>EMPC</b>
+            <br>• Status = <b>OK</b>
+            <br>• Campos <b>Cenário/Contexto/Funcionalidade/Dado/Quando/Então</b> receberam um <b>resumo do cenário</b> quando vazios.
+           </p>${falt}`,
+                    confirmButtonColor: "#3085d6"
+                });
+            }
+            document.querySelector("#saveButtonContainer")?.style && (document.querySelector("#saveButtonContainer").style.display = "block");
+        };
+
+        reader.readAsBinaryString(file);
+
         const ret = await Swal.fire({
             title: "Deseja ativar o reconhecimento de voz?",
             html: '<p style="color:#fff;">Você poderá preencher os campos usando sua voz.</p>',
@@ -2414,15 +2460,15 @@
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33"
         });
-        if (ret.isConfirmed) ativarReconhecimentoDeVoz();
-        else $("#audioButton") && ($("#audioButton").style.display = "block");
-        $(".grade-buttons")?.classList.remove("d-none");
-        $("#audioButton")?.classList.remove("d-none");
-        $("#dashboardButton")?.classList.add("d-none");
-        $("#card-btns")?.classList.add("d-none");
-        $(".div-btns-lines003")?.classList.add("d-none");
-        $("#customButtonEx")?.classList.add("d-none");
-    };
+        if (ret.isConfirmed) ativarReconhecimentoDeVoz(); else document.querySelector("#audioButton") && (document.querySelector("#audioButton").style.display = "block");
+
+        document.querySelector(".grade-buttons")?.classList.remove("d-none");
+        document.querySelector("#audioButton")?.classList.remove("d-none");
+        document.querySelector("#dashboardButton")?.classList.add("d-none");
+        document.querySelector("#card-btns")?.classList.add("d-none");
+        document.querySelector(".div-btns-lines003")?.classList.add("d-none");
+        document.querySelector("#customButtonEx")?.classList.add("d-none");
+    }
 
     const alternarVisibilidade = () => {
         const campoFiltro = $("#filtroCT");
