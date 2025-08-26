@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SheetFrenzy BDD - Gherkin</title>
+    <title>SheetFrenzy BDD | Gherkin</title>
     <link rel="manifest" href="./manifest.json">
     <meta name="author" content="@gehaim" />
     <meta name="creator" content="@Gehaim" />
@@ -174,6 +174,36 @@
         document.addEventListener('contextmenu', function (event) {
             event.preventDefault();
         });  
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                title: "Bem-vindo ao SheetFrenzy BDD",
+                html: `
+      <div style="text-align:left;font-size:14px;line-height:1.55;color:#fff">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span class="badge bg-success" style="font-size:12px;padding:6px 12px;border-radius:999px">Gerar BDD</span>
+          <span>Cria uma tabela padrão com colunas de BDD para começar do zero.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span class="badge bg-success" style="font-size:12px;padding:6px 12px;border-radius:999px">Importar BDD</span>
+          <span>Importa um Excel (.xlsx, .xlsm, .xls, .xlsb) e normaliza os campos para o padrão.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span class="badge bg-success" style="font-size:12px;padding:6px 12px;border-radius:999px">Dashboard</span>
+          <span>Gera gráficos e resumo automático a partir do <i>Status</i> dos cenários.</span>
+        </div>
+        <hr style="margin:12px 0">
+      </div>
+    `,
+                confirmButtonText: "Entendi",
+                confirmButtonColor: "#16db6b",
+                showCloseButton: true,
+                width: 700,
+                allowOutsideClick: false
+            });
+        });
     </script>
 
     <div class="container">
