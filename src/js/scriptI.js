@@ -2312,14 +2312,17 @@
         }
     };
 
-    function normalizarBDD(dados) {
+    function normalizarBDD(dados, opts = {}) {
         const PADRAO = TITULOS_PADRAO.slice();
         const OBRIGATORIAS = ["Cenário", "Dado", "Quando", "Então"];
 
-        const norm = (s) => (s || "")
-            .toString()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .trim().toLowerCase();
+        // <<< valores forçados para TODAS as linhas >>>
+        const forceAplicacao = opts.forceAplicacao ?? "Web";
+        const forceTipoTeste = opts.forceTipoTeste ?? "Acceptance";
+        const forceTesteCampo = opts.forceTesteCampo ?? "Positivo";
+        const forceStatus = opts.forceStatus ?? "ok";   // <-- novo
+
+        const norm = (s) => (s || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
 
         const sinonimos = {
             "nº cenário": ["nº cenario", "numero cenario", "numero do cenario", "ct", "id", "id cenario", "n cenario", "cenario id"],
@@ -2366,30 +2369,27 @@
 
         for (let r = start; r < dados.length; r++) {
             const row = dados[r] || [];
-
             const get = (nome) => {
                 const idx = mapa[nome];
                 return (idx != null ? row[idx] : "");
             };
 
-            let numero = get("Nº Cenário");
-            if (!numero) numero = `CT${String(out.length).padStart(4, "0")}`;
-
-            let cenario = get("Cenário");
-            if (!cenario) cenario = `Cenário ${String(out.length - 0).padStart(2, "0")}`;
+            let numero = get("Nº Cenário") || `CT${String(out.length).padStart(4, "0")}`;
+            let cenario = get("Cenário") || `Cenário ${String(out.length).padStart(2, "0")}`;
 
             const resumo = `Resumo do cenário: ${cenario}`;
-
             const contexto = get("Contexto") || resumo;
             const funcionalidade = get("Funcionalidade") || resumo;
             const dado = get("Dado") || resumo;
             const quando = get("Quando") || resumo;
             const entao = get("Então") || resumo;
-            const aplicacao = get("Aplicação") || "Web";
+
+            // valores forçados
+            const aplicacao = forceAplicacao;
             const historia = get("História") || "EMPC";
-            const tipoTeste = get("Tipo de teste") || "Acceptance";
-            const testeCampo = get("Teste de campo") || "Positivo";
-            let status = get("Status") || "OK";
+            const tipoTeste = forceTipoTeste;
+            const testeCampo = forceTesteCampo;
+            const status = forceStatus; // sempre "ok" (minúsculo)
 
             out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
         }
@@ -2611,7 +2611,7 @@
         });
     }
 
-     document.addEventListener('click', function (e) {
+    document.addEventListener('click', function (e) {
         if (e.target && e.target.id === 'jiraSummaryBtn') { gerarResumoJira(); }
     });
 
