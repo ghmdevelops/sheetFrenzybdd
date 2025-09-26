@@ -296,7 +296,6 @@
                                     return;
                                 }
 
-                                // Valores padronizados
                                 const forceAplicacao = opts.forceAplicacao ?? "Web";
                                 const forceTipoTeste = opts.forceTipoTeste ?? "Acceptance";
                                 const forceTesteCampo = opts.forceTesteCampo ?? "Positivo";
@@ -310,7 +309,7 @@
                                     const wb = XLSX.read(data, { type: "binary" });
                                     const sheetName = wb.SheetNames[0];
                                     const ws = wb.Sheets[sheetName];
-                                    const importedData = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false });
+                                    const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
                                     const header = importedData[0];
                                     const idxStepDesc = header.findIndex(h => (h || "").toString().toLowerCase().includes("step_description"));
@@ -321,52 +320,45 @@
                                         return;
                                     }
 
-                                    // Novo array com todas as colunas
                                     const out = [["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de Teste", "Teste de Campo", "Status"]];
 
                                     for (let i = 1; i < importedData.length; i++) {
                                         const row = importedData[i];
 
-                                        // Nº Cenário
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
-                                        // Pegar texto da coluna 'step_description' e remover quebras de linha e espaços extras
-                                        let step = (row[idxStepDesc] || "").toString().replace(/(\r\n|\n|\r)/gm, " ").trim();
+                                        // Remove quebras de linha internas
+                                        const step = (row[idxStepDesc] || "").replace(/\r?\n/g, " ").trim();
 
-                                        // Separar Dado, Quando, Então usando regex não gulosa
-                                        const dadoMatch = step.match(/Dado\s*(.*?)(?=, Quando|, Então|$)/i);
-                                        const quandoMatch = step.match(/Quando\s*(.*?)(?=, Dado|, Então|$)/i);
-                                        const entaoMatch = step.match(/Então\s*(.*?)(?=, Dado|, Quando|$)/i);
+                                        const dadoMatch = step.match(/Dado\s*([^,]*)/i);
+                                        const quandoMatch = step.match(/Quando\s*([^,]*)/i);
+                                        const entaoMatch = step.match(/Então\s*([^,]*)/i);
 
                                         const dado = dadoMatch ? dadoMatch[1].trim() : "";
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
                                         const entao = entaoMatch ? entaoMatch[1].trim() : "";
 
-                                        // Limpar step para usar no Cenário/Contexto/Funcionalidade
                                         let textoLimpo = step
-                                            .replace(/Dado\s*[^,]*(,|$)/i, "")
-                                            .replace(/Quando\s*[^,]*(,|$)/i, "")
-                                            .replace(/Então\s*[^,]*(,|$)/i, "")
+                                            .replace(/Dado\s*[^,]*,?/i, "")
+                                            .replace(/Quando\s*[^,]*,?/i, "")
+                                            .replace(/Então\s*[^,]*,?/i, "")
                                             .trim();
 
-                                        // Pegar nome da coluna 'name', ou se não existir, usar texto limpo
-                                        const nome = idxName !== -1 ? (row[idxName] || "").trim() : textoLimpo;
-                                        const cenario = nome || `Cenário ${i}`;
-                                        const contexto = nome || `Contexto ${i}`;
-                                        const funcionalidade = nome || `Funcionalidade ${i}`;
+                                        const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
+                                        const cenario = nome || "";
+                                        const contexto = nome || "";
+                                        const funcionalidade = nome || "";
 
-                                        // Valores padronizados
                                         const aplicacao = forceAplicacao;
                                         const historia = "EMPC";
                                         const tipoTeste = forceTipoTeste;
                                         const testeCampo = forceTesteCampo;
                                         const status = forceStatus;
 
-                                        // Adicionar linha completa
+                                        // Garantir que tudo fique em UMA linha
                                         out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
-                                    // Gerar Excel novo
                                     const newWs = XLSX.utils.aoa_to_sheet(out);
                                     const newWb = XLSX.utils.book_new();
                                     XLSX.utils.book_append_sheet(newWb, newWs, "StepDescription");
