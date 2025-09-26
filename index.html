@@ -315,13 +315,14 @@
                                         return;
                                     }
 
-                                    // Novo array: Cenário, Contexto, Funcionalidade, Dado, Quando, Então
-                                    const out = [["Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então"]];
+                                    // Padrão de títulos do normalizarBDD
+                                    const PADRAO = ["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de Teste", "Teste de Campo", "Status"];
+                                    const out = [PADRAO];
 
                                     for (let i = 1; i < importedData.length; i++) {
                                         const row = importedData[i];
 
-                                        // Pegar texto da coluna 'step_description'
+                                        // Pegar step_description
                                         const step = row[idxStepDesc] || "";
 
                                         // Separar Dado, Quando, Então
@@ -333,33 +334,43 @@
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
                                         const entao = entaoMatch ? entaoMatch[1].trim() : "";
 
-                                        // Limpar step para usar no Cenário/Contexto/Funcionalidade
+                                        // Limpar step para Cenário/Contexto/Funcionalidade
                                         let textoLimpo = step
                                             .replace(/Dado\s*[^,]*,?/i, "")
                                             .replace(/Quando\s*[^,]*,?/i, "")
                                             .replace(/Então\s*[^,]*,?/i, "")
                                             .trim();
 
-                                        // Pegar nome da coluna 'name', ou se não existir, usar o texto limpo
+                                        // Nome da coluna 'name' se existir
                                         const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
-                                        const cenario = nome || "";
-                                        const contexto = nome || "";
-                                        const funcionalidade = nome || "";
+                                        const cenario = nome || `Cenário ${String(out.length).padStart(2, "0")}`;
+                                        const contexto = nome || cenario;
+                                        const funcionalidade = nome || cenario;
 
-                                        out.push([cenario, contexto, funcionalidade, dado, quando, entao]);
+                                        // Nº Cenário CT0001, CT0002...
+                                        const numero = `CT${String(out.length).padStart(4, "0")}`;
+
+                                        // Valores padronizados
+                                        const aplicacao = "Web";
+                                        const historia = "EMPC";
+                                        const tipoTeste = "Acceptance";
+                                        const testeCampo = "Positivo";
+                                        const status = "OK";
+
+                                        out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
                                     // Gerar Excel novo
                                     const newWs = XLSX.utils.aoa_to_sheet(out);
                                     const newWb = XLSX.utils.book_new();
-                                    XLSX.utils.book_append_sheet(newWb, newWs, "StepDescription");
+                                    XLSX.utils.book_append_sheet(newWb, newWs, "BDD_Padrao");
 
-                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado.xlsx`);
+                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_padrao.xlsx`);
 
                                     Swal.fire({
                                         icon: "success",
                                         title: "Processamento finalizado",
-                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`,
+                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_padrao.xlsx`,
                                         confirmButtonColor: "#3085d6"
                                     });
                                 };
