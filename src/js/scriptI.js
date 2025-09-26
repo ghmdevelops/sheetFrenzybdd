@@ -1050,46 +1050,9 @@
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 const importedData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                // ===============================
-                // 🔹 NOVA PARTE: tratar colunas BDD
-                // ===============================
-                const processedData = importedData.map(row => {
-                    // mantém todas as colunas que já existiam
-                    let originalRow = [...row];
-
-                    // só processa se tiver texto em step_description (coluna 0)
-                    if (row[0]) {
-                        const text = row[0].toString();
-                        let dado = "", quando = "", entao = "";
-
-                        // Regex para separar blocos
-                        const regexDado = /(Dado[\s\S]*?)(?=Quando|Então|$)/i;
-                        const regexQuando = /(Quando[\s\S]*?)(?=Então|$)/i;
-                        const regexEntao = /(Então[\s\S]*)/i;
-
-                        const dadoMatch = text.match(regexDado);
-                        const quandoMatch = text.match(regexQuando);
-                        const entaoMatch = text.match(regexEntao);
-
-                        if (dadoMatch) dado = dadoMatch[0].trim();
-                        if (quandoMatch) quando = quandoMatch[0].trim();
-                        if (entaoMatch) entao = entaoMatch[0].trim();
-
-                        // adiciona no final da linha como novas colunas
-                        originalRow.push(dado, quando, entao);
-                    }
-
-                    return originalRow;
-                });
-
-                // 🔹 mantém a função original para popular a tabela
-                addDataToExistingTable(processedData);
-
-                // título do modal
+                addDataToExistingTable(importedData);
                 const lbl = $("#exampleModalLabel");
                 if (lbl) lbl.innerHTML = `<img width="40" src="./src/img/logoPage200.png" alt="cm"> Dashboard<b style="color:#16db6b"> BDD</b> - ${fileNameWithoutExtension}`;
-
                 swalToast("success", `Arquivo '${file.name}' importado!`);
                 $("#saveButtonContainer") && ($("#saveButtonContainer").style.display = "block");
             };
@@ -1097,8 +1060,6 @@
         } else {
             alert("Por favor, selecione um arquivo Excel para importar.");
         }
-
-        // mantém a parte do reconhecimento de voz
         const ret = await Swal.fire({
             title: "Deseja ativar o reconhecimento de voz?",
             html: '<p style="color:#fff;">Você poderá preencher os campos usando sua voz.</p>',
@@ -1111,7 +1072,6 @@
         });
         if (ret.isConfirmed) ativarReconhecimentoDeVoz();
         else $("#audioButton") && ($("#audioButton").style.display = "block");
-
         $(".grade-buttons")?.classList.remove("d-none");
         $("#audioButton")?.classList.remove("d-none");
         $("#dashboardButton")?.classList.add("d-none");
@@ -2360,7 +2320,7 @@
         const forceAplicacao = opts.forceAplicacao ?? "Web";
         const forceTipoTeste = opts.forceTipoTeste ?? "Acceptance";
         const forceTesteCampo = opts.forceTesteCampo ?? "Positivo";
-        const forceStatus = opts.forceStatus ?? "ok";   // <-- novo
+        const forceStatus = opts.forceStatus ?? "ok";   // <-- novo (sempre ok)
 
         const norm = (s) => (s || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
 
@@ -2420,18 +2380,43 @@
             const resumo = `Resumo do cenário: ${cenario}`;
             const contexto = get("Contexto") || resumo;
             const funcionalidade = get("Funcionalidade") || resumo;
-            const dado = get("Dado") || resumo;
-            const quando = get("Quando") || resumo;
-            const entao = get("Então") || resumo;
+
+            // 🔹 Garantir que Dado/Quando/Então sejam separados
+            const dadoOriginal = get("Dado") || "";
+            const quandoOriginal = get("Quando") || "";
+            const entaoOriginal = get("Então") || "";
+            let dado = dadoOriginal || resumo;
+            let quando = quandoOriginal || resumo;
+            let entao = entaoOriginal || resumo;
+
+            // caso tudo venha junto em uma única célula (BDD inline), separa por regex
+            const tudoJunto = dadoOriginal || quandoOriginal || entaoOriginal || "";
+            if (tudoJunto && (!dadoOriginal || !quandoOriginal || !entaoOriginal)) {
+                const regexDado = /(Dado[\s\S]*?)(?=Quando|Então|$)/i;
+                const regexQuando = /(Quando[\s\S]*?)(?=Então|$)/i;
+                const regexEntao = /(Então[\s\S]*)/i;
+
+                const dadoMatch = tudoJunto.match(regexDado);
+                const quandoMatch = tudoJunto.match(regexQuando);
+                const entaoMatch = tudoJunto.match(regexEntao);
+
+                if (dadoMatch) dado = dadoMatch[0].trim();
+                if (quandoMatch) quando = quandoMatch[0].trim();
+                if (entaoMatch) entao = entaoMatch[0].trim();
+            }
 
             // valores forçados
             const aplicacao = forceAplicacao;
             const historia = get("História") || "EMPC";
             const tipoTeste = forceTipoTeste;
             const testeCampo = forceTesteCampo;
-            const status = forceStatus; // sempre "ok" (minúsculo)
+            const status = forceStatus; // sempre "ok"
 
-            out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
+            out.push([
+                numero, cenario, contexto, funcionalidade,
+                dado, quando, entao,
+                aplicacao, historia, tipoTeste, testeCampo, status
+            ]);
         }
 
         return { dados: out, foiNormalizado, faltantes, mapeamento: mapa };
@@ -2474,14 +2459,14 @@
                     title: "BDD ajustado para o padrão",
                     html:
                         `<p style='color:#fff'>
-            Organizamos cabeçalho/ordem e preenchemos o que faltava:
-            <br>• Aplicação = <b>Web</b>
-            <br>• Tipo de teste = <b>Acceptance</b>
-            <br>• Teste de campo = <b>Positivo</b>
-            <br>• História = <b>EMPC</b>
-            <br>• Status = <b>OK</b>
-            <br>• Campos <b>Cenário/Contexto/Funcionalidade/Dado/Quando/Então</b> receberam um <b>resumo do cenário</b> quando vazios.
-           </p>${falt}`,
+                        Organizamos cabeçalho/ordem e preenchemos o que faltava:
+                        <br>• Aplicação = <b>Web</b>
+                        <br>• Tipo de teste = <b>Acceptance</b>
+                        <br>• Teste de campo = <b>Positivo</b>
+                        <br>• História = <b>EMPC</b>
+                        <br>• Status = <b>OK</b>
+                        <br>• Campos <b>Cenário/Contexto/Funcionalidade/Dado/Quando/Então</b> receberam um <b>resumo do cenário</b> quando vazios.
+                    </p>${falt}`,
                     confirmButtonColor: "#3085d6"
                 });
             }
@@ -2500,7 +2485,8 @@
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33"
         });
-        if (ret.isConfirmed) ativarReconhecimentoDeVoz(); else document.querySelector("#audioButton") && (document.querySelector("#audioButton").style.display = "block");
+        if (ret.isConfirmed) ativarReconhecimentoDeVoz();
+        else document.querySelector("#audioButton") && (document.querySelector("#audioButton").style.display = "block");
 
         document.querySelector(".grade-buttons")?.classList.remove("d-none");
         document.querySelector("#audioButton")?.classList.remove("d-none");
