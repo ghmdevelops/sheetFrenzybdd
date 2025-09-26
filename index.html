@@ -288,19 +288,13 @@
                             </label>
                         </div>
                         <script>
-                            async function processarStepDescription(opts = {}) {
+                            async function processarStepDescription() {
                                 const input = document.querySelector("#lapizExcel");
                                 const file = input?.files?.[0];
                                 if (!file) {
                                     Swal.fire({ icon: "info", title: "Selecione um arquivo Excel", confirmButtonColor: "#3085d6" });
                                     return;
                                 }
-
-                                // Valores padronizados
-                                const forceAplicacao = opts.forceAplicacao ?? "Web";
-                                const forceTipoTeste = opts.forceTipoTeste ?? "Acceptance";
-                                const forceTesteCampo = opts.forceTesteCampo ?? "Positivo";
-                                const forceStatus = opts.forceStatus ?? "ok";
 
                                 const reader = new FileReader();
                                 const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
@@ -321,14 +315,11 @@
                                         return;
                                     }
 
-                                    // Novo array com todas as colunas desejadas
-                                    const out = [["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de Teste", "Teste de Campo", "Status"]];
+                                    // Novo array: Cenário, Contexto, Funcionalidade, Dado, Quando, Então
+                                    const out = [["Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então"]];
 
                                     for (let i = 1; i < importedData.length; i++) {
                                         const row = importedData[i];
-
-                                        // Nº Cenário
-                                        const numero = `CT${String(i).padStart(4, "0")}`;
 
                                         // Pegar texto da coluna 'step_description'
                                         const step = row[idxStepDesc] || "";
@@ -349,20 +340,13 @@
                                             .replace(/Então\s*[^,]*,?/i, "")
                                             .trim();
 
-                                        // Pegar nome da coluna 'name', ou se não existir, usar texto limpo
+                                        // Pegar nome da coluna 'name', ou se não existir, usar o texto limpo
                                         const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
                                         const cenario = nome || "";
                                         const contexto = nome || "";
                                         const funcionalidade = nome || "";
 
-                                        // Valores padronizados
-                                        const aplicacao = forceAplicacao;
-                                        const historia = "EMPC"; // você pode alterar ou pegar de alguma coluna
-                                        const tipoTeste = forceTipoTeste;
-                                        const testeCampo = forceTesteCampo;
-                                        const status = forceStatus;
-
-                                        out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
+                                        out.push([cenario, contexto, funcionalidade, dado, quando, entao]);
                                     }
 
                                     // Gerar Excel novo
@@ -370,19 +354,18 @@
                                     const newWb = XLSX.utils.book_new();
                                     XLSX.utils.book_append_sheet(newWb, newWs, "StepDescription");
 
-                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado.xlsx`);
+                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado_43.xlsx`);
 
                                     Swal.fire({
                                         icon: "success",
                                         title: "Processamento finalizado",
-                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`,
+                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separado_43.xlsx`,
                                         confirmButtonColor: "#3085d6"
                                     });
                                 };
 
                                 reader.readAsBinaryString(file);
                             }
-
                         </script>
                         <div class="d-inline-block mx-2">
                             <button title="Gerar dashboard" id="dashboardButton" type="button"
