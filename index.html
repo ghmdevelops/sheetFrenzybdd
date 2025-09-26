@@ -324,20 +324,22 @@
 
                                     for (let i = 1; i < importedData.length; i++) {
                                         const row = importedData[i];
-
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
-                                        const step = step.replace(/(\r\n|\n|\r)/g, " ").replace(/\s+/g, " ").trim();
+                                        // Corrigido: pegar o step da coluna correta e remover quebras de linha
+                                        const step = (row[idxStepDesc] || "").replace(/(\r\n|\n|\r)/g, " ").replace(/\s+/g, " ").trim();
 
-                                        const dadoMatch = step.match(/Dado\s*([\s\S]*?)(?=\s*Quando|\s*Então|$)/i);
+                                        // Extrair Dado, Quando, Então sem quebras de linha
+                                        const dadoMatch = step.match(/Dado\s*([\s\S]*?)(?=\s*Quando|$)/i);
                                         const quandoMatch = step.match(/Quando\s*([\s\S]*?)(?=\s*Então|$)/i);
                                         const entaoMatch = step.match(/Então\s*([\s\S]*)/i);
 
-                                        const dado = dadoMatch ? dadoMatch[1].trim() : "";
-                                        const quando = quandoMatch ? quandoMatch[1].trim() : "";
-                                        const entao = entaoMatch ? entaoMatch[1].trim() : "";
+                                        const dado = dadoMatch ? dadoMatch[1].replace(/(\r\n|\n|\r)/g, " ").trim() : "";
+                                        const quando = quandoMatch ? quandoMatch[1].replace(/(\r\n|\n|\r)/g, " ").trim() : "";
+                                        const entao = entaoMatch ? entaoMatch[1].replace(/(\r\n|\n|\r)/g, " ").trim() : "";
 
-                                        let textoLimpo = step
+                                        // Nome, contexto, funcionalidade
+                                        const textoLimpo = step
                                             .replace(/Dado\s*[^,]*,?/i, "")
                                             .replace(/Quando\s*[^,]*,?/i, "")
                                             .replace(/Então\s*[^,]*,?/i, "")
@@ -354,7 +356,6 @@
                                         const testeCampo = forceTesteCampo;
                                         const status = forceStatus;
 
-                                        // Garantir que tudo fique em UMA linha
                                         out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
