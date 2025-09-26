@@ -333,11 +333,18 @@
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
                                         const entao = entaoMatch ? entaoMatch[1].trim() : "";
 
-                                        // Pegar nome da coluna 'name', ou se não existir, usar step completo como Cenário/Contexto/Funcionalidade
-                                        const nome = idxName !== -1 ? (row[idxName] || "") : step;
-                                        const cenario = nome || step;
-                                        const contexto = nome || step;
-                                        const funcionalidade = nome || step;
+                                        // Limpar step para usar no Cenário/Contexto/Funcionalidade
+                                        let textoLimpo = step
+                                            .replace(/Dado\s*[^,]*,?/i, "")
+                                            .replace(/Quando\s*[^,]*,?/i, "")
+                                            .replace(/Então\s*[^,]*,?/i, "")
+                                            .trim();
+
+                                        // Pegar nome da coluna 'name', ou se não existir, usar o texto limpo
+                                        const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
+                                        const cenario = nome || "";
+                                        const contexto = nome || "";
+                                        const funcionalidade = nome || "";
 
                                         out.push([cenario, contexto, funcionalidade, dado, quando, entao]);
                                     }
