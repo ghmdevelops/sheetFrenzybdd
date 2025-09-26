@@ -288,13 +288,19 @@
                             </label>
                         </div>
                         <script>
-                            async function processarStepDescription() {
+                            async function processarStepDescription(opts = {}) {
                                 const input = document.querySelector("#lapizExcel");
                                 const file = input?.files?.[0];
                                 if (!file) {
                                     Swal.fire({ icon: "info", title: "Selecione um arquivo Excel", confirmButtonColor: "#3085d6" });
                                     return;
                                 }
+
+                                // Valores padronizados
+                                const forceAplicacao = opts.forceAplicacao ?? "Web";
+                                const forceTipoTeste = opts.forceTipoTeste ?? "Acceptance";
+                                const forceTesteCampo = opts.forceTesteCampo ?? "Positivo";
+                                const forceStatus = opts.forceStatus ?? "ok";
 
                                 const reader = new FileReader();
                                 const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
@@ -315,14 +321,17 @@
                                         return;
                                     }
 
-                                    // Novo array: Cenário, Contexto, Funcionalidade, Dado, Quando, Então
-                                    const out = [["Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então"]];
+                                    // Novo array com todas as colunas desejadas
+                                    const out = [["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de Teste", "Teste de Campo", "Status"]];
 
                                     for (let i = 1; i < importedData.length; i++) {
                                         const row = importedData[i];
 
-                                        // Pegar texto da coluna 'step_description'
-                                        const step = row[idxStepDesc] || "";
+                                        // Nº Cenário
+                                        const numero = `CT${String(i).padStart(4, "0")}`;
+
+                                        // Pegar texto da coluna 'step_description' e remover quebras de linha internas
+                                        const step = (row[idxStepDesc] || "").replace(/\r?\n/g, " ").trim();
 
                                         // Separar Dado, Quando, Então
                                         const dadoMatch = step.match(/Dado\s*([^,]*)/i);
@@ -340,13 +349,20 @@
                                             .replace(/Então\s*[^,]*,?/i, "")
                                             .trim();
 
-                                        // Pegar nome da coluna 'name', ou se não existir, usar o texto limpo
+                                        // Pegar nome da coluna 'name', ou se não existir, usar texto limpo
                                         const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
                                         const cenario = nome || "";
                                         const contexto = nome || "";
                                         const funcionalidade = nome || "";
 
-                                        out.push([cenario, contexto, funcionalidade, dado, quando, entao]);
+                                        // Valores padronizados
+                                        const aplicacao = forceAplicacao;
+                                        const historia = "EMPC"; // ou pegar de alguma coluna se houver
+                                        const tipoTeste = forceTipoTeste;
+                                        const testeCampo = forceTesteCampo;
+                                        const status = forceStatus;
+
+                                        out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
                                     // Gerar Excel novo
@@ -354,12 +370,12 @@
                                     const newWb = XLSX.utils.book_new();
                                     XLSX.utils.book_append_sheet(newWb, newWs, "StepDescription");
 
-                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado_43.xlsx`);
+                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado.xlsx`);
 
                                     Swal.fire({
                                         icon: "success",
                                         title: "Processamento finalizado",
-                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separado_43.xlsx`,
+                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`,
                                         confirmButtonColor: "#3085d6"
                                     });
                                 };
