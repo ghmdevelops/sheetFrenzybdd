@@ -2397,6 +2397,81 @@
         return { dados: out, foiNormalizado, faltantes, mapeamento: mapa };
     }
 
+    // helpers (cole antes do importExcel)
+    function parseStepText(text) {
+        const raw = (text || "").toString().replace(/\r/g, " ").replace(/\n/g, " ").replace(/\s+/g, " ").trim();
+        const reDado = /\b(Dado|Given)\b[\s\S]*?(?=(\bQuando\b|\bWhen\b|\bEntão\b|\bEntao\b|\bThen\b|$))/i;
+        const reQuando = /\b(Quando|When)\b[\s\S]*?(?=(\bEntão\b|\bEntao\b|\bThen\b|$))/i;
+        const reEntao = /\b(Então|Entao|Then)\b[\s\S]*$/i;
+        const mD = raw.match(reDado);
+        const mQ = raw.match(reQuando);
+        const mE = raw.match(reEntao);
+        return {
+            original: text || "",
+            dado: mD ? mD[0].trim() : "",
+            quando: mQ ? mQ[0].trim() : "",
+            entao: mE ? mE[0].trim() : ""
+        };
+    }
+
+    function splitIntoBlocks(importedData, startRow = 1) {
+        // junta linhas em blocos separados por linhas vazias
+        const blocks = [];
+        let current = [];
+        for (let i = startRow; i < importedData.length; i++) {
+            const cell = importedData[i]?.[0];
+            if (cell == null || String(cell).trim() === "") {
+                if (current.length) { blocks.push(current.join(" ")); current = []; }
+                continue;
+            }
+            current.push(String(cell).trim());
+        }
+        if (current.length) blocks.push(current.join(" "));
+        return blocks;
+    }
+
+    function isStepDescriptionFormat(importedData) {
+        const firstRow = importedData[0] || [];
+        const headerText = firstRow.join(" ").toLowerCase();
+        if (/(step[_\s-]?descr|step[_\s-]?description|step_description|step description|stepdesc)/i.test(headerText)) return true;
+
+        // Se muitas linhas começarem com Dado/Quando/Então (ou Given/When/Then), é o formato "um passo por linha"
+        let totalNonEmpty = 0, startsWithStep = 0;
+        for (let i = 1; i < importedData.length; i++) {
+            const c = String(importedData[i]?.[0] || "").trim();
+            if (!c) continue;
+            totalNonEmpty++;
+            if (/^(Dado|Quando|Então|Entao|Given|When|Then)\b/i.test(c)) startsWithStep++;
+        }
+        if (totalNonEmpty > 0 && startsWithStep / totalNonEmpty > 0.45) return true;
+        return false;
+    }
+
+    function buildRowsFromBlocks(blocks, opts = {}) {
+        const PADRAO = TITULOS_PADRAO.slice();
+        const rows = [PADRAO];
+        for (let i = 0; i < blocks.length; i++) {
+            const parsed = parseStepText(blocks[i]);
+            const numero = `CT${String(rows.length).padStart(4, "0")}`;
+            const cenarioTitleCandidate = (parsed.dado || parsed.original || "").replace(/^(Dado|Given)\s*/i, "").trim();
+            const cenario = cenarioTitleCandidate ? cenarioTitleCandidate.slice(0, 80) : `Cenário ${rows.length}`;
+            const resumo = `Resumo do cenário: ${cenario}`;
+            const contexto = ""; // você pode ajustar se quiser extrair contexto de outro lugar
+            const funcionalidade = "";
+            const dado = parsed.dado || (parsed.original ? parsed.original : resumo);
+            const quando = parsed.quando || resumo;
+            const entao = parsed.entao || resumo;
+            const aplicacao = opts.forceAplicacao ?? "Web";
+            const historia = "EMPC";
+            const tipoTeste = opts.forceTipoTeste ?? "Acceptance";
+            const testeCampo = opts.forceTesteCampo ?? "Positivo";
+            const status = opts.forceStatus ?? "ok";
+            rows.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
+        }
+        return rows;
+    }
+
+    // substitua/fonte da função importExcel:
     async function importExcel() {
         const input = document.querySelector("#importExcel");
         const file = input?.files?.[0];
@@ -2410,69 +2485,76 @@
         const fileNameWithoutExtension = importedFileName.replace(/\.[^/.]+$/, "");
 
         reader.onload = (e) => {
-            const data = e.target.result;
-            const wb = XLSX.read(data, { type: "binary" });
-            const sheetName = wb.SheetNames[0];
-            const ws = wb.Sheets[sheetName];
-            const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+            try {
+                const data = e.target.result;
+                const wb = XLSX.read(data, { type: "binary" });
+                const sheetName = wb.SheetNames[0];
+                const ws = wb.Sheets[sheetName];
+                const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-            let dadosParaNormalizar = importedData;
+                // DETECTA formato
+                const isStepDesc = isStepDescriptionFormat(importedData);
 
-            // 🔹 Caso 2: só existe a coluna step_description
-            if (importedData[0] && importedData[0][0]?.toLowerCase().includes("step_description")) {
-                dadosParaNormalizar = [["Cenário", "Dado", "Quando", "Então"]]; // cabeçalho novo
+                let dadosParaNormalizar;
+                const opts = {
+                    forceAplicacao: "Web",
+                    forceTipoTeste: "Acceptance",
+                    forceTesteCampo: "Positivo",
+                    forceStatus: "ok"
+                };
 
-                for (let i = 1; i < importedData.length; i++) {
-                    const linha = importedData[i]?.[0] || "";
-                    let dado = "";
-                    let quando = "";
-                    let entao = "";
-
-                    // quebra pelas palavras-chave
-                    const regexDado = /Dado[^\n]*/i;
-                    const regexQuando = /Quando[^\n]*/i;
-                    const regexEntao = /Então[^\n]*/i;
-
-                    dado = (linha.match(regexDado) || [""])[0];
-                    quando = (linha.match(regexQuando) || [""])[0];
-                    entao = (linha.match(regexEntao) || [""])[0];
-
-                    dadosParaNormalizar.push([`CT${i.toString().padStart(4, "0")}`, `Cenário ${i}`, "", "", dado, quando, entao]);
+                if (isStepDesc) {
+                    // agrupa blocos (um cenário por bloco) e monta linhas padronizadas
+                    const blocks = splitIntoBlocks(importedData, 1); // 1 -> ignora header
+                    if (!blocks.length) {
+                        // fallback: tenta usar a primeira coluna inteira (quando não há header)
+                        const all = importedData.slice(0).map(r => r?.[0] || "").filter(Boolean).join(" || ");
+                        const parsed = parseStepText(all);
+                        dadosParaNormalizar = buildRowsFromBlocks([parsed.original || all], opts);
+                    } else {
+                        dadosParaNormalizar = buildRowsFromBlocks(blocks, opts);
+                    }
+                } else {
+                    // planilha normal (já com colunas) -> passa direto para normalizarBDD
+                    dadosParaNormalizar = importedData;
                 }
-            }
 
-            // 🔹 Agora passa para a função já existente
-            const { dados: normalizados, foiNormalizado, faltantes } = normalizarBDD(dadosParaNormalizar);
+                // chama sua normalizarBDD (mantendo a assinatura que você já tem)
+                const { dados: normalizados, foiNormalizado, faltantes } = normalizarBDD(dadosParaNormalizar, opts);
 
-            updateTable(normalizados);
+                updateTable(normalizados);
 
-            // resto igual...
-            const lbl = document.querySelector("#exampleModalLabel");
-            if (lbl) {
-                lbl.innerHTML = `<img width="40" src="./src/img/logoPage200.png" alt="cm"> Dashboard<b style="color:#16db6b"> BDD</b> - ${fileNameWithoutExtension}`;
-            }
-            swalToast("success", `Arquivo '${file.name}' importado!`);
+                const lbl = document.querySelector("#exampleModalLabel");
+                if (lbl) {
+                    lbl.innerHTML = `<img width="40" src="./src/img/logoPage200.png" alt="cm"> Dashboard<b style="color:#16db6b"> BDD</b> - ${fileNameWithoutExtension}`;
+                }
+                swalToast("success", `Arquivo '${file.name}' importado!`);
 
-            if (foiNormalizado) {
-                const falt = (faltantes && faltantes.length)
-                    ? `<br><br><b>Colunas obrigatórias ausentes:</b> ${faltantes.join(", ")} (foram adicionadas com valores padrão).`
-                    : "";
-                Swal.fire({
-                    icon: "info",
-                    title: "BDD ajustado para o padrão",
-                    html: `<p style='color:#fff'>
-                    Organizamos cabeçalho/ordem e preenchemos o que faltava:
-                    <br>• Aplicação = <b>Web</b>
-                    <br>• Tipo de teste = <b>Acceptance</b>
-                    <br>• Teste de campo = <b>Positivo</b>
-                    <br>• História = <b>EMPC</b>
-                    <br>• Status = <b>OK</b>
-                </p>${falt}`,
-                    confirmButtonColor: "#3085d6"
-                });
+                if (foiNormalizado) {
+                    const falt = (faltantes && faltantes.length)
+                        ? `<br><br><b>Colunas obrigatórias ausentes:</b> ${faltantes.join(", ")} (foram adicionadas com valores padrão).`
+                        : "";
+                    Swal.fire({
+                        icon: "info",
+                        title: "BDD ajustado para o padrão",
+                        html:
+                            `<p style='color:#fff'>
+                Organizamos cabeçalho/ordem e preenchemos o que faltava:
+                <br>• Aplicação = <b>Web</b>
+                <br>• Tipo de teste = <b>Acceptance</b>
+                <br>• Teste de campo = <b>Positivo</b>
+                <br>• História = <b>EMPC</b>
+                <br>• Status = <b>OK</b>
+            </p>${falt}`,
+                        confirmButtonColor: "#3085d6"
+                    });
+                }
+                document.querySelector("#saveButtonContainer")?.style && (document.querySelector("#saveButtonContainer").style.display = "block");
+            } catch (err) {
+                console.error("Erro ao importar/normalizar:", err);
+                Swal.fire({ icon: "error", title: "Erro ao importar", text: String(err) });
             }
         };
-
 
         reader.readAsBinaryString(file);
 
@@ -2486,7 +2568,8 @@
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33"
         });
-        if (ret.isConfirmed) ativarReconhecimentoDeVoz(); else document.querySelector("#audioButton") && (document.querySelector("#audioButton").style.display = "block");
+        if (ret.isConfirmed) ativarReconhecimentoDeVoz();
+        else document.querySelector("#audioButton") && (document.querySelector("#audioButton").style.display = "block");
 
         document.querySelector(".grade-buttons")?.classList.remove("d-none");
         document.querySelector("#audioButton")?.classList.remove("d-none");
@@ -2495,6 +2578,7 @@
         document.querySelector(".div-btns-lines003")?.classList.add("d-none");
         document.querySelector("#customButtonEx")?.classList.add("d-none");
     }
+
 
     const alternarVisibilidade = () => {
         const campoFiltro = $("#filtroCT");
