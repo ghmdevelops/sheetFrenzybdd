@@ -304,6 +304,11 @@
                                 const reader = new FileReader();
                                 const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
 
+                                // Função para limpar quebras de linha e múltiplos espaços
+                                function limparTexto(texto) {
+                                    return (texto || "").toString().replace(/(\r\n|\n|\r)/g, " ").replace(/\s+/g, " ").trim();
+                                }
+
                                 reader.onload = (e) => {
                                     const data = e.target.result;
                                     const wb = XLSX.read(data, { type: "binary" });
@@ -326,17 +331,17 @@
                                         const row = importedData[i];
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
-                                        // Corrigido: pegar o step da coluna correta e remover quebras de linha
-                                        const step = (row[idxStepDesc] || "").replace(/(\r\n|\n|\r)/g, " ").replace(/\s+/g, " ").trim();
+                                        // Pega o step e limpa quebras de linha
+                                        const step = limparTexto(row[idxStepDesc]);
 
-                                        // Extrair Dado, Quando, Então sem quebras de linha
+                                        // Extrair Dado, Quando, Então
                                         const dadoMatch = step.match(/Dado\s*([\s\S]*?)(?=\s*Quando|$)/i);
                                         const quandoMatch = step.match(/Quando\s*([\s\S]*?)(?=\s*Então|$)/i);
                                         const entaoMatch = step.match(/Então\s*([\s\S]*)/i);
 
-                                        const dado = dadoMatch ? dadoMatch[1].replace(/(\r\n|\n|\r)/g, " ").trim() : "";
-                                        const quando = quandoMatch ? quandoMatch[1].replace(/(\r\n|\n|\r)/g, " ").trim() : "";
-                                        const entao = entaoMatch ? entaoMatch[1].replace(/(\r\n|\n|\r)/g, " ").trim() : "";
+                                        const dado = limparTexto(dadoMatch ? dadoMatch[1] : "");
+                                        const quando = limparTexto(quandoMatch ? quandoMatch[1] : "");
+                                        const entao = limparTexto(entaoMatch ? entaoMatch[1] : "");
 
                                         // Nome, contexto, funcionalidade
                                         const textoLimpo = step
@@ -345,7 +350,7 @@
                                             .replace(/Então\s*[^,]*,?/i, "")
                                             .trim();
 
-                                        const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
+                                        const nome = idxName !== -1 ? limparTexto(row[idxName]) : textoLimpo;
                                         const cenario = nome || "";
                                         const contexto = nome || "";
                                         const funcionalidade = nome || "";
@@ -356,6 +361,7 @@
                                         const testeCampo = forceTesteCampo;
                                         const status = forceStatus;
 
+                                        // Adiciona a linha completa no Excel
                                         out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
