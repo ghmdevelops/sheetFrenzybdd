@@ -324,15 +324,11 @@
 
                                     for (let i = 1; i < importedData.length; i++) {
                                         const row = importedData[i];
+
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
-                                        // Pega todo o conteúdo da célula
-                                        let step = (row[idxStepDesc] || "").toString();
+                                        const step = step.replace(/(\r\n|\n|\r)/g, " ").replace(/\s+/g, " ").trim();
 
-                                        // Substitui todas as quebras de linha por espaço
-                                        step = step.replace(/(\r\n|\n|\r)/g, " ").replace(/\s+/g, " ").trim();
-
-                                        // Captura Dado, Quando e Então mesmo que existam múltiplos espaços ou vírgulas
                                         const dadoMatch = step.match(/Dado\s*([\s\S]*?)(?=\s*Quando|\s*Então|$)/i);
                                         const quandoMatch = step.match(/Quando\s*([\s\S]*?)(?=\s*Então|$)/i);
                                         const entaoMatch = step.match(/Então\s*([\s\S]*)/i);
@@ -341,12 +337,16 @@
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
                                         const entao = entaoMatch ? entaoMatch[1].trim() : "";
 
+                                        let textoLimpo = step
+                                            .replace(/Dado\s*[^,]*,?/i, "")
+                                            .replace(/Quando\s*[^,]*,?/i, "")
+                                            .replace(/Então\s*[^,]*,?/i, "")
+                                            .trim();
 
-                                        // Nome e contexto
-                                        const nome = idxName !== -1 ? (row[idxName] || "") : "";
-                                        const cenario = nome || step;
-                                        const contexto = nome || step;
-                                        const funcionalidade = nome || step;
+                                        const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
+                                        const cenario = nome || "";
+                                        const contexto = nome || "";
+                                        const funcionalidade = nome || "";
 
                                         const aplicacao = forceAplicacao;
                                         const historia = "EMPC";
@@ -354,7 +354,7 @@
                                         const testeCampo = forceTesteCampo;
                                         const status = forceStatus;
 
-                                        // Adiciona uma única linha ao array final, garantindo Dado/Quando/Então na mesma linha
+                                        // Garantir que tudo fique em UMA linha
                                         out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
@@ -362,12 +362,12 @@
                                     const newWb = XLSX.utils.book_new();
                                     XLSX.utils.book_append_sheet(newWb, newWs, "StepDescription");
 
-                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separados.xlsx`);
+                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado.xlsx`);
 
                                     Swal.fire({
                                         icon: "success",
                                         title: "Processamento finalizado",
-                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separados.xlsx`,
+                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`,
                                         confirmButtonColor: "#3085d6"
                                     });
                                 };
