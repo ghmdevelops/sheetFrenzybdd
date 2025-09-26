@@ -327,17 +327,13 @@
 
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
-                                        // Remove quebras de linha internas
-                                        // Remove quebras de linha e múltiplos espaços
-                                        const step = (row[idxStepDesc] || "")
-                                            .replace(/[\r\n]+/g, " ")
-                                            .replace(/\s+/g, " ")
-                                            .trim();
+                                        const stepRaw = row[idxStepDesc] || "";
+                                        const step = stepRaw.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim();
 
-                                        const dadoMatch = step.match(/Dado\s*(.*?)(?=\s*Quando|Então|$)/i);
-                                        const quandoMatch = step.match(/Quando\s*(.*?)(?=\s*Então|$)/i);
-                                        const entaoMatch = step.match(/Então\s*(.*)/i);
-
+                                        // Regex global para capturar Dado, Quando, Então corretamente mesmo que haja vírgulas ou múltiplos blocos
+                                        const dadoMatch = step.match(/Dado\s*([\s\S]*?)(?=\s*Quando|\s*Então|$)/i);
+                                        const quandoMatch = step.match(/Quando\s*([\s\S]*?)(?=\s*Então|$)/i);
+                                        const entaoMatch = step.match(/Então\s*([\s\S]*)/i);
 
                                         const dado = dadoMatch ? dadoMatch[1].trim() : "";
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
