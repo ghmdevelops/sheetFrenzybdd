@@ -275,9 +275,83 @@
                             <label title="Selecionar Excel" for="importExcel" class="btn btn-success btn-animated"
                                 id="customButtonEx" data-intro="Selecione um arquivo Excel para importar."
                                 data-step="13">
-                                Importar BDD 11
+                                Importar BDD
                             </label>
                         </div>
+                        <div class="d-inline-block mx-2">
+                            <input type="file" name="file-input" id="lapizExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
+                                onchange="processarStepDescription()" style="display: none;">
+                            <label title="Selecionar Excel" for="lapizExcel" class="btn btn-primary btn-animated"
+                                id="lapizButton" data-intro="Selecione um arquivo Excel para separar Step Description."
+                                data-step="14">
+                                LÁPIS
+                            </label>
+                        </div>
+                        <script>
+                            async function processarStepDescription() {
+                                const input = document.querySelector("#lapizExcel");
+                                const file = input?.files?.[0];
+                                if (!file) {
+                                    Swal.fire({ icon: "info", title: "Selecione um arquivo Excel", confirmButtonColor: "#3085d6" });
+                                    return;
+                                }
+
+                                const reader = new FileReader();
+                                const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
+
+                                reader.onload = (e) => {
+                                    const data = e.target.result;
+                                    const wb = XLSX.read(data, { type: "binary" });
+                                    const sheetName = wb.SheetNames[0];
+                                    const ws = wb.Sheets[sheetName];
+                                    const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+                                    // Identificar índice da coluna step_description
+                                    const header = importedData[0];
+                                    const idxStepDesc = header.findIndex(h => (h || "").toString().toLowerCase().includes("step_description"));
+
+                                    if (idxStepDesc === -1) {
+                                        Swal.fire({ icon: "error", title: "Coluna 'step_description' não encontrada", confirmButtonColor: "#3085d6" });
+                                        return;
+                                    }
+
+                                    // Criar novo array com cabeçalho Dado, Quando, Então
+                                    const out = [["Dado", "Quando", "Então"]];
+
+                                    for (let i = 1; i < importedData.length; i++) {
+                                        const row = importedData[i];
+                                        const step = row[idxStepDesc] || "";
+
+                                        // Separar por ", " e extrair prefixo (Dado, Quando, Então)
+                                        const dadoMatch = step.match(/Dado\s*([^,]*)/i);
+                                        const quandoMatch = step.match(/Quando\s*([^,]*)/i);
+                                        const entaoMatch = step.match(/Então\s*([^,]*)/i);
+
+                                        const dado = dadoMatch ? dadoMatch[1].trim() : "";
+                                        const quando = quandoMatch ? quandoMatch[1].trim() : "";
+                                        const entao = entaoMatch ? entaoMatch[1].trim() : "";
+
+                                        out.push([dado, quando, entao]);
+                                    }
+
+                                    // Gerar Excel novo
+                                    const newWs = XLSX.utils.aoa_to_sheet(out);
+                                    const newWb = XLSX.utils.book_new();
+                                    XLSX.utils.book_append_sheet(newWb, newWs, "StepDescription");
+
+                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado.xlsx`);
+
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Processamento finalizado",
+                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`,
+                                        confirmButtonColor: "#3085d6"
+                                    });
+                                };
+
+                                reader.readAsBinaryString(file);
+                            }
+                        </script>
                         <div class="d-inline-block mx-2">
                             <button title="Gerar dashboard" id="dashboardButton" type="button"
                                 class="btn btn-success btn-animated" data-toggle="modal" data-target="#myModal"
