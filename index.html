@@ -327,10 +327,10 @@
 
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
-                                        const stepRaw = row[idxStepDesc] || "";
-                                        const step = stepRaw.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim();
+                                        // Pega todo o conteúdo da célula e transforma em uma única linha
+                                        let step = (row[idxStepDesc] || "").toString().replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim();
 
-                                        // Regex global para capturar Dado, Quando, Então corretamente mesmo que haja vírgulas ou múltiplos blocos
+                                        // Regex para extrair Dado, Quando e Então sem quebrar em várias linhas
                                         const dadoMatch = step.match(/Dado\s*([\s\S]*?)(?=\s*Quando|\s*Então|$)/i);
                                         const quandoMatch = step.match(/Quando\s*([\s\S]*?)(?=\s*Então|$)/i);
                                         const entaoMatch = step.match(/Então\s*([\s\S]*)/i);
@@ -339,13 +339,8 @@
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
                                         const entao = entaoMatch ? entaoMatch[1].trim() : "";
 
-                                        let textoLimpo = step
-                                            .replace(/Dado\s*[^,]*,?/i, "")
-                                            .replace(/Quando\s*[^,]*,?/i, "")
-                                            .replace(/Então\s*[^,]*,?/i, "")
-                                            .trim();
-
-                                        const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
+                                        // Nome e contexto
+                                        const nome = idxName !== -1 ? (row[idxName] || "") : step;
                                         const cenario = nome || "";
                                         const contexto = nome || "";
                                         const funcionalidade = nome || "";
@@ -356,7 +351,7 @@
                                         const testeCampo = forceTesteCampo;
                                         const status = forceStatus;
 
-                                        // Garantir que tudo fique em UMA linha
+                                        // Adiciona uma única linha ao array final
                                         out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
