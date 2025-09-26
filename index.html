@@ -331,16 +331,18 @@
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
                                         // Pegar texto da coluna 'step_description' e remover quebras de linha internas
-                                        const step = (row[idxStepDesc] || "").replace(/\r?\n/g, " ").trim();
+                                        // Substituir todas as quebras de linha por espaço
+                                        let step = (row[idxStepDesc] || "").toString().replace(/(\r\n|\n|\r)/gm, " ").trim();
 
-                                        // Separar Dado, Quando, Então
-                                        const dadoMatch = step.match(/Dado\s*([^,]*)/i);
-                                        const quandoMatch = step.match(/Quando\s*([^,]*)/i);
-                                        const entaoMatch = step.match(/Então\s*([^,]*)/i);
+                                        // Regex mais robusta para pegar Dado, Quando, Então (até a próxima palavra-chave ou vírgula)
+                                        const dadoMatch = step.match(/Dado\s*(.*?)(?=, Quando|, Então|$)/i);
+                                        const quandoMatch = step.match(/Quando\s*(.*?)(?=, Dado|, Então|$)/i);
+                                        const entaoMatch = step.match(/Então\s*(.*?)(?=, Dado|, Quando|$)/i);
 
                                         const dado = dadoMatch ? dadoMatch[1].trim() : "";
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
                                         const entao = entaoMatch ? entaoMatch[1].trim() : "";
+
 
                                         // Limpar step para usar no Cenário/Contexto/Funcionalidade
                                         let textoLimpo = step
