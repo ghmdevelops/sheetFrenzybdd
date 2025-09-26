@@ -345,17 +345,18 @@
                                             .replace(/Então\s*[^,]*,?/i, "")
                                             .trim();
 
-                                        const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
+                                        // Usar coluna 'name' se existir, caso contrário texto limpo do step_description
+                                        const nomeOuTexto = idxName !== -1 ? (row[idxName] || textoLimpo) : textoLimpo;
 
                                         // Nº Cenário estilo CT0001, CT0002...
                                         const numero = `CT${String(out.length).padStart(4, "0")}`;
-                                        const cenario = nome || `Cenário ${String(out.length).padStart(2, "0")}`;
-                                        const contexto = nome || `Resumo do cenário: ${cenario}`;
-                                        const funcionalidade = nome || `Resumo do cenário: ${cenario}`;
-                                        const historia = "EMPC"; // fixo
+                                        const cenario = nomeOuTexto;
+                                        const contexto = nomeOuTexto;
+                                        const funcionalidade = nomeOuTexto;
+                                        const aplicacao = forceAplicacao;
+                                        const historia = "EMPC";
                                         const tipoTeste = forceTipoTeste;
                                         const testeCampo = forceTesteCampo;
-                                        const aplicacao = forceAplicacao;
                                         const status = forceStatus;
 
                                         out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
