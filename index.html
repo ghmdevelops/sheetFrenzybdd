@@ -310,9 +310,7 @@
                                     const wb = XLSX.read(data, { type: "binary" });
                                     const sheetName = wb.SheetNames[0];
                                     const ws = wb.Sheets[sheetName];
-
-                                    // Ler todas as linhas como array de arrays
-                                    const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+                                    const importedData = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false });
 
                                     const header = importedData[0];
                                     const idxStepDesc = header.findIndex(h => (h || "").toString().toLowerCase().includes("step_description"));
@@ -323,7 +321,7 @@
                                         return;
                                     }
 
-                                    // Novo array com todas as colunas desejadas
+                                    // Novo array com todas as colunas
                                     const out = [["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de Teste", "Teste de Campo", "Status"]];
 
                                     for (let i = 1; i < importedData.length; i++) {
@@ -332,10 +330,10 @@
                                         // Nº Cenário
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
-                                        // Pegar texto da coluna 'step_description' e substituir quebras de linha por espaço
+                                        // Pegar texto da coluna 'step_description' e remover quebras de linha e espaços extras
                                         let step = (row[idxStepDesc] || "").toString().replace(/(\r\n|\n|\r)/gm, " ").trim();
 
-                                        // Regex para extrair Dado, Quando, Então
+                                        // Separar Dado, Quando, Então usando regex não gulosa
                                         const dadoMatch = step.match(/Dado\s*(.*?)(?=, Quando|, Então|$)/i);
                                         const quandoMatch = step.match(/Quando\s*(.*?)(?=, Dado|, Então|$)/i);
                                         const entaoMatch = step.match(/Então\s*(.*?)(?=, Dado|, Quando|$)/i);
@@ -344,27 +342,27 @@
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
                                         const entao = entaoMatch ? entaoMatch[1].trim() : "";
 
-                                        // Limpar step para Cenário/Contexto/Funcionalidade
+                                        // Limpar step para usar no Cenário/Contexto/Funcionalidade
                                         let textoLimpo = step
-                                            .replace(/Dado\s*[^,]*,?/i, "")
-                                            .replace(/Quando\s*[^,]*,?/i, "")
-                                            .replace(/Então\s*[^,]*,?/i, "")
+                                            .replace(/Dado\s*[^,]*(,|$)/i, "")
+                                            .replace(/Quando\s*[^,]*(,|$)/i, "")
+                                            .replace(/Então\s*[^,]*(,|$)/i, "")
                                             .trim();
 
-                                        // Pegar nome da coluna 'name', ou usar texto limpo
-                                        const nome = idxName !== -1 ? (row[idxName] || "") : textoLimpo;
-                                        const cenario = nome || "";
-                                        const contexto = nome || "";
-                                        const funcionalidade = nome || "";
+                                        // Pegar nome da coluna 'name', ou se não existir, usar texto limpo
+                                        const nome = idxName !== -1 ? (row[idxName] || "").trim() : textoLimpo;
+                                        const cenario = nome || `Cenário ${i}`;
+                                        const contexto = nome || `Contexto ${i}`;
+                                        const funcionalidade = nome || `Funcionalidade ${i}`;
 
                                         // Valores padronizados
                                         const aplicacao = forceAplicacao;
-                                        const historia = "EMPC"; // ou pegar de alguma coluna se houver
+                                        const historia = "EMPC";
                                         const tipoTeste = forceTipoTeste;
                                         const testeCampo = forceTesteCampo;
                                         const status = forceStatus;
 
-                                        // Adicionar tudo em uma linha única
+                                        // Adicionar linha completa
                                         out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
@@ -385,7 +383,6 @@
 
                                 reader.readAsBinaryString(file);
                             }
-
                         </script>
                         <div class="d-inline-block mx-2">
                             <button title="Gerar dashboard" id="dashboardButton" type="button"
