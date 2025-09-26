@@ -306,23 +306,25 @@
                                     const ws = wb.Sheets[sheetName];
                                     const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-                                    // Identificar índice da coluna step_description
                                     const header = importedData[0];
                                     const idxStepDesc = header.findIndex(h => (h || "").toString().toLowerCase().includes("step_description"));
+                                    const idxName = header.findIndex(h => (h || "").toString().toLowerCase().includes("name"));
 
                                     if (idxStepDesc === -1) {
                                         Swal.fire({ icon: "error", title: "Coluna 'step_description' não encontrada", confirmButtonColor: "#3085d6" });
                                         return;
                                     }
 
-                                    // Criar novo array com cabeçalho Dado, Quando, Então
-                                    const out = [["Dado", "Quando", "Então"]];
+                                    // Novo array: Cenário, Contexto, Funcionalidade, Dado, Quando, Então
+                                    const out = [["Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então"]];
 
                                     for (let i = 1; i < importedData.length; i++) {
                                         const row = importedData[i];
+
+                                        // Pegar texto da coluna 'step_description'
                                         const step = row[idxStepDesc] || "";
 
-                                        // Separar por ", " e extrair prefixo (Dado, Quando, Então)
+                                        // Separar Dado, Quando, Então
                                         const dadoMatch = step.match(/Dado\s*([^,]*)/i);
                                         const quandoMatch = step.match(/Quando\s*([^,]*)/i);
                                         const entaoMatch = step.match(/Então\s*([^,]*)/i);
@@ -331,7 +333,13 @@
                                         const quando = quandoMatch ? quandoMatch[1].trim() : "";
                                         const entao = entaoMatch ? entaoMatch[1].trim() : "";
 
-                                        out.push([dado, quando, entao]);
+                                        // Pegar nome da coluna 'name', ou se não existir, usar step completo como Cenário/Contexto/Funcionalidade
+                                        const nome = idxName !== -1 ? (row[idxName] || "") : step;
+                                        const cenario = nome || step;
+                                        const contexto = nome || step;
+                                        const funcionalidade = nome || step;
+
+                                        out.push([cenario, contexto, funcionalidade, dado, quando, entao]);
                                     }
 
                                     // Gerar Excel novo
