@@ -327,20 +327,22 @@
 
                                         const numero = `CT${String(i).padStart(4, "0")}`;
 
-                                        // Pega todo o conteúdo da célula e transforma em uma única linha
-                                        let step = (row[idxStepDesc] || "").toString().replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim();
+                                        // Normaliza toda a célula como uma linha única
+                                        let step = (row[idxStepDesc] || "").toString()
+                                            .replace(/[\r\n]+/g, " ")
+                                            .replace(/\s+/g, " ")
+                                            .trim();
 
-                                        // Regex para extrair Dado, Quando e Então sem quebrar em várias linhas
-                                        const dadoMatch = step.match(/Dado\s*([\s\S]*?)(?=\s*Quando|\s*Então|$)/i);
-                                        const quandoMatch = step.match(/Quando\s*([\s\S]*?)(?=\s*Então|$)/i);
-                                        const entaoMatch = step.match(/Então\s*([\s\S]*)/i);
+                                        // Extrai todos os blocos de Dado, Quando e Então e junta em strings únicas
+                                        const dadoArr = [...step.matchAll(/Dado\s*([\s\S]*?)(?=\s*Quando|\s*Então|$)/gi)].map(m => m[1].trim());
+                                        const quandoArr = [...step.matchAll(/Quando\s*([\s\S]*?)(?=\s*Então|$)/gi)].map(m => m[1].trim());
+                                        const entaoArr = [...step.matchAll(/Então\s*([\s\S]*)/gi)].map(m => m[1].trim());
 
-                                        const dado = dadoMatch ? dadoMatch[1].trim() : "";
-                                        const quando = quandoMatch ? quandoMatch[1].trim() : "";
-                                        const entao = entaoMatch ? entaoMatch[1].trim() : "";
+                                        const dado = dadoArr.join(" | ");
+                                        const quando = quandoArr.join(" | ");
+                                        const entao = entaoArr.join(" | ");
 
-                                        // Nome e contexto
-                                        const nome = idxName !== -1 ? (row[idxName] || "") : step;
+                                        const nome = idxName !== -1 ? (row[idxName] || step) : step;
                                         const cenario = nome || "";
                                         const contexto = nome || "";
                                         const funcionalidade = nome || "";
@@ -351,7 +353,7 @@
                                         const testeCampo = forceTesteCampo;
                                         const status = forceStatus;
 
-                                        // Adiciona uma única linha ao array final
+                                        // Adiciona UMA linha completa ao Excel
                                         out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
                                     }
 
