@@ -2320,7 +2320,7 @@
         const forceAplicacao = opts.forceAplicacao ?? "Web";
         const forceTipoTeste = opts.forceTipoTeste ?? "Acceptance";
         const forceTesteCampo = opts.forceTesteCampo ?? "Positivo";
-        const forceStatus = opts.forceStatus ?? "ok";   // <-- novo (sempre ok)
+        const forceStatus = opts.forceStatus ?? "ok";   // <-- novo
 
         const norm = (s) => (s || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
 
@@ -2380,43 +2380,18 @@
             const resumo = `Resumo do cenário: ${cenario}`;
             const contexto = get("Contexto") || resumo;
             const funcionalidade = get("Funcionalidade") || resumo;
-
-            // 🔹 Garantir que Dado/Quando/Então sejam separados
-            const dadoOriginal = get("Dado") || "";
-            const quandoOriginal = get("Quando") || "";
-            const entaoOriginal = get("Então") || "";
-            let dado = dadoOriginal || resumo;
-            let quando = quandoOriginal || resumo;
-            let entao = entaoOriginal || resumo;
-
-            // caso tudo venha junto em uma única célula (BDD inline), separa por regex
-            const tudoJunto = dadoOriginal || quandoOriginal || entaoOriginal || "";
-            if (tudoJunto && (!dadoOriginal || !quandoOriginal || !entaoOriginal)) {
-                const regexDado = /(Dado[\s\S]*?)(?=Quando|Então|$)/i;
-                const regexQuando = /(Quando[\s\S]*?)(?=Então|$)/i;
-                const regexEntao = /(Então[\s\S]*)/i;
-
-                const dadoMatch = tudoJunto.match(regexDado);
-                const quandoMatch = tudoJunto.match(regexQuando);
-                const entaoMatch = tudoJunto.match(regexEntao);
-
-                if (dadoMatch) dado = dadoMatch[0].trim();
-                if (quandoMatch) quando = quandoMatch[0].trim();
-                if (entaoMatch) entao = entaoMatch[0].trim();
-            }
+            const dado = get("Dado") || resumo;
+            const quando = get("Quando") || resumo;
+            const entao = get("Então") || resumo;
 
             // valores forçados
             const aplicacao = forceAplicacao;
             const historia = get("História") || "EMPC";
             const tipoTeste = forceTipoTeste;
             const testeCampo = forceTesteCampo;
-            const status = forceStatus; // sempre "ok"
+            const status = forceStatus; // sempre "ok" (minúsculo)
 
-            out.push([
-                numero, cenario, contexto, funcionalidade,
-                dado, quando, entao,
-                aplicacao, historia, tipoTeste, testeCampo, status
-            ]);
+            out.push([numero, cenario, contexto, funcionalidade, dado, quando, entao, aplicacao, historia, tipoTeste, testeCampo, status]);
         }
 
         return { dados: out, foiNormalizado, faltantes, mapeamento: mapa };
@@ -2441,9 +2416,37 @@
             const ws = wb.Sheets[sheetName];
             const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-            const { dados: normalizados, foiNormalizado, faltantes } = normalizarBDD(importedData);
+            let dadosParaNormalizar = importedData;
+
+            // 🔹 Caso 2: só existe a coluna step_description
+            if (importedData[0] && importedData[0][0]?.toLowerCase().includes("step_description")) {
+                dadosParaNormalizar = [["Cenário", "Dado", "Quando", "Então"]]; // cabeçalho novo
+
+                for (let i = 1; i < importedData.length; i++) {
+                    const linha = importedData[i]?.[0] || "";
+                    let dado = "";
+                    let quando = "";
+                    let entao = "";
+
+                    // quebra pelas palavras-chave
+                    const regexDado = /Dado[^\n]*/i;
+                    const regexQuando = /Quando[^\n]*/i;
+                    const regexEntao = /Então[^\n]*/i;
+
+                    dado = (linha.match(regexDado) || [""])[0];
+                    quando = (linha.match(regexQuando) || [""])[0];
+                    entao = (linha.match(regexEntao) || [""])[0];
+
+                    dadosParaNormalizar.push([`CT${i.toString().padStart(4, "0")}`, `Cenário ${i}`, "", "", dado, quando, entao]);
+                }
+            }
+
+            // 🔹 Agora passa para a função já existente
+            const { dados: normalizados, foiNormalizado, faltantes } = normalizarBDD(dadosParaNormalizar);
+
             updateTable(normalizados);
 
+            // resto igual...
             const lbl = document.querySelector("#exampleModalLabel");
             if (lbl) {
                 lbl.innerHTML = `<img width="40" src="./src/img/logoPage200.png" alt="cm"> Dashboard<b style="color:#16db6b"> BDD</b> - ${fileNameWithoutExtension}`;
@@ -2457,21 +2460,19 @@
                 Swal.fire({
                     icon: "info",
                     title: "BDD ajustado para o padrão",
-                    html:
-                        `<p style='color:#fff'>
-                        Organizamos cabeçalho/ordem e preenchemos o que faltava:
-                        <br>• Aplicação = <b>Web</b>
-                        <br>• Tipo de teste = <b>Acceptance</b>
-                        <br>• Teste de campo = <b>Positivo</b>
-                        <br>• História = <b>EMPC</b>
-                        <br>• Status = <b>OK</b>
-                        <br>• Campos <b>Cenário/Contexto/Funcionalidade/Dado/Quando/Então</b> receberam um <b>resumo do cenário</b> quando vazios.
-                    </p>${falt}`,
+                    html: `<p style='color:#fff'>
+                    Organizamos cabeçalho/ordem e preenchemos o que faltava:
+                    <br>• Aplicação = <b>Web</b>
+                    <br>• Tipo de teste = <b>Acceptance</b>
+                    <br>• Teste de campo = <b>Positivo</b>
+                    <br>• História = <b>EMPC</b>
+                    <br>• Status = <b>OK</b>
+                </p>${falt}`,
                     confirmButtonColor: "#3085d6"
                 });
             }
-            document.querySelector("#saveButtonContainer")?.style && (document.querySelector("#saveButtonContainer").style.display = "block");
         };
+
 
         reader.readAsBinaryString(file);
 
@@ -2485,8 +2486,7 @@
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33"
         });
-        if (ret.isConfirmed) ativarReconhecimentoDeVoz();
-        else document.querySelector("#audioButton") && (document.querySelector("#audioButton").style.display = "block");
+        if (ret.isConfirmed) ativarReconhecimentoDeVoz(); else document.querySelector("#audioButton") && (document.querySelector("#audioButton").style.display = "block");
 
         document.querySelector(".grade-buttons")?.classList.remove("d-none");
         document.querySelector("#audioButton")?.classList.remove("d-none");
