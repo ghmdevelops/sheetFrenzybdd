@@ -1050,9 +1050,46 @@
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 const importedData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                addDataToExistingTable(importedData);
+
+                // ===============================
+                // 🔹 NOVA PARTE: tratar colunas BDD
+                // ===============================
+                const processedData = importedData.map(row => {
+                    // mantém todas as colunas que já existiam
+                    let originalRow = [...row];
+
+                    // só processa se tiver texto em step_description (coluna 0)
+                    if (row[0]) {
+                        const text = row[0].toString();
+                        let dado = "", quando = "", entao = "";
+
+                        // Regex para separar blocos
+                        const regexDado = /(Dado[\s\S]*?)(?=Quando|Então|$)/i;
+                        const regexQuando = /(Quando[\s\S]*?)(?=Então|$)/i;
+                        const regexEntao = /(Então[\s\S]*)/i;
+
+                        const dadoMatch = text.match(regexDado);
+                        const quandoMatch = text.match(regexQuando);
+                        const entaoMatch = text.match(regexEntao);
+
+                        if (dadoMatch) dado = dadoMatch[0].trim();
+                        if (quandoMatch) quando = quandoMatch[0].trim();
+                        if (entaoMatch) entao = entaoMatch[0].trim();
+
+                        // adiciona no final da linha como novas colunas
+                        originalRow.push(dado, quando, entao);
+                    }
+
+                    return originalRow;
+                });
+
+                // 🔹 mantém a função original para popular a tabela
+                addDataToExistingTable(processedData);
+
+                // título do modal
                 const lbl = $("#exampleModalLabel");
                 if (lbl) lbl.innerHTML = `<img width="40" src="./src/img/logoPage200.png" alt="cm"> Dashboard<b style="color:#16db6b"> BDD</b> - ${fileNameWithoutExtension}`;
+
                 swalToast("success", `Arquivo '${file.name}' importado!`);
                 $("#saveButtonContainer") && ($("#saveButtonContainer").style.display = "block");
             };
@@ -1060,6 +1097,8 @@
         } else {
             alert("Por favor, selecione um arquivo Excel para importar.");
         }
+
+        // mantém a parte do reconhecimento de voz
         const ret = await Swal.fire({
             title: "Deseja ativar o reconhecimento de voz?",
             html: '<p style="color:#fff;">Você poderá preencher os campos usando sua voz.</p>',
@@ -1072,6 +1111,7 @@
         });
         if (ret.isConfirmed) ativarReconhecimentoDeVoz();
         else $("#audioButton") && ($("#audioButton").style.display = "block");
+
         $(".grade-buttons")?.classList.remove("d-none");
         $("#audioButton")?.classList.remove("d-none");
         $("#dashboardButton")?.classList.add("d-none");
