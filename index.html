@@ -284,7 +284,7 @@
                             <label title="Selecionar Excel" for="lapizExcel" class="btn btn-primary btn-animated"
                                 id="lapizButton" data-intro="Selecione um arquivo Excel para separar Step Description."
                                 data-step="14">
-                                LÁPIS2
+                                LÁPIS3
                             </label>
                         </div>
                         <script>
@@ -352,23 +352,21 @@
                                     // helper que processa texto que pode conter vários passos separados por nova linha
                                     const processPart = (part, nameFromRow) => {
                                         if (!part) return;
-
-                                        // se a linha de steps trouxer o name (às vezes aparece), atualiza currentName
                                         if (nameFromRow) currentName = nameFromRow;
 
-                                        // normalizar tokens
                                         const p = part.trim();
+
                                         if (/^\s*dado\b/i.test(p) || /^\s*given\b/i.test(p)) {
-                                            dado = p;
+                                            dado = cleanText(p);
                                             return;
                                         }
                                         if (/^\s*quando\b/i.test(p) || /^\s*when\b/i.test(p)) {
-                                            quando = p;
+                                            quando = cleanText(p);
                                             return;
                                         }
                                         if (/^\s*ent[aã]o\b/i.test(p) || /^\s*then\b/i.test(p)) {
-                                            entao = p;
-                                            // fechar cenário se tivermos dado e quando (ou mesmo sem)
+                                            entao = cleanText(p);
+
                                             const nomeOriginal = currentName || `Validação ${countCenario}`;
                                             const numero = `CT${String(countCenario).padStart(4, "0")}`;
 
@@ -387,19 +385,21 @@
                                                 forceStatus
                                             ]);
 
-                                            // resetar para próximo cenário
                                             dado = ""; quando = ""; entao = "";
-                                            currentName = ""; // opcional: limpa para forçar leitura de novo name
+                                            currentName = "";
                                             countCenario++;
                                             return;
                                         }
 
-                                        // se a parte não começar com Dado/Quando/Então, verificar se contém os tokens no meio
+                                        // se a célula tiver múltiplos passos, divide e processa
                                         const splitted = p.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
                                         if (splitted.length > 1) {
                                             splitted.forEach(s => processPart(s, null));
                                         }
                                     };
+
+                                    const cleanText = (txt) =>
+                                        txt.replace(/^\s*(dado|quando|ent[aã]o|given|when|then)\s*/i, "").trim();
 
                                     // iterar sobre as linhas abaixo do cabeçalho
                                     for (let r = headerRowIdx + 1; r < importedData.length; r++) {
