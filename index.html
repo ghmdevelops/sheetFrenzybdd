@@ -284,7 +284,7 @@
                             <label title="Selecionar Excel" for="lapizExcel" class="btn btn-primary btn-animated"
                                 id="lapizButton" data-intro="Selecione um arquivo Excel para separar Step Description."
                                 data-step="14">
-                                LÁPISs
+                                LÁPIS
                             </label>
                         </div>
                         <script>
@@ -335,9 +335,11 @@
                                         } else if (/^Então/i.test(linha)) {
                                             entao = linha;
 
+                                            // Nome fixo (arquivo escolhido sem extensão)
+                                            const nome = fileNameWithoutExtension;
+
                                             // fechou o cenário → salvar
                                             const numero = `CT${String(countCenario).padStart(4, "0")}`;
-                                            const nome = `Validação ${countCenario}`;
                                             out.push([numero, nome, nome, nome, dado, quando, entao, forceAplicacao, "EMPC", forceTipoTeste, forceTesteCampo, forceStatus]);
 
                                             // resetar
@@ -362,6 +364,7 @@
 
                                 reader.readAsBinaryString(file);
                             }
+
                         </script>
                         <div class="d-inline-block mx-2">
                             <button title="Gerar dashboard" id="dashboardButton" type="button"
