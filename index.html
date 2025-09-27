@@ -419,9 +419,19 @@
                                     const newWs = XLSX.utils.aoa_to_sheet(out);
                                     const newWb = XLSX.utils.book_new();
                                     XLSX.utils.book_append_sheet(newWb, newWs, "StepDescription");
-                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado.xlsx`);
 
-                                    Swal.fire({ icon: "success", title: "Processamento finalizado", text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`, confirmButtonColor: "#3085d6" });
+                                    const now = new Date();
+                                    const timestamp = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
+
+                                    XLSX.writeFile(newWb, `${fileNameWithoutExtension}_${timestamp}.xlsx`);
+                                    
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Processamento finalizado",
+                                        html: `Arquivo gerado: <span style="color: white;">${fileNameWithoutExtension}_${timestamp}.xlsx</span>`,
+                                        confirmButtonColor: "#3085d6",
+                                        background: "#333"
+                                    });
                                 };
 
                                 reader.readAsArrayBuffer(file);
