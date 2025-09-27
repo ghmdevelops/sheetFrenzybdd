@@ -284,7 +284,7 @@
                             <label title="Selecionar Excel" for="lapizExcel" class="btn btn-primary btn-animated"
                                 id="lapizButton" data-intro="Selecione um arquivo Excel para separar Step Description."
                                 data-step="14">
-                                LÁPIS
+                                LÁPIS9
                             </label>
                         </div>
                         <script>
@@ -311,12 +311,17 @@
                                     const ws = wb.Sheets[sheetName];
                                     const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-                                    // achar a coluna step_description
+                                    // pegar cabeçalho
                                     const header = importedData[0];
                                     const idxStepDesc = header.findIndex(h => (h || "").toString().toLowerCase().includes("step_description"));
+                                    const idxName = header.findIndex(h => (h || "").toString().toLowerCase().includes("name"));
 
                                     if (idxStepDesc === -1) {
                                         Swal.fire({ icon: "error", title: "Coluna 'step_description' não encontrada", confirmButtonColor: "#3085d6" });
+                                        return;
+                                    }
+                                    if (idxName === -1) {
+                                        Swal.fire({ icon: "error", title: "Coluna 'name' não encontrada", confirmButtonColor: "#3085d6" });
                                         return;
                                     }
 
@@ -327,6 +332,7 @@
 
                                     for (let i = 1; i < importedData.length; i++) {
                                         const linha = (importedData[i][idxStepDesc] || "").toString().trim();
+                                        const nomeOriginal = (importedData[i][idxName] || "").toString().trim(); // pega da coluna name
 
                                         if (/^Dado/i.test(linha)) {
                                             dado = linha;
@@ -335,12 +341,23 @@
                                         } else if (/^Então/i.test(linha)) {
                                             entao = linha;
 
-                                            // Nome fixo (arquivo escolhido sem extensão)
-                                            const nome = fileNameWithoutExtension;
-
                                             // fechou o cenário → salvar
                                             const numero = `CT${String(countCenario).padStart(4, "0")}`;
-                                            out.push([numero, nome, nome, nome, dado, quando, entao, forceAplicacao, "EMPC", forceTipoTeste, forceTesteCampo, forceStatus]);
+
+                                            out.push([
+                                                numero,
+                                                nomeOriginal,   // Cenário
+                                                nomeOriginal,   // Contexto
+                                                nomeOriginal,   // Funcionalidade
+                                                dado,
+                                                quando,
+                                                entao,
+                                                forceAplicacao,
+                                                "EMPC",
+                                                forceTipoTeste,
+                                                forceTesteCampo,
+                                                forceStatus
+                                            ]);
 
                                             // resetar
                                             dado = ""; quando = ""; entao = "";
@@ -364,7 +381,6 @@
 
                                 reader.readAsBinaryString(file);
                             }
-
                         </script>
                         <div class="d-inline-block mx-2">
                             <button title="Gerar dashboard" id="dashboardButton" type="button"
