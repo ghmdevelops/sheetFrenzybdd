@@ -284,7 +284,7 @@
                             <label title="Selecionar Excel" for="lapizExcel" class="btn btn-primary btn-animated"
                                 id="lapizButton" data-intro="Selecione um arquivo Excel para separar Step Description."
                                 data-step="14">
-                                LÁPIS9
+                                LÁPIS2
                             </label>
                         </div>
                         <script>
@@ -300,55 +300,83 @@
                                 const forceTipoTeste = opts.forceTipoTeste ?? "Acceptance";
                                 const forceTesteCampo = opts.forceTesteCampo ?? "Positivo";
                                 const forceStatus = opts.forceStatus ?? "ok";
-
-                                const reader = new FileReader();
                                 const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
 
+                                const normalize = s => (s || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+
+                                const reader = new FileReader();
                                 reader.onload = (e) => {
                                     const data = e.target.result;
-                                    const wb = XLSX.read(data, { type: "binary" });
+                                    // usar array para ser mais robusto
+                                    const wb = XLSX.read(data, { type: "array" });
                                     const sheetName = wb.SheetNames[0];
                                     const ws = wb.Sheets[sheetName];
-                                    const importedData = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-                                    // pegar cabeçalho
-                                    const header = importedData[0];
-                                    const idxStepDesc = header.findIndex(h => (h || "").toString().toLowerCase().includes("step_description"));
-                                    const idxName = header.findIndex(h => (h || "").toString().toLowerCase().includes("name"));
+                                    // ler como matriz
+                                    const importedData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
+
+                                    // Encontrar a linha que contém os cabeçalhos (procura até as primeiras 6 linhas)
+                                    let headerRowIdx = importedData.findIndex((row, idx) => {
+                                        if (!Array.isArray(row)) return false;
+                                        const joined = row.join("|").toLowerCase();
+                                        return joined.includes("step_description".toLowerCase()) || joined.includes("step description") || joined.includes("step");
+                                    });
+                                    if (headerRowIdx === -1) headerRowIdx = 0;
+
+                                    const header = (importedData[headerRowIdx] || []).map(h => (h == null ? "" : String(h).trim()));
+                                    // achar índices de step_description e name (aceitar variações)
+                                    const idxStepDesc = header.findIndex(h => {
+                                        const n = normalize(h);
+                                        return n.includes("step") && (n.includes("desc") || n.includes("description") || n.includes("descricao"));
+                                    });
+                                    const idxName = header.findIndex(h => {
+                                        const n = normalize(h);
+                                        return n === "name" || n.includes("name") || n === "nome" || n.includes("nome");
+                                    });
 
                                     if (idxStepDesc === -1) {
                                         Swal.fire({ icon: "error", title: "Coluna 'step_description' não encontrada", confirmButtonColor: "#3085d6" });
                                         return;
                                     }
                                     if (idxName === -1) {
-                                        Swal.fire({ icon: "error", title: "Coluna 'name' não encontrada", confirmButtonColor: "#3085d6" });
-                                        return;
+                                        // não é fatal — apenas avisa e usará nome gerado
+                                        console.warn("Coluna 'name' não encontrada. Será usado nome gerado automaticamente.");
                                     }
 
                                     const out = [["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de Teste", "Teste de Campo", "Status"]];
 
+                                    let currentName = "";         // pega o name que aparece numa das linhas do bloco
                                     let dado = "", quando = "", entao = "";
                                     let countCenario = 1;
 
-                                    for (let i = 1; i < importedData.length; i++) {
-                                        const linha = (importedData[i][idxStepDesc] || "").toString().trim();
-                                        const nomeOriginal = (importedData[i][idxName] || "").toString().trim(); // pega da coluna name
+                                    // helper que processa texto que pode conter vários passos separados por nova linha
+                                    const processPart = (part, nameFromRow) => {
+                                        if (!part) return;
 
-                                        if (/^Dado/i.test(linha)) {
-                                            dado = linha;
-                                        } else if (/^Quando/i.test(linha)) {
-                                            quando = linha;
-                                        } else if (/^Então/i.test(linha)) {
-                                            entao = linha;
+                                        // se a linha de steps trouxer o name (às vezes aparece), atualiza currentName
+                                        if (nameFromRow) currentName = nameFromRow;
 
-                                            // fechou o cenário → salvar
+                                        // normalizar tokens
+                                        const p = part.trim();
+                                        if (/^\s*dado\b/i.test(p) || /^\s*given\b/i.test(p)) {
+                                            dado = p;
+                                            return;
+                                        }
+                                        if (/^\s*quando\b/i.test(p) || /^\s*when\b/i.test(p)) {
+                                            quando = p;
+                                            return;
+                                        }
+                                        if (/^\s*ent[aã]o\b/i.test(p) || /^\s*then\b/i.test(p)) {
+                                            entao = p;
+                                            // fechar cenário se tivermos dado e quando (ou mesmo sem)
+                                            const nomeOriginal = currentName || `Validação ${countCenario}`;
                                             const numero = `CT${String(countCenario).padStart(4, "0")}`;
 
                                             out.push([
                                                 numero,
-                                                nomeOriginal,   // Cenário
-                                                nomeOriginal,   // Contexto
-                                                nomeOriginal,   // Funcionalidade
+                                                nomeOriginal,    // Cenário
+                                                nomeOriginal,    // Contexto
+                                                nomeOriginal,    // Funcionalidade
                                                 dado,
                                                 quando,
                                                 entao,
@@ -359,27 +387,54 @@
                                                 forceStatus
                                             ]);
 
-                                            // resetar
+                                            // resetar para próximo cenário
                                             dado = ""; quando = ""; entao = "";
+                                            currentName = ""; // opcional: limpa para forçar leitura de novo name
                                             countCenario++;
+                                            return;
                                         }
+
+                                        // se a parte não começar com Dado/Quando/Então, verificar se contém os tokens no meio
+                                        const splitted = p.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+                                        if (splitted.length > 1) {
+                                            splitted.forEach(s => processPart(s, null));
+                                        }
+                                    };
+
+                                    // iterar sobre as linhas abaixo do cabeçalho
+                                    for (let r = headerRowIdx + 1; r < importedData.length; r++) {
+                                        const row = importedData[r] || [];
+                                        // pegar possible name nesta linha (pode estar só na primeira linha do bloco)
+                                        const nameCell = idxName !== -1 ? String(row[idxName] || "").trim() : "";
+                                        if (nameCell) currentName = nameCell;
+
+                                        // step cell pode conter múltiplos passos com quebras de linha
+                                        const stepCellRaw = String(row[idxStepDesc] || "").trim();
+                                        if (!stepCellRaw) continue;
+
+                                        // dividir em partes por quebras de linha e processar cada uma
+                                        const parts = stepCellRaw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+                                        for (const p of parts) processPart(p, nameCell);
+                                    }
+
+                                    // caso o arquivo termine sem um "Então" final (cenário incompleto), podemos opcionalmente salvar
+                                    // se houver dado/quando sem entao, salvar também:
+                                    if ((dado || quando || entao) && (dado || quando || entao).some(x => x && x.trim())) {
+                                        const nomeOriginal = currentName || `Validação ${countCenario}`;
+                                        const numero = `CT${String(countCenario).padStart(4, "0")}`;
+                                        out.push([numero, nomeOriginal, nomeOriginal, nomeOriginal, dado, quando, entao, forceAplicacao, "EMPC", forceTipoTeste, forceTesteCampo, forceStatus]);
                                     }
 
                                     const newWs = XLSX.utils.aoa_to_sheet(out);
                                     const newWb = XLSX.utils.book_new();
                                     XLSX.utils.book_append_sheet(newWb, newWs, "StepDescription");
-
                                     XLSX.writeFile(newWb, `${fileNameWithoutExtension}_separado.xlsx`);
 
-                                    Swal.fire({
-                                        icon: "success",
-                                        title: "Processamento finalizado",
-                                        text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`,
-                                        confirmButtonColor: "#3085d6"
-                                    });
+                                    Swal.fire({ icon: "success", title: "Processamento finalizado", text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`, confirmButtonColor: "#3085d6" });
                                 };
 
-                                reader.readAsBinaryString(file);
+                                // usar array buffer que é mais robusto
+                                reader.readAsArrayBuffer(file);
                             }
                         </script>
                         <div class="d-inline-block mx-2">
