@@ -1308,7 +1308,8 @@ button:active {
 }
 
 .div-buttons button,
-#customButtonEx {
+#customButtonEx,
+#lapizButton {
   width: 12rem;
   padding: 20px 10px;
   border-radius: 1rem;

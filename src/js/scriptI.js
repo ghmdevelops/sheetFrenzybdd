@@ -1078,6 +1078,7 @@
         $("#card-btns")?.classList.add("d-none");
         $(".div-btns-lines003")?.classList.add("d-none");
         $("#customButtonEx")?.classList.add("d-none");
+        $("#lapizButton")?.classList.add("d-none");
     };
 
     const alternarVisibilidade = () => {
@@ -2468,6 +2469,7 @@
         document.querySelector("#card-btns")?.classList.add("d-none");
         document.querySelector(".div-btns-lines003")?.classList.add("d-none");
         document.querySelector("#customButtonEx")?.classList.add("d-none");
+        document.querySelector("#lapizButton")?.classList.add("d-none");
     }
 
     const alternarVisibilidade = () => {

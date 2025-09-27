@@ -266,7 +266,7 @@
                         <div class="d-inline-block mx-2">
                             <button title="Adicionar Tabela" id="card-btns" class="btn btn-success btn-animated"
                                 data-intro="Clique aqui para criar a tabela." data-step="12" onclick="criarTabela()">
-                                Gerar BDD
+                                <i class="fas fa-table me-1"></i> Gerar BDD
                             </button>
                         </div>
                         <div class="d-inline-block mx-2">
@@ -275,7 +275,7 @@
                             <label title="Selecionar Excel" for="importExcel" class="btn btn-success btn-animated"
                                 id="customButtonEx" data-intro="Selecione um arquivo Excel para importar."
                                 data-step="13">
-                                Importar BDD
+                                <i class="fas fa-file-import me-1"></i> Importar BDD
                             </label>
                         </div>
                         <div class="d-inline-block mx-2">
@@ -284,7 +284,7 @@
                             <label title="Selecionar Excel" for="lapizExcel" class="btn btn-primary btn-animated"
                                 id="lapizButton" data-intro="Selecione um arquivo Excel para separar Step Description."
                                 data-step="14">
-                                LÁPIS3
+                                <i class="fas fa-broom me-1"></i> Clean Up BDD
                             </label>
                         </div>
                         <script>
@@ -307,15 +307,11 @@
                                 const reader = new FileReader();
                                 reader.onload = (e) => {
                                     const data = e.target.result;
-                                    // usar array para ser mais robusto
                                     const wb = XLSX.read(data, { type: "array" });
                                     const sheetName = wb.SheetNames[0];
                                     const ws = wb.Sheets[sheetName];
-
-                                    // ler como matriz
                                     const importedData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
 
-                                    // Encontrar a linha que contém os cabeçalhos (procura até as primeiras 6 linhas)
                                     let headerRowIdx = importedData.findIndex((row, idx) => {
                                         if (!Array.isArray(row)) return false;
                                         const joined = row.join("|").toLowerCase();
@@ -324,7 +320,6 @@
                                     if (headerRowIdx === -1) headerRowIdx = 0;
 
                                     const header = (importedData[headerRowIdx] || []).map(h => (h == null ? "" : String(h).trim()));
-                                    // achar índices de step_description e name (aceitar variações)
                                     const idxStepDesc = header.findIndex(h => {
                                         const n = normalize(h);
                                         return n.includes("step") && (n.includes("desc") || n.includes("description") || n.includes("descricao"));
@@ -339,17 +334,15 @@
                                         return;
                                     }
                                     if (idxName === -1) {
-                                        // não é fatal — apenas avisa e usará nome gerado
                                         console.warn("Coluna 'name' não encontrada. Será usado nome gerado automaticamente.");
                                     }
 
                                     const out = [["Nº Cenário", "Cenário", "Contexto", "Funcionalidade", "Dado", "Quando", "Então", "Aplicação", "História", "Tipo de Teste", "Teste de Campo", "Status"]];
 
-                                    let currentName = "";         // pega o name que aparece numa das linhas do bloco
+                                    let currentName = "";
                                     let dado = "", quando = "", entao = "";
                                     let countCenario = 1;
 
-                                    // helper que processa texto que pode conter vários passos separados por nova linha
                                     const processPart = (part, nameFromRow) => {
                                         if (!part) return;
                                         if (nameFromRow) currentName = nameFromRow;
@@ -372,9 +365,9 @@
 
                                             out.push([
                                                 numero,
-                                                nomeOriginal,    // Cenário
-                                                nomeOriginal,    // Contexto
-                                                nomeOriginal,    // Funcionalidade
+                                                nomeOriginal,
+                                                nomeOriginal,
+                                                nomeOriginal,
                                                 dado,
                                                 quando,
                                                 entao,
@@ -391,7 +384,6 @@
                                             return;
                                         }
 
-                                        // se a célula tiver múltiplos passos, divide e processa
                                         const splitted = p.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
                                         if (splitted.length > 1) {
                                             splitted.forEach(s => processPart(s, null));
@@ -401,24 +393,19 @@
                                     const cleanText = (txt) =>
                                         txt.replace(/^\s*(dado|quando|ent[aã]o|given|when|then)\s*/i, "").trim();
 
-                                    // iterar sobre as linhas abaixo do cabeçalho
                                     for (let r = headerRowIdx + 1; r < importedData.length; r++) {
                                         const row = importedData[r] || [];
-                                        // pegar possible name nesta linha (pode estar só na primeira linha do bloco)
                                         const nameCell = idxName !== -1 ? String(row[idxName] || "").trim() : "";
+
                                         if (nameCell) currentName = nameCell;
 
-                                        // step cell pode conter múltiplos passos com quebras de linha
                                         const stepCellRaw = String(row[idxStepDesc] || "").trim();
                                         if (!stepCellRaw) continue;
 
-                                        // dividir em partes por quebras de linha e processar cada uma
                                         const parts = stepCellRaw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
                                         for (const p of parts) processPart(p, nameCell);
                                     }
 
-                                    // caso o arquivo termine sem um "Então" final (cenário incompleto), podemos opcionalmente salvar
-                                    // se houver dado/quando sem entao, salvar também:
                                     if ((dado || quando || entao) && (dado || quando || entao).some(x => x && x.trim())) {
                                         const nomeOriginal = currentName || `Validação ${countCenario}`;
                                         const numero = `CT${String(countCenario).padStart(4, "0")}`;
@@ -433,7 +420,6 @@
                                     Swal.fire({ icon: "success", title: "Processamento finalizado", text: `Arquivo gerado: ${fileNameWithoutExtension}_separado.xlsx`, confirmButtonColor: "#3085d6" });
                                 };
 
-                                // usar array buffer que é mais robusto
                                 reader.readAsArrayBuffer(file);
                             }
                         </script>
@@ -441,7 +427,7 @@
                             <button title="Gerar dashboard" id="dashboardButton" type="button"
                                 class="btn btn-success btn-animated" data-toggle="modal" data-target="#myModal"
                                 data-intro="Gere um dashboard com os dados da tabela." data-step="21">
-                                Dashboard
+                                <i class="fas fa-chart-line me-1"></i> Dashboard
                             </button>
                         </div>
                     </div>
