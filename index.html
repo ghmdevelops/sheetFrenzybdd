@@ -284,15 +284,29 @@
                         </div>
                         <div class="d-inline-block mx-2">
                             <input type="file" name="file-input" id="lapizExcel" accept=".xlsx, .xlsm, .xls, .xlsb"
-                                onchange="processarStepDescription()" style="display: none;" multiple>
-                            <label title="Selecionar Excel" for="lapizExcel" class="btn btn-primary btn-animated"
-                                id="lapizButton"
-                                data-intro="Selecione até 20 arquivos Excel para separar Step Description."
-                                data-step="14">
+                                style="display: none;" multiple onchange="processarStepDescription()">
+                            <label title="Selecionar Excel" id="lapizButton" class="btn btn-primary btn-animated"
+                                onclick="avisarSelecaoArquivos()">
                                 <i class="fas fa-broom me-1"></i> Clean Up BDD
                             </label>
                         </div>
                         <script>
+                            function avisarSelecaoArquivos() {
+                                Swal.fire({
+                                    icon: "info",
+                                    title: "Você pode selecionar até 20 arquivos",
+                                    showCancelButton: true,
+                                    confirmButtonText: "OK",
+                                    cancelButtonText: "Cancelar",
+                                    confirmButtonColor: "#3085d6",
+                                    cancelButtonColor: "#aaa"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        document.getElementById("lapizExcel").click();
+                                    }
+                                });
+                            }
+
                             async function processarStepDescription(opts = {}) {
                                 const input = document.querySelector("#lapizExcel");
                                 const files = Array.from(input.files);
